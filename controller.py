@@ -5,37 +5,13 @@ from puzzlegen import crosswordsheet
 from utils import *    
 app = Flask(__name__)
 
-@app.route('/puzzle', methods=['GET', 'POST'])
-def index():
-	global return_puzzle
-	categories=get_categories()
-	form = InputForm(request.form)
-	if request.method == 'POST' and form.validate():
-		clue = form.clue.data
-		puzzle_type = form.puzzle_type.data
-		print puzzle_type
-		if puzzle_type not in categories.keys():
-			mypuzzlesheet = puzzlesheet.puzzlesheet("puzzle", "",clue, savetex=True)
-			mypuzzlesheet.add_section(puzzle_type, 6, "",puzzlesheet.instructions_map[puzzle_type],rhs=0)
-			mypuzzlesheet.write()
-			return_puzzle="puzzle.pdf"
-		else:
-			mypuzzlesheet = crosswordsheet.crossword1d(categories[puzzle_type], title=puzzle_type,clue=clue, savetex=True)
-			mypuzzlesheet.add_section()
-			mypuzzlesheet.write()
-			return_puzzle=mypuzzlesheet.fname+".pdf"	
-		return redirect('/return-files/')
 
-	else:
-		clue = None
 
-	return render_template("view.html", form=form, clue='defaulto')
-
-@app.route("/buzzle")
-def buzzle():
+@app.route("/puzzle")
+def puzzle():
     categories=get_categories()
     form = ClueForm(request.form)
-    return render_template('view2.html', form=form, clue='defaulto',my_string="Wheeeee!", my_categories=categories)
+    return render_template('view.html', form=form, clue='defaulto',my_string="Wheeeee!", my_categories=categories)
 
 @app.route("/make_puzzle/,<string:puzzle_type>")
 def make_puzzle(puzzle_type):
