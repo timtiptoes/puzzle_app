@@ -167,6 +167,6 @@ class crossword1d(object):
         self.crossword_puzzle.write_compile()
 
 if __name__ == "__main__":
-        mycrossword = crossword1d("European_History.csv",clue="i love you", savetex=True)
+        mycrossword = crossword1d("BU",clue="jeans", savetex=True)
         mycrossword.add_section()
         mycrossword.write()
