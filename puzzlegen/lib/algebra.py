@@ -297,7 +297,7 @@ def decimal_addition(target,num_places,*args,**kwargs):
 def single_decimal_addition(target,*args,**kwargs):
     return decimal_addition(target,1)
 
-def determinant_problem(target,*args,**kwargs):
+def determinant(target,*args,**kwargs):
  
     single_digits=range(1,10)
     trier=2

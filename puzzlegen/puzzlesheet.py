@@ -15,7 +15,7 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "single_decimal_addition":single_decimal_addition,
                  "quadratic_equations" : make_quadratic_eq,
                  "roots_problem" : roots_problem,
-                 "determinant_problem" : determinant_problem}
+                 "determinant" : determinant}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                  "multiplication_then_addition": "Solve for the letter above",
@@ -30,7 +30,7 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "simple_algebra":"Solve for x to find the letter above",
                  "single_decimal_addition":"Add to find the letter above",
                  "quadratic_equations":"Add the roots to find the letter above",
-                 "determinant_problem":"Find the determinant of each matrix"}
+                 "determinant":"Find the determinant of each matrix"}
 
 
 #

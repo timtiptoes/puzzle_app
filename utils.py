@@ -12,7 +12,7 @@ def get_categories():
     key=f.replace("_"," ")
     crossword_puzzles[key]={'filename':f,'type':'crossword'}
 
-  math_puzzle_list=['simple_addition','multiplication_then_addition','fraction_addition','simple_division_problem','simplify_ratio','two_digit_subtraction','two_digit_multiplication','add_coins','exponents_problem','simple_algebra','single_decimal_addition','quadratic_equations' ,'roots_problem' ,'determinant_problem']
+  math_puzzle_list=['simple_addition','multiplication_then_addition','fraction_addition','simple_division_problem','simplify_ratio','two_digit_subtraction','two_digit_multiplication','add_coins','exponents_problem','simple_algebra','single_decimal_addition','quadratic_equations' ,'roots_problem' ,'determinant']
 
   for p in math_puzzle_list:
     key=p.replace("_"," ")
