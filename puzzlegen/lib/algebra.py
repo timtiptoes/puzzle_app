@@ -412,8 +412,23 @@ def simple_series(target,*args,**kwargs):
     outstr=",".join(ret_list_str)
     return "\\overline{"+outstr+"}",[]
 
+def basetoStr(n,base):
+   convertString = "0123456789ABCDEF"
+   if n < base:
+      return convertString[n]
+   else:
+      return basetoStr(n//base,base) + convertString[n%base]
 
+def convert_base(target,*args,**kwargs):
 
+    digits = range(2,9)
+    base=random.choice(range(2,9))
+    outstr = "{}_{}".format(basetoStr(target,base),base)
+    outstr = outstr + " = ?_{10}"
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols
 
 if __name__ == "__main__":
     print add_negatives(14)

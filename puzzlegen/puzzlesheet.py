@@ -18,7 +18,8 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "roots_problem" : roots_problem,
                  "determinant" : determinant,
                  "unit_conversion":unit_conversion,
-                 "simple_series":simple_series}
+                 "simple_series":simple_series,
+                 "convert_base":convert_base}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                   "add_negatives":"Add the numbers",
@@ -36,7 +37,8 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "quadratic_equations":"Add the roots to find the letter above",
                  "determinant":"Find the determinant of each matrix",
                  "unit_conversion":"Round each conversion to the nearest integer to find the letter above",
-                 "simple_series":"Find the next number in the series"}
+                 "simple_series":"Find the next number in the series",
+                 "convert_base":"Convert each to base 10"}
 
 
 #
