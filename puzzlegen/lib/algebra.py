@@ -400,17 +400,51 @@ def add_negatives(target,*args,**kwargs):
     outstr="\\overline{"+outstr+"}"
     return outstr, sols
 
-def simple_series(target,*args,**kwargs):
-    decrement=max(1,int(0.5+float(target)/5))
+def common_difference(target):
+    #decrement=max(1,int(0.5+float(target)/5))
+    decrement=random.randint(3,9)
+    sign=random.choice([-1,1])
     ret_list=[]
-    next_num=target-decrement
+    next_num=target-sign*decrement
     while len(ret_list)<5:
         ret_list.append(next_num)
-        next_num-=decrement
-    ret_list_str=[str(i) for i in sorted(ret_list)]
-    ret_list_str.append('x')
+        next_num-=sign*decrement
+    ret_list_str=[str(i) for i in sorted(ret_list,reverse=(sign<1))]
+    ret_list_str.append('\\boxempty')
     outstr=",".join(ret_list_str)
     return "\\overline{"+outstr+"}",[]
+
+def common_ratio(target):
+    starting_num=random.randint(3,4)
+    ratio=random.choice([0.25,0.5,2,3,4,5])
+    if (ratio<1):
+        next_num=starting_num*(1/ratio)**4
+    else:
+        next_num=starting_num
+    ret_list=[]
+    while len(ret_list)<5:
+        ret_list.append(next_num)
+        next_num*=ratio
+    pre_ret_list=sorted(ret_list,reverse=ratio<1)
+    correction=target-pre_ret_list[-1]
+    correction_text="subtract" if correction<0 else "add"
+    pre_ret_list.pop()
+    pre_ret_list.append('x')
+    ret_list_str=[str(i) for i in pre_ret_list]
+    
+    ret_list_str.append(" then "+correction_text+" "+str(abs(int(correction)))+'\\boxempty')
+    outstr=",".join(ret_list_str)
+    return "\\overline{"+outstr+"}",[] 
+
+def simple_series(target,*args,**kwargs):
+    choice=random.choice(['heads','tails'])
+    if choice=='heads':
+        return common_difference(target)
+    else:
+        return common_ratio(target)
+
+
+
 
 def basetoStr(n,base):
    convertString = "0123456789ABCDEF"
@@ -431,7 +465,7 @@ def convert_base(target,*args,**kwargs):
     return outstr, sols
 
 if __name__ == "__main__":
-    print add_negatives(14)
+    print simple_series(14)
 
 
 
