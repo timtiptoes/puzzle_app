@@ -243,3 +243,32 @@ def choose_someint(rng):
     while x==0:
         x=random.randint(-rng,rng)
     return x
+
+def simple_line(m,x,b,*args,**kwargs):
+    return m*x+b
+
+def list_of_ints(tot,n):
+    #return a list of n ints that sum to tot
+    ints=[]
+    someint=0
+    while len(ints)<n:
+        someint=choose_someint(10)
+        if someint not in ints:
+            ints.append(someint)
+            
+    ints.append(tot-sum(ints))
+    return ints
+
+def simplify_exponents(target,*args,**kwargs):
+    sols = sympy.latex(target) 
+    out_str=""
+    ints=random.shuffle(list_of_ints(target,random.choice([2,3,4])))
+    print(ints)
+    power_strings=[]
+    for i in ints:
+        power_string="^{"+str(i)+"}" if i!=1 else ""
+        print("given {} I compute {}".format(i,power_string))
+        #power_strings.append(power_string)
+        out_str+="x{}".format(power_string)
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols  

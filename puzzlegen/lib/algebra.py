@@ -495,6 +495,36 @@ def linear_system(target,*args,**kwargs):
 
     return out_str,sols
 
+def find_slope(target,*args,**kwargs):
+    b=choose_someint(9)
+    x1=choose_someint(10)
+    y1=simple_line(target,x1,b)
+    
+    x2=x1
+    while x1==x2:
+        x2=choose_someint(10)
+    y2=simple_line(target,x2,b)
+    #print("({},{}) and ({},{})".format(x1,y1,x2,y2))
+    sols = sympy.latex(target) 
+    out_str="({},{})".format(x1,y1)+"\\text{ and }"+"({},{})".format(x2,y2)
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
+
+def simplify_exponents(target,*args,**kwargs):
+    sols = sympy.latex(target) 
+    out_str=""
+    ints=list_of_ints(target,random.choice([2,3,4]))
+    random.shuffle(ints)
+    print(ints)
+    power_strings=[]
+    for i in ints:
+        power_string="^{"+str(i)+"}" if i!=1 else ""
+        print("given {} I compute {}".format(i,power_string))
+        #power_strings.append(power_string)
+        out_str+="x{}".format(power_string)
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols  
+
 if __name__ == "__main__":
     print simple_series(14)
 
