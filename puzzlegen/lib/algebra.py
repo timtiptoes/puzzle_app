@@ -468,6 +468,33 @@ def convert_base(target,*args,**kwargs):
     outstr="\\overline{"+outstr+"}"
     return outstr, sols
 
+def linear_system(target,*args,**kwargs):
+    x=choose_someint(5)
+    y=target - x
+    coeff11=choose_someint(6)
+    coeff12=choose_someint(6)
+    sign1="+" if coeff12>0 else ''
+    constant1=coeff11*x+coeff12*y
+    print("{},{}".format(x,y))
+    coeff21=coeff11
+    while coeff21==coeff11:
+        coeff21=choose_someint(9)
+    coeff22=choose_someint(9)
+    constant2=coeff21*x+coeff22*y
+    sign2="+" if coeff22>0 else ''
+    print("{}x {} {}y = {}".format(coeff11,sign1,coeff12,constant1))
+    print("{}x {} {}y = {}".format(coeff21,sign2,coeff22,constant2))
+    
+    out_str=stack_lines("{}x {} {}y = {}".format(coeff11,sign1,coeff12,constant1),"{}x {} {}y = {}".format(coeff21,sign2,coeff22,constant2))
+    #out_str="\\begin{array}{c}"+"{}x +{}y".format(coeff11,coeff12)+" & = & "+"{}".format(constant1)+"\\"
+    #out_str+="{}x +{}y".format(coeff21,coeff22)+" & = & "+"{}".format(constant2)
+
+#    out_str+="\\end{array}"
+    sols = sympy.latex(target)
+#    out_str="\\overline{"+out_str+"}"
+
+    return out_str,sols
+
 if __name__ == "__main__":
     print simple_series(14)
 

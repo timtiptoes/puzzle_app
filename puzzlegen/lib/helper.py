@@ -163,6 +163,21 @@ def stack_em(x,y,operator='-'):
    
     return out_str
 
+def stack_lines(x,y):
+    import math
+    a=str(x) if isinstance(x, int) else x
+    b=str(y) if isinstance(y, int) else y
+
+    length=len(a)
+
+    first_line='9'*(5-length)
+    second_line='9'*(3-length)
+
+
+    out_str='\\overline{\\begin{array}{c}\\phantom{\\times'+first_line+'}'+a+'\\phantom{\\times9}\\\\\phantom{\\times'+second_line+'}'+b+'\\phantom{\\times9}\\end{array}}'
+    print("****************\n"+out_str)
+    return out_str
+
 def get_power_choices():
     num_powers=random.randint(1,3)
     pick=random.choice(powers.keys())
@@ -221,3 +236,10 @@ def find_shortest_common_string(s1,s2):
         if first_one[i]!=second_one[i]:
             return i-1
     return -1
+
+def choose_someint(rng):
+    #I want to choose some non-zero integer
+    x=0
+    while x==0:
+        x=random.randint(-rng,rng)
+    return x
