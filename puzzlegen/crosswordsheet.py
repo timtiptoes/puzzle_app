@@ -2,6 +2,8 @@ import os
 import csv
 from lib import *
 import datetime;
+import re
+import numpy as np
 
 
 class document(object):
@@ -122,6 +124,7 @@ class crossword1d(object):
                     max_to_left=chars_to_left if chars_to_left>max_to_left else max_to_left
                     max_to_right=chars_to_right if chars_to_right>max_to_right else max_to_right
                     self.pos[one_word]=(chars_to_left,chars_to_right)
+                    print "for {} chars_to_left:{} chars_to_right:{} max_to_left:{} max_to_right:{}".format(ch,chars_to_left,chars_to_right,max_to_left,max_to_right)
                     
                     break
                 else:
@@ -133,13 +136,22 @@ class crossword1d(object):
         self.max_to_right=max_to_right
 
     def make_puzzle_lines(self,*args, **kwargs):
+	word_choices=""
 
         for i in range(len(self.puzzle_list)):
             word = self.puzzle_list[i]
             print "Question "+str(i+1)+":"+word.replace(" ","")
             tex_formatted_line=self.layout_line('-'*(self.max_to_left-self.pos[word][0])+word.replace(" ","")+'-'*(self.max_to_right-self.pos[word][1]),i+1,self.max_to_left+1)
             self.puzzle_lines.append(tex_formatted_line)
-            self.hints.append("\\Clue{"+str(i+1)+"}{"+word.upper()+"}{"+self.s[word]+"}")   
+            if re.search('Vocabulary', self.title):
+                available_words=(filter(lambda x:(x!=word and len(x)==len(word)),self.s.keys()))
+                print "These are the available words of length {}".format(len(word))
+                print available_words
+                chosen_words=[available_words[j] for j in np.random.choice(len(available_words),size=4,replace=False)]
+                chosen_words.append(word)
+                random.shuffle(chosen_words)
+                word_choices=" One of "+", ".join(chosen_words[:-1])+" or "+chosen_words[-1]
+            self.hints.append("\\Clue{"+str(i+1)+"}{"+word.upper()+"}{"+self.s[word]+word_choices+"}")   
 
     def make_hint_lines(self,*args,**kwargs):
         second_half_flag = False

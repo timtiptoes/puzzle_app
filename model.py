@@ -1,4 +1,4 @@
-from wtforms import Form, FloatField, TextField, RadioField, validators
+from wtforms import Form, FloatField, TextField, RadioField, validators,SubmitField
 from utils import *
 
 class InputForm(Form):

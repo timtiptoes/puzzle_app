@@ -3,6 +3,7 @@ from lib import *
 import datetime;
 
 _problems_map = {"simple_addition": make_simple_addition_problem,
+                 "add_negatives": add_negatives,
                  "multiplication_then_addition": make_simple_multiplication_problem,
                  "fraction_addition": make_fraction_addition_problem,
                  "simple_division_problem":make_simple_division_problem,
@@ -16,9 +17,15 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "quadratic_equations" : make_quadratic_eq,
                  "roots_problem" : roots_problem,
                  "determinant" : determinant,
-                 "unit_conversion":unit_conversion}
+                 "unit_conversion":unit_conversion,
+                 "simple_series":simple_series,
+                 "convert_base":convert_base,
+                 "linear_system":linear_system,
+                 "find_slope":find_slope,
+                 "simplify_exponents":simplify_exponents}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
+                  "add_negatives":"Add the numbers",
                  "multiplication_then_addition": "Solve for the letter above",
                  "fraction_addition": "Use the numerator of the improper fraction to find the letter above",
                  "simple_division_problem":"Solve for the letter above",
@@ -32,7 +39,12 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "single_decimal_addition":"Add to find the letter above",
                  "quadratic_equations":"Add the roots to find the letter above",
                  "determinant":"Find the determinant of each matrix",
-                 "unit_conversion":"Round each conversion to the nearest integer to find the letter above"}
+                 "unit_conversion":"Round each conversion to the nearest integer to find the letter above",
+                 "simple_series":"Find the next number in the series",
+                 "convert_base":"Convert each to base 10",
+                 "linear_system":"Add x+y and find letter above",
+                 "simplify_exponents":"Simplify exponents and look up result above.",
+                 "find_slope":"Use the slope of the line through two points to find letter above"}
 
 
 #
@@ -43,7 +55,7 @@ class document(object):
     """
     Small class for managing the documents and compiling them
     """
-    def __init__(self, fname, title="", savetex=False, doc_generator = puzzle_parts):
+    def __init__(self, fname, title="", savetex=True, doc_generator = puzzle_parts):
         self.savetex = savetex
         self.start, self.end = doc_generator(title)
         self.main = []
@@ -72,8 +84,8 @@ class document(object):
         os.remove("tmp/%s.log" % self.fname)
         if remove_aux:
             os.remove("tmp/%s.aux" % self.fname)
-        if not self.savetex:
-            os.remove("tmp/%s.tex" % self.fname)
+##        if not self.savetex:
+##            os.remove("tmp/%s.tex" % self.fname)
 
 class puzzlesheet(object):
     """

@@ -4,20 +4,21 @@ def doc_parts(title="", author=""):
     \\usepackage{amsfonts}
     \\usepackage{amsmath,multicol,eso-pic}
     \\begin{document}
-    """
-
+    \\usepackage{multicol}
+    \def\columnseprulecolor{\color{white}} %Separator ruler colour"""
     if title:
         start = start + "\\title{%s} \n \date{\\vspace{-5ex}} \n \maketitle" % title
+ 
+        end="""
+        \end{document}
+        """
 
-    end="""
-    \end{document}
-    """
     return start, end
 
 def puzzle_parts(title="", author=""):
     start="""
     \\documentclass[16pt]{article}
-    \\usepackage[a4paper,margin=0.5in,portrait]{geometry}
+    \\usepackage[a4paper,margin=0.5in,landscape]{geometry}
     \\usepackage{amsmath}
     \\usepackage{graphicx}
     \\usepackage{fancyhdr}
@@ -75,7 +76,6 @@ def crossword_parts(title="", author=""):
     \\end{Puzzle}
 
     \\begin{PuzzleClues}{\\textbf{Hints}}\\\\"""
-
     end = """\\end{PuzzleClues}
 
             \\end{document}

@@ -22,7 +22,7 @@ def nocache(view):
     return update_wrapper(no_cache, view)
 
 
-@app.route("/puzzle")
+@app.route("/puzzle", methods = ['GET','POST'])
 def puzzle():
     categories=get_categories()
     form = ClueForm(request.form)
