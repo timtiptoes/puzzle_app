@@ -46,7 +46,7 @@ class crossword1d(object):
 
     def __init__(self, fname, title="",clue="gimme", savetex=False):
         print " I just got {}".format(fname)
-        with open('static/'+fname, mode='r') as csvfile:
+        with open('static/'+fname+".csv", mode='r') as csvfile:
             reader = csv.reader(csvfile,quotechar='"')
             self.s = {rows[0]:rows[1] for rows in reader}
 

@@ -35,24 +35,26 @@ def index():
 def buzzle():
     categories=get_categories()
     form = ClueForm(request.form)
-    return render_template('view2.html', form=form, clue='defaulto',my_string="Wheeeee!", my_list=categories.keys())
+    return render_template('view2.html', form=form, clue='defaulto',my_string="Wheeeee!", my_categories=categories)
 
 @app.route("/make_puzzle/,<string:puzzle_type>")
 def make_puzzle(puzzle_type):
 	global return_puzzle
 	categories=get_categories()
 	clue = request.args.get("clue")
-	if puzzle_type not in categories.keys():
+	if categories[puzzle_type]['type']=='math':
 		mypuzzlesheet = puzzlesheet.puzzlesheet("puzzle", "",clue, savetex=True)
-		mypuzzlesheet.add_section(puzzle_type, 6, "",puzzlesheet.instructions_map[puzzle_type],rhs=0)
+		puzz=categories[puzzle_type]['filename'].lower()
+		print "I want to do {}".format(puzz)
+		mypuzzlesheet.add_section(puzz, 6, "",puzzlesheet.instructions_map[puzz],rhs=0)
 		mypuzzlesheet.write()
 		return_puzzle="puzzle.pdf"
 	else:
-		mypuzzlesheet = crosswordsheet.crossword1d(categories[puzzle_type], title=puzzle_type,clue=clue, savetex=True)
+		mypuzzlesheet = crosswordsheet.crossword1d(categories[puzzle_type]['filename'], title=puzzle_type,clue=clue, savetex=True)
 		mypuzzlesheet.add_section()
 		mypuzzlesheet.write()
 		return_puzzle=mypuzzlesheet.fname+".pdf"	
-		return redirect('/return-files/')
+	return redirect('/return-files/')
 
 @app.route('/return-files/')
 def return_files_tut():
