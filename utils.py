@@ -20,8 +20,8 @@ def get_categories():
 
 
   all_puzzles=merge_two_dicts(crossword_puzzles,math_puzzles)
-
-  return all_puzzles
+  #for all puzzles, return all_puzzles, duh
+  return math_puzzles
 
 def get_display_categories():
 	categories=get_categories()
