@@ -112,10 +112,11 @@ def make_simplify_ratio_problem(target,*args,**kwargs):
 def make_quadratic_eq(target, rhs = None, integer=[0, 1]):
     var=random.choice("pqrstuvwxyz")
     x = sympy.Symbol("x")
-    f=random.randint(1,5)*random.choice([-1,1])
+    f=random.randint(2,5)*random.choice([-1,1])
+    f2=random.choice([-1,1])
     r1=target
     while r1==target:
-        r1=random.randint(1,20)
+        r1=random.randint(1,13)
     r2=target-r1
     expr = (f*x-r1*f)*(x-r2)
     expanded_expr = expand(expr)
@@ -316,8 +317,51 @@ def determinant(target,*args,**kwargs):
     sols = "$$" + sols + "$$"
     return out_str,sols
 
+def unit_conversion(target,allow_scientific=False,*args,**kwargs):
+    systems={"Imperial":{"length":{"in":1.0,"ft":12.0,"yd":36.0,"miles":63360.0}, \
+                         "volume":{"tsp":0.333333,"Tb":0.5,"oz":1,"pints":16.0,"quarts":32.0,"gallons":128.0}, \
+                         "mass": {"oz":1.0,"lbs":16.0,"tons":32000.0}}, \
+             "Metric":  {"length":{"mm":.03937,"m":39.37,"cm":0.3937,"kilometers":39370.0}, \
+                     "volume":{"ml":0.033814,"cc":0.033814,"liters":33.814}, \
+                     "mass":{"mg":3.5274e-5,"g":3.5274e-2,"kg":35.274}}} 
+    counter=0
+    conversion_factor=0.0
+    computed_target=0.0
+    
+    while round(float(computed_target)*conversion_factor)!=target or ('E' in computed_target and not allow_scientific):
+
+        source_system = random.choice(systems.keys())
+        source_type = random.choice(systems[source_system].keys())
+        source_unit = random.choice(systems[source_system][source_type].keys())
+        dest_unit = source_unit
+        while dest_unit==source_unit:
+            dest_system = random.choice(systems.keys())
+            dest_unit = random.choice(systems[dest_system][source_type].keys())    
+
+        print "I want to convert {} to {} ".format(source_unit,dest_unit)
+
+        factor_to_convert_source_unit_to_base=systems[source_system][source_type][source_unit]
+
+        factor_to_convert_dest_unit_to_base=systems[dest_system][source_type][dest_unit]
+
+        conversion_factor=factor_to_convert_source_unit_to_base / \
+                          factor_to_convert_dest_unit_to_base 
+
+        print "f1:{} f2:{} and of course conv:{}".format(factor_to_convert_source_unit_to_base,factor_to_convert_dest_unit_to_base,conversion_factor)
+        source_figure=target/conversion_factor
+        sols = sympy.latex(target) 
+    #    out_str="{:.3f}".format(source_figure)
+        computed_target=find_shortest(target,conversion_factor)
+    computed_target=computed_target.rstrip("0") if "." in computed_target else computed_target
+    out_str=computed_target + "\\ \\textrm{"+source_unit+"}\\ =\\ ?\\ \\textrm{"+dest_unit+"}"
+
+    out_str="\\overline{"+out_str+"}"
+    #    $\overline{25.153\ \textrm{yd}\ =\ ?\ \textrm{m}}$
+    return out_str,sols
+
+
 if __name__ == "__main__":
-    print make_fraction_addition_problem(21)
+    print unit_conversion(14)
 
 
 

@@ -186,3 +186,38 @@ def right_sign(x):
     else:
         out=""
     return out
+
+def find_shortest(target,conversion_factor):
+    mantissa_target="{:.12E}".format((target)/conversion_factor).split('E')[0]
+    mantissa_lower="{:.12E}".format((target-0.49)/conversion_factor).split('E')[0]
+    mantissa_upper="{:.12E}".format((target+0.49)/conversion_factor).split('E')[0]
+    print "{} < {} < {}".format(mantissa_lower,mantissa_target,mantissa_upper)
+    shortest_lower=find_shortest_common_string(mantissa_lower,mantissa_target)
+    shortest_upper=find_shortest_common_string(mantissa_upper,mantissa_target)
+    shortest=min(shortest_upper,shortest_lower)
+    print "{} {}".format(shortest_lower,shortest_upper)
+    exponent="{:.12E}".format((target)/conversion_factor).split('E')[1]   
+    
+    if int(exponent)>-3:
+        ret_format_str="{:0."+str(shortest+2)+"f}"
+        ret_str=ret_format_str.format(float(mantissa_target[0:shortest+2]+"E"+exponent))
+        if int(float(ret_str))==float(ret_str):
+            ret_format_str="{:0.0f}"
+            ret_str=ret_format_str.format(float(mantissa_target[0:shortest+2]+"E"+exponent))
+        return ret_str
+    
+    return mantissa_target[0:shortest+2]+"E"+exponent
+
+
+def find_shortest_common_string(s1,s2):
+    if len(s1)<=len(s2):
+        first_one=s1
+        second_one=s2
+    else:
+        first_one=s2
+        second_one=s1
+    
+    for i in range(len(first_one)):
+        if first_one[i]!=second_one[i]:
+            return i-1
+    return -1

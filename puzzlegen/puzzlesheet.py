@@ -15,11 +15,12 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "single_decimal_addition":single_decimal_addition,
                  "quadratic_equations" : make_quadratic_eq,
                  "roots_problem" : roots_problem,
-                 "determinant" : determinant}
+                 "determinant" : determinant,
+                 "unit_conversion":unit_conversion}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                  "multiplication_then_addition": "Solve for the letter above",
-                 "fraction_addition": "Use the numerator to find the letter above",
+                 "fraction_addition": "Use the numerator of the improper fraction to find the letter above",
                  "simple_division_problem":"Solve for the letter above",
                  "simplify_ratio":"Use the numerator of the simplified ratio to find the letter above",
                  "two_digit_subtraction":"Use the difference to find the letter above",
@@ -30,7 +31,8 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "simple_algebra":"Solve for x to find the letter above",
                  "single_decimal_addition":"Add to find the letter above",
                  "quadratic_equations":"Add the roots to find the letter above",
-                 "determinant":"Find the determinant of each matrix"}
+                 "determinant":"Find the determinant of each matrix",
+                 "unit_conversion":"Round each conversion to the nearest integer to find the letter above"}
 
 
 #
