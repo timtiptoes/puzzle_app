@@ -18,7 +18,14 @@ class InputForm(Form):
       ('simple_algebra','$$\\texttt{find x : e.g. } 4x+5=17$$'),
       ('single_decimal_addition','$$\\texttt{add decimals : e.g. } 3.4+2.6$$'),
       ('quadratic_equations','$$\\texttt{add quadratic equation roots : e.g. }x^2-14x+45$$')]+display_categories)
+
+class ClueForm(Form):
+    clue = TextField(validators=[validators.InputRequired()],default="I hold legos")
+  
 #
+
+
+
 '''
 ,('The Bible','$$\\texttt{The Bible}$$')
       ('determinant_problem','$$\\texttt{find determinant :}\\begin{vmatrix} 5 & 3 \\\ -5 & 1  \\end{vmatrix}$$')

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request,send_file, redirect
-from model import InputForm
+from model import InputForm, ClueForm
 from puzzlegen import puzzlesheet
 from puzzlegen import crosswordsheet
 from utils import *    
@@ -30,6 +30,29 @@ def index():
 		clue = None
 
 	return render_template("view.html", form=form, clue='defaulto')
+
+@app.route("/buzzle")
+def buzzle():
+    categories=get_categories()
+    form = ClueForm(request.form)
+    return render_template('view2.html', form=form, clue='defaulto',my_string="Wheeeee!", my_list=categories.keys())
+
+@app.route("/make_puzzle/,<string:puzzle_type>")
+def make_puzzle(puzzle_type):
+	global return_puzzle
+	categories=get_categories()
+	clue = request.args.get("clue")
+	if puzzle_type not in categories.keys():
+		mypuzzlesheet = puzzlesheet.puzzlesheet("puzzle", "",clue, savetex=True)
+		mypuzzlesheet.add_section(puzzle_type, 6, "",puzzlesheet.instructions_map[puzzle_type],rhs=0)
+		mypuzzlesheet.write()
+		return_puzzle="puzzle.pdf"
+	else:
+		mypuzzlesheet = crosswordsheet.crossword1d(categories[puzzle_type], title=puzzle_type,clue=clue, savetex=True)
+		mypuzzlesheet.add_section()
+		mypuzzlesheet.write()
+		return_puzzle=mypuzzlesheet.fname+".pdf"	
+		return redirect('/return-files/')
 
 @app.route('/return-files/')
 def return_files_tut():
