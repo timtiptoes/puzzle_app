@@ -410,7 +410,7 @@ def common_difference(target):
         ret_list.append(next_num)
         next_num-=sign*decrement
     ret_list_str=[str(i) for i in sorted(ret_list,reverse=(sign<1))]
-    ret_list_str.append('\\boxempty')
+    ret_list_str.append('x')
     outstr=",".join(ret_list_str)
     return "\\overline{"+outstr+"}",[]
 
@@ -422,18 +422,22 @@ def common_ratio(target):
     else:
         next_num=starting_num
     ret_list=[]
-    while len(ret_list)<5:
-        ret_list.append(next_num)
+    while len(ret_list)<4:
+        ret_list.append(int(next_num))
         next_num*=ratio
     pre_ret_list=sorted(ret_list,reverse=ratio<1)
     correction=target-pre_ret_list[-1]
-    correction_text="subtract" if correction<0 else "add"
+    if correction<0:
+        correction_text=" then subtract "+str(abs(int(correction)))
+    elif correction>0:
+        correction_text = " then add "+str(abs(int(correction)))
+    else:
+        correction_text=""
     pre_ret_list.pop()
     pre_ret_list.append('x')
     ret_list_str=[str(i) for i in pre_ret_list]
     
-    ret_list_str.append(" then "+correction_text+" "+str(abs(int(correction)))+'\\boxempty')
-    outstr=",".join(ret_list_str)
+    outstr=",".join(ret_list_str)+"\\text{"+correction_text+"}"
     return "\\overline{"+outstr+"}",[] 
 
 def simple_series(target,*args,**kwargs):

@@ -49,7 +49,7 @@ class document(object):
     """
     Small class for managing the documents and compiling them
     """
-    def __init__(self, fname, title="", savetex=False, doc_generator = puzzle_parts):
+    def __init__(self, fname, title="", savetex=True, doc_generator = puzzle_parts):
         self.savetex = savetex
         self.start, self.end = doc_generator(title)
         self.main = []
@@ -78,8 +78,8 @@ class document(object):
         os.remove("tmp/%s.log" % self.fname)
         if remove_aux:
             os.remove("tmp/%s.aux" % self.fname)
-        if not self.savetex:
-            os.remove("tmp/%s.tex" % self.fname)
+##        if not self.savetex:
+##            os.remove("tmp/%s.tex" % self.fname)
 
 class puzzlesheet(object):
     """
