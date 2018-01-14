@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request,send_file, redirect
-from compute import compute
 from model import InputForm
 from puzzlegen import puzzlesheet
     
@@ -14,20 +13,12 @@ def index():
 		mypuzzlesheet = puzzlesheet.puzzlesheet("tmp/tim_puzzle", "Algebra 101 worksheet 1",clue, savetex=True)
 		mypuzzlesheet.add_section(puzzle_type, 6, "Linear equations","Use the numerator of the resulting improper fraction to lookup the letter above",rhs=0)
 		mypuzzlesheet.write()
-		return redirect('/file-downloads/')
+		return redirect('/return-files/')
 
 	else:
 		clue = None
 
-	return render_template("view2.html", form=form, clue='defaulto')
-
-
-@app.route('/file-downloads/')
-def file_downloads():
-	try:
-		return render_template('downloads.html')
-	except Exception as e:
-		return str(e)
+	return render_template("view.html", form=form, clue='defaulto')
 
 @app.route('/return-files/')
 def return_files_tut():

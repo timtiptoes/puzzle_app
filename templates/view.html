@@ -1,9 +1,24 @@
-<form method=post action="">
-  Hello, World! The sine of
-  {{ (form.r) }}
-  <input type=submit value=equals>
-{% if s != None %}
-{{ s }}
-{% endif %}
-</form>
+{% block content %}
+     <h1>Simple Form</h1>
+     <form action="" method="post" name="simple" enctype="multipart/form-data">
+         <p>
+             Clue:
+             {{form.clue(size=80)}}
+         </p>
+         <p>
+             Puzzle type:
+             {{form.puzzle_type()}}
+         </p>
+         <p><input type="submit" value="Submit"></p>
+     </form>
 
+     And I get
+{% if clue != None %}
+{{ clue }}
+{% endif %}
+
+And of course
+{% if puzzle_type != None %}
+{{ puzzle_type }}
+{% endif %}
+     {% endblock %}
