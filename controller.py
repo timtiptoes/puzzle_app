@@ -4,6 +4,7 @@ from puzzlegen import puzzlesheet
     
 app = Flask(__name__)
 
+
 @app.route('/hw3', methods=['GET', 'POST'])
 def index():
 	form = InputForm(request.form)
