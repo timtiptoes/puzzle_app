@@ -8,7 +8,8 @@ _problems_map = {"Quadratic equations" : make_quadratic_eq,
                  "Decode": make_simple_multiplication_problem,
                  "Fraction_addition": make_fraction_addition_problem,
                  "Simple_addition": make_simple_addition_problem,
-                 "Simplify quadratic ratio" : make_rational_poly_simplify}
+                 "Simplify quadratic ratio" : make_rational_poly_simplify,
+                 "make_big_division_problem":make_big_division_problem}
 
 
 class document(object):
