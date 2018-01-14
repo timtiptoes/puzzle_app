@@ -114,5 +114,9 @@ def render(expr, lhs=""):
 #    return ''.join([left, sympy.latex(expr), "$$"])
     return sympy.latex(expr)
 
-
+def make_proper(numer,denom):
+    #given numer and denom return proper fraction
+    remainder = abs(numer) % denom
+    whole=(abs(numer)-remainder)/denom 
+    return whole,cmp(numer,0)*remainder
 

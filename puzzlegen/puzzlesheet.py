@@ -2,14 +2,12 @@ import os
 from lib import *
 #import lib
 
-_problems_map = {"Quadratic equations" : make_quadratic_eq,
-                 "Linear equations" : make_linear_eq,
-                 "Limit of polynomial ratio" : make_poly_ratio_limit,
-                 "Decode": make_simple_multiplication_problem,
-                 "Fraction_addition": make_fraction_addition_problem,
-                 "Simple_addition": make_simple_addition_problem,
-                 "Simplify quadratic ratio" : make_rational_poly_simplify,
-                 "make_big_division_problem":make_big_division_problem}
+_problems_map = {"simple_addition": make_simple_addition_problem,
+                 "multiplication_then_addition": make_simple_multiplication_problem,
+                 "fraction_addition": make_fraction_addition_problem,
+                 "simple_division_problem":make_simple_division_problem,
+                 "simplify_ratio":make_simplify_ratio_problem,
+                 "quadratic_equations" : make_quadratic_eq}
 
 
 class document(object):
@@ -44,9 +42,6 @@ class document(object):
             os.remove("%s.aux" % self.fname)
         if not self.savetex:
             os.remove("%s.tex" % self.fname)
-
-
-
 
 class puzzlesheet(object):
     """
@@ -111,17 +106,6 @@ class puzzlesheet(object):
     def write(self):
         self.puzzlesheet.write_compile()
 
-
-if __name__ == "__main__":
-
-    mypuzzlesheet = puzzlesheet("tim_puzzle", "Algebra 101 worksheet 1","I cool stuff", savetex=True)
-    #mypuzzlesheet.add_section(make_quadratic_eq, 10, "Add Fractions","Add the roots of each equation to lookup the letter above",rhs=0)
-    #mypuzzlesheet.add_section(make_simple_multiplication_problem, 10, "Linear equations","",rhs=0)
-    #mypuzzlesheet.add_section(make_simple_addition_problem, 6, "Addition","Add the two numbers and look up the letter above",rhs=0)
-
-    mypuzzlesheet.add_section("Simple_addition", 6, "Linear equations","Use the numerator of the resulting improper fraction to lookup the letter above",rhs=0)
-
-    mypuzzlesheet.write()
 
 
 
