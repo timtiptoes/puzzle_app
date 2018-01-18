@@ -1,20 +1,23 @@
 <HTML><HEAD>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
 </HEAD>
 <BODY>
 {% block content %}
      <h1>Math Encode</h1>
+     <h2> Enter clue and then select puzzle type below</h2>
      <form action="" method="post" name="simple" enctype="multipart/form-data">
          <p>
              Clue:
              {{form.clue(size=80)}}
          </p>
          <p>
-             Puzzle type:
+             Puzzle types with examples:
              {{form.puzzle_type()}}
          </p>
          <p><input type="submit" value="Submit"></p>
      </form>
 
 {% endblock %}
+
 </BODY></HTML>
