@@ -9,6 +9,13 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "simplify_ratio":make_simplify_ratio_problem,
                  "quadratic_equations" : make_quadratic_eq}
 
+instructions_map={"simple_addition": "Add the two numbers to find the letter above",
+                 "multiplication_then_addition": "Solve for the letter above",
+                 "fraction_addition": "Use the numerator to find the letter above",
+                 "simple_division_problem":"Solve for the letter above",
+                 "simplify_ratio":"Use the numerator of the simplified ratio to find the letter above",
+                 "quadratic_equations":"Add the roots to find the letter above"}
+
 
 class document(object):
     """

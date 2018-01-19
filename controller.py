@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request,send_file, redirect
 from model import InputForm
 from puzzlegen import puzzlesheet
-
     
 app = Flask(__name__)
 
@@ -13,7 +12,7 @@ def index():
 		clue = form.clue.data
 		puzzle_type = form.puzzle_type.data
 		mypuzzlesheet = puzzlesheet.puzzlesheet("tmp/puzzle", "",clue, savetex=True)
-		mypuzzlesheet.add_section(puzzle_type, 6, "","Lookup the answer to each of the below in the key above",rhs=0)
+		mypuzzlesheet.add_section(puzzle_type, 6, "",puzzlesheet.instructions_map[puzzle_type],rhs=0)
 		mypuzzlesheet.write()
 		return redirect('/return-files/')
 
