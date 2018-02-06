@@ -7,14 +7,16 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "fraction_addition": make_fraction_addition_problem,
                  "simple_division_problem":make_simple_division_problem,
                  "simplify_ratio":make_simplify_ratio_problem,
-                 "quadratic_equations" : make_quadratic_eq}
+                 "quadratic_equations" : make_quadratic_eq,
+                 "two_digit_subtraction":two_digit_subtraction}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                  "multiplication_then_addition": "Solve for the letter above",
                  "fraction_addition": "Use the numerator to find the letter above",
                  "simple_division_problem":"Solve for the letter above",
                  "simplify_ratio":"Use the numerator of the simplified ratio to find the letter above",
-                 "quadratic_equations":"Add the roots to find the letter above"}
+                 "quadratic_equations":"Add the roots to find the letter above",
+                 "two_digit_subtraction":"Use the difference to find the letter above"}
 
 
 class document(object):
@@ -94,7 +96,7 @@ class puzzlesheet(object):
         lines=layout_lines(self.clue,cols)
         for line in lines:
             for i in range(len(line)):
-                terminator = "&" if i<len(line)-1 else '\\'+'\\'
+                terminator = "&" if i<len(line)-1 else '\\vspace{15mm}'+'\\'+'\\'
                 ch = line[i]
                 if ch !=" ":
                     p, sols = prob_generator(self.lookup_table[ch],*args, **kwargs)

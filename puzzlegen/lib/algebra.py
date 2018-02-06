@@ -137,6 +137,24 @@ def make_quadratic_eq(target,var="x", rhs = None, integer=[0, 1]):
         return make_quadratic_eq()
     return "\\overline{"+render(e)+"}", sols
 
+def two_digit_subtraction(target,*args,**kwargs):
+
+    digits = range(50,99)
+
+    
+    r1=random.choice(digits)
+    r2 = r1 - target
+    c1=sympy.Symbol(str(r1))
+    c2=sympy.Symbol(str(r2))
+    lhs = r1 - r2
+    
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr=stack_em(r1,r2,"-")
+    print "about to return "+outstr
+    print r1,r2
+    return outstr, sols
+
 if __name__ == "__main__":
     print make_fraction_addition_problem(21)
 

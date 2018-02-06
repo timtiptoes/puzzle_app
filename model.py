@@ -8,7 +8,8 @@ class InputForm(Form):
     	('multiplication_then_addition','$$\\texttt{multiplication and addition: } 3\\times5 + 3$$'),
       ('simplify_ratio','$$\\texttt{use numerator of reduced fraction: }\\frac{11}{65} + \\frac{1}{5}$$'),
     	('fraction_addition','$$\\texttt{use numerator of sum: }\\frac{2}{7}-\\frac{3}{14}$$'),
-      ('quadratic_equations','$$\\texttt{add roots :}x^2-14x+45$$')])
+      ('quadratic_equations','$$\\texttt{add roots :}x^2-14x+45$$'),
+      ('two_digit_subtraction','84-63')])
 
 '''
 To add a new problem type:
@@ -18,4 +19,6 @@ To add a new problem type:
   2) add to above list
 
   3) add it to _problems_map at top of puzzlesheet.py
+,
+      ('two_digit_subtraction','84-63')
 '''

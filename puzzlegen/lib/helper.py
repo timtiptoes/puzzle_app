@@ -120,3 +120,13 @@ def make_proper(numer,denom):
     whole=(abs(numer)-remainder)/denom 
     return whole,cmp(numer,0)*remainder
 
+def stack_em(x,y,operator):
+    a=str(x)
+    b=str(y)
+    operator="-"
+
+
+    out_str='\\overline{\\begin{array}{c}\\phantom{\\times99}'+a+'\\phantom{\\times9}\\\\\phantom{\\times9}\\underline{'+operator+b+'}\\phantom{\\times9}\\end{array}}'
+   
+    return out_str
+
