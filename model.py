@@ -9,7 +9,8 @@ class InputForm(Form):
       ('simplify_ratio','$$\\texttt{use numerator of reduced fraction: }\\frac{11}{65} + \\frac{1}{5}$$'),
     	('fraction_addition','$$\\texttt{use numerator of sum: }\\frac{2}{7}-\\frac{3}{14}$$'),
       ('quadratic_equations','$$\\texttt{add roots :}x^2-14x+45$$'),
-      ('two_digit_subtraction','84-63')])
+      ('two_digit_subtraction','$$\\texttt{find difference :}84-63$$'),
+      ('two_digit_multiplication','$$\\texttt{take inner two digits of product :}691 \\times 2$$')])
 
 '''
 To add a new problem type:

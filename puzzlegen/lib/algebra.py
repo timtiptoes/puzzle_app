@@ -155,6 +155,45 @@ def two_digit_subtraction(target,*args,**kwargs):
     print r1,r2
     return outstr, sols
 
+
+def two_digit_subtraction(target,*args,**kwargs):
+
+    digits = range(50,99)
+
+    
+    r1=random.choice(digits)
+    r2 = r1 - target
+    c1=sympy.Symbol(str(r1))
+    c2=sympy.Symbol(str(r2))
+    lhs = r1 - r2
+    
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr=stack_em(r1,r2,"-")
+    print "about to return "+outstr
+    print r1,r2
+    return outstr, sols
+
+def two_digit_multiplication(target,*args,**kwargs):
+ 
+    single_digits=range(1,10)
+    trier=2
+    while isPrime(trier):
+        a=random.choice(single_digits)
+        b=random.choice(single_digits)
+        trier=1000*a+10*target+b
+        
+    p=prime_factors(trier)
+    mx=max(p)
+    p.remove(mx)
+    rest=reduce(lambda x, y: x*y, p)
+
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr=stack_em(mx,rest,operator="\\times")
+    print "about to return "+outstr
+    return outstr, sols
+
 if __name__ == "__main__":
     print make_fraction_addition_problem(21)
 

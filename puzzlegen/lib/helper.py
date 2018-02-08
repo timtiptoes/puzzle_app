@@ -120,13 +120,25 @@ def make_proper(numer,denom):
     whole=(abs(numer)-remainder)/denom 
     return whole,cmp(numer,0)*remainder
 
-def stack_em(x,y,operator):
+def isPrime(n):
+    for i in range(2,int(n**0.5)+1):
+        if n%i==0:
+            return False
+
+    return True
+
+def stack_em(x,y,operator='-'):
+    import math
     a=str(x)
     b=str(y)
-    operator="-"
+
+    length=len(a)
+
+    first_line='9'*(5-length)
+    second_line='9'*(3-length)
 
 
-    out_str='\\overline{\\begin{array}{c}\\phantom{\\times99}'+a+'\\phantom{\\times9}\\\\\phantom{\\times9}\\underline{'+operator+b+'}\\phantom{\\times9}\\end{array}}'
+    out_str='\\overline{\\begin{array}{c}\\phantom{\\times'+first_line+'}'+a+'\\phantom{\\times9}\\\\\phantom{\\times'+second_line+'}\\underline{'+operator+b+'}\\phantom{\\times9}\\end{array}}'
    
     return out_str
 
