@@ -11,9 +11,9 @@ class InputForm(Form):
       ('two_digit_subtraction','$$\\texttt{find difference :}84-63$$'),
       ('two_digit_multiplication','$$\\texttt{take inner two digits of product :}691 \\times 2$$'),
       ('add_coins','$$\\texttt{add coins: find total value of 1 dime, 2 nickels, 3 pennies}$$'),
-      ('exponents_problem','$$\\texttt{add exponents :}2^3+4^2-5$$'),
-      ('quadratic_equations','$$\\texttt{add roots :}x^2-14x+45$$')])
+      ('exponents_problem','$$\\texttt{add exponents :}2^3+4^2-5$$')])
 
+#,      ('quadratic_equations','$$\\texttt{add roots :}x^2-14x+45$$')
 '''
 To add a new problem type:
   1) add function to lib/algebra.py
