@@ -7,19 +7,25 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "fraction_addition": make_fraction_addition_problem,
                  "simple_division_problem":make_simple_division_problem,
                  "simplify_ratio":make_simplify_ratio_problem,
-                 "quadratic_equations" : make_quadratic_eq,
                  "two_digit_subtraction":two_digit_subtraction,
-                 "two_digit_multiplication":two_digit_multiplication}
+                 "two_digit_multiplication":two_digit_multiplication,
+                 "add_coins":add_coins,
+                 "exponents_problem":exponents_problem}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                  "multiplication_then_addition": "Solve for the letter above",
                  "fraction_addition": "Use the numerator to find the letter above",
                  "simple_division_problem":"Solve for the letter above",
                  "simplify_ratio":"Use the numerator of the simplified ratio to find the letter above",
-                 "quadratic_equations":"Add the roots to find the letter above",
                  "two_digit_subtraction":"Use the difference to find the letter above",
-                 "two_digit_multiplication":"Use the inner two digits of the product to find letter above"}
+                 "two_digit_multiplication":"Use the inner two digits of the product to find letter above",
+                 "add_coins":"find the total value of the coins to find letter above",
+                 "exponents_problem":"solve each to find the letter above"}
 
+
+#                 "quadratic_equations" : make_quadratic_eq,
+
+#"quadratic_equations":"Add the roots to find the letter above",
 
 class document(object):
     """

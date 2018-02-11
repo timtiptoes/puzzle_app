@@ -194,6 +194,68 @@ def two_digit_multiplication(target,*args,**kwargs):
     print "about to return "+outstr
     return outstr, sols
 
+def add_coins(target,*args,**kwargs):
+    quarters=int(target/25)
+    dimes=int(target/10)
+    nickels=int(target/5)
+    pennies=target
+    
+    number_words="one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty,twenty-one,twenty-two,twenty-three,twenty-four,twenty-five,twenty-six,twenty-seven".split(",")
+    
+    choices={}
+    coins={'quarters':{'value':25,'singular':'quarter'},
+           'dimes':   {'value':10,'singular':'dime'},
+            'nickels':{'value':5,'singular':'nickel'},
+            'pennies':{'value':1,'singular':'penny'}}
+
+    
+    total=target
+    keys=coins.keys()
+    indicies=range(4)
+    purse={}
+    while total>0:
+        idx=random.choice(indicies)
+        coin=keys[idx]
+        value=coins[coin]['value']
+        if total-value>=0:
+            if coin in purse:
+                purse[coin]+=1
+            else:
+                purse[coin]=1
+            total-=value
+
+    out_str="\\overline{"
+    for coin in purse.keys():
+        coin_name=coin if purse[coin]>1 else coins[coin]['singular']
+
+        out_str+="\\textrm{"+number_words[purse[coin]-1]+" "+coin_name+"}"
+        if coin==purse.keys()[0]:
+            out_str+="}"
+
+        if coin !=purse.keys()[-1]:
+            out_str+="\\\\"
+
+    print out_str
+    return out_str,"$$ $$"
+
+def exponents_problem(target,*args,**kwargs):
+    list_of_perfect_powers=get_power_choices()
+    constant=target-sum(list_of_perfect_powers)
+    out_str=""
+    for pp in list_of_perfect_powers:
+        pp_pick=get_power_choice(pp)
+        out_str+="{}^{}".format(pp_pick['base'],pp_pick['power'])
+        if pp!=list_of_perfect_powers[-1]:
+            out_str+="+"
+    if constant>0:
+        out_str+="+{}".format(constant)
+    elif constant<0:
+        out_str+="{}".format(constant)
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
+
 if __name__ == "__main__":
     print make_fraction_addition_problem(21)
 

@@ -22,6 +22,26 @@ digits = range(-26,26)
 digits_nozero = range(-26,26)
 digits_nozero.remove(0)
 
+powers={4:[{'base':2,'power':2}],
+          8:[{'base':2,'power':3}],
+          9:[{'base':3,'power':2}],
+          16:[{'base':2,'power':4},
+              {'base':4,'power':2}],
+          25:[{'base':5,'power':2}],
+          27:[{'base':3,'power':3}],
+          32:[{'base':2,'power':5}],
+          36:[{'base':6,'power':2}],
+          49:[{'base':7,'power':2}],
+          64:[{'base':2,'power':7},
+              {'base':4,'power':3},
+              {'base':8,'power':2}],
+          81:[{'base':9,'power':2}],
+          100:[{'base':10,'power':2}],
+          121:[{'base':11,'power':2}],
+          125:[{'base':5,'power':3}],
+          144:[{'base':12,'power':2}],
+          169:[{'base':13,'power':2}]}
+
 def shuffle(x):
     x = list(x)
     random.shuffle(x)
@@ -142,3 +162,35 @@ def stack_em(x,y,operator='-'):
    
     return out_str
 
+def get_power_choices():
+    num_powers=random.randint(1,3)
+    pick=random.choice(powers.keys())
+    picks=[]
+    while pick not in picks and len(picks)<num_powers:
+        picks.append(pick)
+        pick=random.choice(powers.keys())
+
+    return picks
+                         
+def get_power_choice(perfect_power):
+    #given a perfect power, return one of the choices
+    pick=random.choice(powers[perfect_power])
+    return pick
+
+def exponents_problem(target,*args,**kwargs):
+    list_of_perfect_powers=get_power_choices()
+    constant=target-sum(list_of_perfect_powers)
+    out_str=""
+    for pp in list_of_perfect_powers:
+        pp_pick=get_power_choice(pp)
+        out_str+="{}^{}".format(pp_pick['base'],pp_pick['power'])
+        if pp!=list_of_perfect_powers[-1]:
+            out_str+="+"
+    if constant>0:
+        out_str+="+{}".format(constant)
+    elif constant<0:
+        out_str+="{}".format(constant)
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr="\\overline{"+out_str+"}"
+    return out_str,sols            

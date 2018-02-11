@@ -3,14 +3,16 @@ from wtforms import Form, FloatField, TextField, RadioField, validators
 class InputForm(Form):
     clue = TextField(validators=[validators.InputRequired()],default="I hold legos")
     puzzle_type=RadioField('Label', choices=[
-    	('simple_addition','$$\\texttt{Simple addition: }3+5$$'),
-      ('simple_division_problem','$$\\texttt{Simple division: }36\\div3$$'),
+    	('simple_addition','$$\\texttt{simple addition: }3+5$$'),
+      ('simple_division_problem','$$\\texttt{simple division: }36\\div3$$'),
     	('multiplication_then_addition','$$\\texttt{multiplication and addition: } 3\\times5 + 3$$'),
       ('simplify_ratio','$$\\texttt{use numerator of reduced fraction: }\\frac{11}{65} + \\frac{1}{5}$$'),
     	('fraction_addition','$$\\texttt{use numerator of sum: }\\frac{2}{7}-\\frac{3}{14}$$'),
-      ('quadratic_equations','$$\\texttt{add roots :}x^2-14x+45$$'),
       ('two_digit_subtraction','$$\\texttt{find difference :}84-63$$'),
-      ('two_digit_multiplication','$$\\texttt{take inner two digits of product :}691 \\times 2$$')])
+      ('two_digit_multiplication','$$\\texttt{take inner two digits of product :}691 \\times 2$$'),
+      ('add_coins','$$\\texttt{add coins: find total value of 1 dime, 2 nickels, 3 pennies}$$'),
+      ('exponents_problem','$$\\texttt{add exponents :}2^3+4^2-5$$'),
+      ('quadratic_equations','$$\\texttt{add roots :}x^2-14x+45$$')])
 
 '''
 To add a new problem type:
