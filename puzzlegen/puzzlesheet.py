@@ -10,7 +10,8 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "two_digit_subtraction":two_digit_subtraction,
                  "two_digit_multiplication":two_digit_multiplication,
                  "add_coins":add_coins,
-                 "exponents_problem":exponents_problem}
+                 "exponents_problem":exponents_problem,
+                 "simple_algebra":simple_algebra}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                  "multiplication_then_addition": "Solve for the letter above",
@@ -20,7 +21,8 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "two_digit_subtraction":"Use the difference to find the letter above",
                  "two_digit_multiplication":"Use the inner two digits of the product to find letter above",
                  "add_coins":"find the total value of the coins to find letter above",
-                 "exponents_problem":"solve each to find the letter above"}
+                 "exponents_problem":"solve each to find the letter above",
+                 "simple_algebra":"solve for x to find the letter above"}
 
 
 #                 "quadratic_equations" : make_quadratic_eq,

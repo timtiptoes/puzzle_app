@@ -256,6 +256,21 @@ def exponents_problem(target,*args,**kwargs):
     out_str="\\overline{"+out_str+"}"
     return out_str,sols
 
+def simple_algebra(target,*args,**kwargs):
+    coefficient=random.randint(1,13)
+    rhs=random.randint(1,30)
+    constant=rhs-coefficient*target
+    out_coefficient=str(coefficient) if coefficient>1 else ""
+    if constant>0:
+        out_constant="+{}".format(constant)
+    elif constant<0:
+        out_constant="{}".format(constant)
+        
+    sols = sympy.latex(target) 
+    out_str="{}x{}={}".format(out_coefficient,out_constant,rhs)
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
+
 if __name__ == "__main__":
     print make_fraction_addition_problem(21)
 
