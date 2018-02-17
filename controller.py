@@ -11,7 +11,7 @@ def index():
 	if request.method == 'POST' and form.validate():
 		clue = form.clue.data
 		puzzle_type = form.puzzle_type.data
-		mypuzzlesheet = puzzlesheet.puzzlesheet("tmp/puzzle", "",clue, savetex=True)
+		mypuzzlesheet = puzzlesheet.puzzlesheet("puzzle", "",clue, savetex=True)
 		mypuzzlesheet.add_section(puzzle_type, 6, "",puzzlesheet.instructions_map[puzzle_type],rhs=0)
 		mypuzzlesheet.write()
 		return redirect('/return-files/')

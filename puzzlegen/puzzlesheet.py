@@ -1,6 +1,6 @@
 import os
 from lib import *
-#import lib
+import datetime;
 
 _problems_map = {"simple_addition": make_simple_addition_problem,
                  "multiplication_then_addition": make_simple_multiplication_problem,
@@ -54,15 +54,18 @@ class document(object):
         print "I think fname is >>>"+self.fname+"<<<<\n"
         main = '\n'.join(self.main)
         doc = '\n'.join([self.start, main, self.end])
-        f = open("%s.tex" % self.fname, "wb")
+        f = open("tmp/%s.tex" % self.fname, "wb")
         f.write(doc)
         f.close()
-        os.system("pdflatex --output-directory tmp %s.tex" % self.fname)
-        os.remove("%s.log" % self.fname)
+        os.system("pdflatex --output-directory tmp tmp/%s.tex" % self.fname)
+        now=datetime.datetime.now().isoformat()
+        os.system("cp tmp/{}.pdf log/{}_{}.pdf".format(self.fname,self.fname,now))
+
+        os.remove("tmp/%s.log" % self.fname)
         if remove_aux:
-            os.remove("%s.aux" % self.fname)
+            os.remove("tmp/%s.aux" % self.fname)
         if not self.savetex:
-            os.remove("%s.tex" % self.fname)
+            os.remove("tmp/%s.tex" % self.fname)
 
 class puzzlesheet(object):
     """
