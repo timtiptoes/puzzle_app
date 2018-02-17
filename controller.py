@@ -10,9 +10,12 @@ def index():
 	form = InputForm(request.form)
 	if request.method == 'POST' and form.validate():
 		clue = form.clue.data
-		puzzle_type = form.puzzle_type.data
+		puzzle_types = form.puzzle_types.data
+		tests = request.form.getlist('tests')
+
 		mypuzzlesheet = puzzlesheet.puzzlesheet("tmp/puzzle", "",clue, savetex=True)
-		mypuzzlesheet.add_section(puzzle_type, 6, "",puzzlesheet.instructions_map[puzzle_type],rhs=0)
+		#problems_list=[puzzlesheet._problems_map[i] for i in puzzle_types]
+		mypuzzlesheet.add_section(puzzle_types, 6, "","Solve each to find the letter above",rhs=0)
 		mypuzzlesheet.write()
 		return redirect('/return-files/')
 
@@ -30,4 +33,4 @@ def return_files_tut():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=6555,debug=True)
+    app.run(host="0.0.0.0",debug=True)

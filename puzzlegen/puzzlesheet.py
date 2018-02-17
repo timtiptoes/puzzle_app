@@ -1,6 +1,6 @@
 import os
 from lib import *
-#import lib
+import random
 
 _problems_map = {"simple_addition": make_simple_addition_problem,
                  "multiplication_then_addition": make_simple_multiplication_problem,
@@ -81,7 +81,7 @@ class puzzlesheet(object):
         self.puzzlesheet = document(fname, title, savetex)
 
 
-    def add_section(self, problem_type,cols,title,instructions,*args, **kwargs):
+    def add_section(self, problem_types,cols,title,instructions,*args, **kwargs):
         """
         Method for adding a section of problems to an worksheet & solutions.
         problem_type : name of the type of problem, which is mapped to a
@@ -97,10 +97,7 @@ class puzzlesheet(object):
         title : title text for the section
         instructions : text instructions for the section
         """
-        if hasattr(problem_type, '__call__'):
-            prob_generator = problem_type
-        else:
-            prob_generator = _problems_map[problem_type]
+
 
         start, end = puzzle_section_parts(title, instructions, cols=1)
 
@@ -111,6 +108,11 @@ class puzzlesheet(object):
                 terminator = "&" if i<len(line)-1 else '\\vspace{15mm}'+'\\'+'\\'
                 ch = line[i]
                 if ch !=" ":
+                    problem_type=random.choice(problem_types)
+                    if hasattr(problem_type, '__call__'):
+                        prob_generator = problem_type
+                    else:
+                        prob_generator = _problems_map[problem_type]
                     p, sols = prob_generator(self.lookup_table[ch],*args, **kwargs)
                     prob =puzzle_problem(p) + terminator
                 else:

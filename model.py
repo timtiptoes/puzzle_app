@@ -1,8 +1,13 @@
-from wtforms import Form, FloatField, TextField, RadioField, validators
+from wtforms import Form, FloatField, TextField, RadioField, validators,widgets,SelectMultipleField
+
+
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
 
 class InputForm(Form):
     clue = TextField(validators=[validators.InputRequired()],default="I hold legos")
-    puzzle_type=RadioField('Label', choices=[
+    puzzle_types=MultiCheckboxField('Label', choices=[
     	('simple_addition','$$\\texttt{simple addition: }3+5$$'),
       ('simple_division_problem','$$\\texttt{simple division: }36\\div3$$'),
     	('multiplication_then_addition','$$\\texttt{multiplication and addition: } 3\\times5 + 3$$'),
