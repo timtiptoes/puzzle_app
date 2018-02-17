@@ -271,6 +271,19 @@ def simple_algebra(target,*args,**kwargs):
     out_str="\\overline{"+out_str+"}"
     return out_str,sols
 
+def decimal_addition(target,num_places,*args,**kwargs):
+    f=random.uniform(.1,.9)
+    a=float(int(target*f*10**num_places))/10**num_places
+    b=float(round((target-a)*10**num_places))/10**num_places
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    #out_str="\\overline{"+"{}+{}".format(a,b)+"}"
+    out_str=stack_em(a,b,'+')
+    return out_str,sols
+
+def single_decimal_addition(target,*args,**kwargs):
+    return decimal_addition(target,1)
+
 if __name__ == "__main__":
     print make_fraction_addition_problem(21)
 
