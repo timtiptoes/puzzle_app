@@ -17,7 +17,7 @@ def doc_parts(title="", author=""):
 def puzzle_parts(title="", author=""):
     start="""
     \\documentclass[16pt]{article}
-    \\usepackage[a4paper,margin=0.5in,landscape]{geometry}
+    \\usepackage[a4paper,margin=0.5in,portrait]{geometry}
     \\usepackage{amsmath}
     \\usepackage{graphicx}
     \\usepackage{fancyhdr}
