@@ -3,6 +3,9 @@ import re
 import sympy
 from sympy.parsing.sympy_parser import parse_expr
 from sympy.polys.polytools import degree
+from sympy import symbols,expand,factor,Poly
+
+
 import random
 from helper import *
 
@@ -106,36 +109,25 @@ def make_simplify_ratio_problem(target,*args,**kwargs):
     outstr="\\frac{"+str(c*target)+"}{"+str(c*b)+"}"
     return "\overline{"+outstr+"}",[]
 
-def make_quadratic_eq(target,var="x", rhs = None, integer=[0, 1]):
-
-    if isinstance(var, str):
-        var = sympy.Symbol(var)
-    elif isinstance(var, list):
-        var = sympy.Symbol(random.choice(var))
-    if isinstance(integer, list):
-        integer = random.choice(integer)
-    if integer:
-        r1 = random.choice(digits_nozero)
-        r2 = target - r1
-        #r2 = random.choice(digits_nozero)
-        lhs = (var - r1) * (var - r2)
-        lhs = lhs.expand()
-        rhs = 0
-    else:
-        c1, c2, c3 = get_coefficients(3)
-        lhs = c1*var**2 + c2*var + c3
-
-    if rhs == None:
-        c4, c5, c6 = get_coefficients(3, first_nonzero=False)
-        rhs = c4*var**2 + c5*var + c6
-    
-    e = sympy.Eq(lhs, rhs)
-    pvar = str(var)
-    sols = ', '.join([pvar+" = " + sympy.latex(ex) for ex in sympy.solve(e, var)])
+def make_quadratic_eq(target, rhs = None, integer=[0, 1]):
+    var=random.choice("pqrstuvwxyz")
+    x = sympy.Symbol("x")
+    f=random.randint(1,5)*random.choice([-1,1])
+    r1=target
+    while r1==target:
+        r1=random.randint(1,20)
+    r2=target-r1
+    expr = (f*x-r1*f)*(x-r2)
+    expanded_expr = expand(expr)
+    print "I chose {}, {}, and {}".format(f,r1,r2)
+    ex = Poly(expanded_expr, x)
+    a,b,c=tuple(ex.coeffs())
+    print "I got {},{} and {}".format(a,b,c)
+    out_str="{}{}^2{}{}{}".format(a,var,right_sign(b),var,right_sign(c))
+    sols = sympy.latex(target) 
     sols = "$$" + sols + "$$"
-    if len(sols) == 0:
-        return make_quadratic_eq()
-    return "\\overline{"+render(e)+"}", sols
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
 
 def two_digit_subtraction(target,*args,**kwargs):
 

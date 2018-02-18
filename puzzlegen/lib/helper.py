@@ -177,20 +177,11 @@ def get_power_choice(perfect_power):
     pick=random.choice(powers[perfect_power])
     return pick
 
-def exponents_problem(target,*args,**kwargs):
-    list_of_perfect_powers=get_power_choices()
-    constant=target-sum(list_of_perfect_powers)
-    out_str=""
-    for pp in list_of_perfect_powers:
-        pp_pick=get_power_choice(pp)
-        out_str+="{}^{}".format(pp_pick['base'],pp_pick['power'])
-        if pp!=list_of_perfect_powers[-1]:
-            out_str+="+"
-    if constant>0:
-        out_str+="+{}".format(constant)
-    elif constant<0:
-        out_str+="{}".format(constant)
-    sols = sympy.latex(target) 
-    sols = "$$" + sols + "$$"
-    outstr="\\overline{"+out_str+"}"
-    return out_str,sols            
+def right_sign(x):
+    if x>0:
+        out="+{}".format(x)
+    elif x<0:
+        out=str(x)
+    else:
+        out=""
+    return out

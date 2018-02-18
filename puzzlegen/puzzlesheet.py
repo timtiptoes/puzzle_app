@@ -12,7 +12,8 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "add_coins":add_coins,
                  "exponents_problem":exponents_problem,
                  "simple_algebra":simple_algebra,
-                 "single_decimal_addition":single_decimal_addition}
+                 "single_decimal_addition":single_decimal_addition,
+                 "quadratic_equations" : make_quadratic_eq}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                  "multiplication_then_addition": "Solve for the letter above",
@@ -24,12 +25,13 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "add_coins":"find the total value of the coins to find letter above",
                  "exponents_problem":"solve each to find the letter above",
                  "simple_algebra":"solve for x to find the letter above",
-                 "single_decimal_addition":"add to find the letter above"}
+                 "single_decimal_addition":"add to find the letter above",
+                 "quadratic_equations":"Add the roots to find the letter above"}
 
 
-#                 "quadratic_equations" : make_quadratic_eq,
+#
 
-#"quadratic_equations":"Add the roots to find the letter above",
+#
 
 class document(object):
     """
