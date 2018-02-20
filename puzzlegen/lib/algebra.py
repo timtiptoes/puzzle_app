@@ -276,6 +276,25 @@ def decimal_addition(target,num_places,*args,**kwargs):
 def single_decimal_addition(target,*args,**kwargs):
     return decimal_addition(target,1)
 
+def determinant_problem(target,*args,**kwargs):
+ 
+    single_digits=range(1,10)
+    trier=2
+    while isPrime(abs(trier)):
+        a=random.choice(single_digits)
+        d=random.choice(single_digits)
+        trier=a*d-target
+        
+    p=prime_factors(abs(trier))
+    idx=random.randint(0,len(p)-1)
+    p[idx]=p[idx]*numpy.sign(trier)
+    b=random.choice(p)
+    c=trier/b
+    out_str="\\overline{\\begin{vmatrix}"+"{} & {} \\\ {} & {} ".format(a,b,c,d)+" \\end{vmatrix}}"
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    return out_str,sols
+
 if __name__ == "__main__":
     print make_fraction_addition_problem(21)
 

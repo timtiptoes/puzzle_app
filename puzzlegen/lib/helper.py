@@ -1,4 +1,5 @@
 import sympy
+import numpy
 import random
 from string import ascii_lowercase
 from string import ascii_uppercase
