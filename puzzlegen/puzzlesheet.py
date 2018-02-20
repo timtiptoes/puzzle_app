@@ -14,6 +14,7 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "simple_algebra":simple_algebra,
                  "single_decimal_addition":single_decimal_addition,
                  "quadratic_equations" : make_quadratic_eq,
+                 "roots_problem" : roots_problem,
                  "determinant_problem" : determinant_problem}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
@@ -23,10 +24,11 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "simplify_ratio":"Use the numerator of the simplified ratio to find the letter above",
                  "two_digit_subtraction":"Use the difference to find the letter above",
                  "two_digit_multiplication":"Use the inner two digits of the product to find letter above",
-                 "add_coins":"find the total value of the coins to find letter above",
-                 "exponents_problem":"solve each to find the letter above",
-                 "simple_algebra":"solve for x to find the letter above",
-                 "single_decimal_addition":"add to find the letter above",
+                 "add_coins":"Find the total value of the coins to find letter above",
+                 "exponents_problem":"Solve each to find the letter above",
+                 "roots_problem": "Solve each to find letter above",
+                 "simple_algebra":"Solve for x to find the letter above",
+                 "single_decimal_addition":"Add to find the letter above",
                  "quadratic_equations":"Add the roots to find the letter above",
                  "determinant_problem":"Find the determinant of each matrix"}
 

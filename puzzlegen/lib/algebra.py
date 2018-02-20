@@ -248,6 +248,27 @@ def exponents_problem(target,*args,**kwargs):
     out_str="\\overline{"+out_str+"}"
     return out_str,sols
 
+def roots_problem(target,*args,**kwargs):
+    list_of_perfect_powers=get_power_choices()
+    out_str=""
+    base_sum=0
+    for pp in list_of_perfect_powers:
+        pp_pick=get_power_choice(pp)
+        base_sum+=pp_pick['base']
+        out_str+="\sqrt[{}]".format(pp_pick['power'])+"{"
+        out_str+=str(pp)+"}"
+        if pp!=list_of_perfect_powers[-1]:
+            out_str+="+"
+    constant=target-base_sum
+    if constant>0:
+        out_str+="+{}".format(constant)
+    elif constant<0:
+        out_str+="{}".format(constant)
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
+
 def simple_algebra(target,*args,**kwargs):
     coefficient=random.randint(1,13)
     rhs=random.randint(1,30)
