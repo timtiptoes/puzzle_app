@@ -22,6 +22,7 @@ def puzzle_parts(title="", author=""):
     \\usepackage{graphicx}
     \\usepackage{fancyhdr}
     \\begin{document}
+    \\pagenumbering{gobble}
     \\includegraphics[height=8cm]{static/code_key.png}
     """
 
@@ -56,6 +57,30 @@ def puzzle_problem(problem):
     \\end{aligned}$
     """ % (problem)
     return code
+
+def crossword_parts(title="", author=""):
+    start="""
+    \\documentclass{article}
+    \\usepackage[letterpaper, landscape, margin=0.5in]{geometry}
+    \\usepackage{cwpuzzle}
+    \\begin{document}
+    \\pagenumbering{gobble}
+    \\textsc{\\LARGE \centering """
+    start+=title
+    start+=" }"+"\\"+"\\"+"[1.5cm]"
+#    start+="\\"+"\\"+"\\"
+
+
+    middle="""
+    \\end{Puzzle}
+
+    \\begin{PuzzleClues}{\\textbf{Hints}}\\\\"""
+
+    end = """\\end{PuzzleClues}
+
+            \\end{document}
+          """
+    return start,middle, end
 
 if __name__ == "__main__":
     print problem("test", "fasd", "asdfasd", 10)
