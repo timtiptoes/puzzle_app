@@ -1,7 +1,9 @@
 from wtforms import Form, FloatField, TextField, RadioField, validators
+from utils import *
 
 class InputForm(Form):
     clue = TextField(validators=[validators.InputRequired()],default="I hold legos")
+    display_categories=get_display_categories()
     puzzle_type=RadioField('Label', choices=[
     	('simple_addition','$$\\texttt{simple addition: e.g. }3+5$$'),
       ('simple_division_problem','$$\\texttt{simple division: e.g. }36\\div3$$'),
@@ -15,15 +17,7 @@ class InputForm(Form):
       ('roots_problem','$$\\texttt{add roots : e.g. }\\sqrt{121}+\\sqrt[3]{8}-5$$'),
       ('simple_algebra','$$\\texttt{find x : e.g. } 4x+5=17$$'),
       ('single_decimal_addition','$$\\texttt{add decimals : e.g. } 3.4+2.6$$'),
-      ('quadratic_equations','$$\\texttt{add quadratic equation roots : e.g. }x^2-14x+45$$'),
-      ('Harry Potter','$$\\texttt{Harry Potter Knowledge}$$'),
-      ('Star Wars','$$\\texttt{Star Wars Knowledge}$$'),
-      ('American History','$$\\texttt{American History Knowledge}$$'),
-      ('Mythology','$$\\texttt{Mythology Knowledge}$$'),
-      ('Shakespeare','$$\\texttt{Shakespeare Knowledge}$$'),
-      ('The Bible','$$\\texttt{The Bible}$$'),
-      ('Science','$$\\texttt{Science}$$'),
-      ('Animals','$$\\texttt{Animals}$$')])
+      ('quadratic_equations','$$\\texttt{add quadratic equation roots : e.g. }x^2-14x+45$$')]+display_categories)
 #
 '''
 ,('The Bible','$$\\texttt{The Bible}$$')
