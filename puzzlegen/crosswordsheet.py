@@ -45,11 +45,12 @@ class document(object):
 class crossword1d(object):
 
     def __init__(self, fname, title="",clue="gimme", savetex=False):
+        print " I just got {}".format(fname)
         with open('static/'+fname, mode='r') as csvfile:
             reader = csv.reader(csvfile,quotechar='"')
             self.s = {rows[0]:rows[1] for rows in reader}
 
-        self.fname=fname.replace(" ","").lower()
+        self.fname=fname.replace(" ","").lower().replace(".csv","")
         self.clue=clue.upper()
 
         self.crossword_puzzle=document(self.fname)
@@ -95,8 +96,10 @@ class crossword1d(object):
                 if not numbered:
                     col_str="["+str(clue_num)+"]"
                     numbered = True
+                else:
+                    col_str+="[]"
                 if i == clue_column:
-                    col_str += "[][O]"
+                    col_str += "[O]"
                 col_str += ch
             output_line = output_line +col_str +"|" 
         return output_line+"."
@@ -152,6 +155,6 @@ class crossword1d(object):
         self.crossword_puzzle.write_compile()
 
 if __name__ == "__main__":
-        mycrossword = crossword1d("americanhistory",title="American History",clue="i love you", savetex=True)
+        mycrossword = crossword1d("European_History.csv",clue="i love you", savetex=True)
         mycrossword.add_section()
         mycrossword.write()
