@@ -146,6 +146,12 @@ def two_digit_subtraction(target,*args,**kwargs):
     outstr=stack_em(r1,r2,"-")
     print "about to return "+outstr
     print r1,r2
+
+    outstr="\\begin{tabular}{ c c c } \
+ cell1 & cell2 & cell3 \\\ \
+ cell4 & cell5 & cell6 \\\ \
+ cell7 & cell8 & cell9 \
+    \\end{tabular}"
     return outstr, sols
 
 

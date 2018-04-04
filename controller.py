@@ -5,6 +5,21 @@ from puzzlegen import crosswordsheet
 from utils import *    
 app = Flask(__name__)
 
+from flask import make_response
+from functools import wraps, update_wrapper
+from datetime import datetime
+
+def nocache(view):
+    @wraps(view)
+    def no_cache(*args, **kwargs):
+        response = make_response(view(*args, **kwargs))
+        response.headers['Last-Modified'] = datetime.now()
+        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '-1'
+        return response
+
+    return update_wrapper(no_cache, view)
 
 
 @app.route("/puzzle")
@@ -29,10 +44,12 @@ def make_puzzle(puzzle_type):
 		mypuzzlesheet = crosswordsheet.crossword1d(categories[puzzle_type]['filename'], title=puzzle_type,clue=clue, savetex=True)
 		mypuzzlesheet.add_section()
 		mypuzzlesheet.write()
+		print "I'm so going to return {}".format(mypuzzlesheet.fname+".pdf")
 		return_puzzle=mypuzzlesheet.fname+".pdf"	
 	return redirect('/return-files/')
 
 @app.route('/return-files/')
+@nocache
 def return_files_tut():
 	try:
 		return send_file('tmp/'+return_puzzle, attachment_filename='puzzle.pdf')
@@ -41,4 +58,4 @@ def return_files_tut():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=5000,debug=True)
+    app.run(host="0.0.0.0",port=6555,debug=True)
