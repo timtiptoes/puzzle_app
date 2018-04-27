@@ -10,7 +10,7 @@ def doc_parts(title="", author=""):
         start = start + "\\title{%s} \n \date{\\vspace{-5ex}} \n \maketitle" % title
 
 
-    if title="Phantom Tollbooth":
+    if title=="Phantom Tollbooth":
         end="""
 \begin{multicols}{5}
 
