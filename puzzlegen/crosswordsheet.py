@@ -142,7 +142,7 @@ class crossword1d(object):
             tex_formatted_line=self.layout_line('-'*(self.max_to_left-self.pos[word][0])+word.replace(" ","")+'-'*(self.max_to_right-self.pos[word][1]),i+1,self.max_to_left+1)
             self.puzzle_lines.append(tex_formatted_line)
             if re.search('Vocabulary', self.title):
-                available_words=(filter(lambda x:(x!=word and len(x)==len(word)),s.keys()))
+                available_words=(filter(lambda x:(x!=word and len(x)==len(word)),self.s.keys()))
                 available_words.append(word)
                 random.shuffle(available_words)    
                 word_choices="("+",".join(available_words)+")"
