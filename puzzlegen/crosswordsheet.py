@@ -3,6 +3,7 @@ import csv
 from lib import *
 import datetime;
 import re
+import numpy as np
 
 
 class document(object):
