@@ -149,7 +149,7 @@ class crossword1d(object):
                 chosen_words=[available_words[i] for i in np.random.choice(len(available_words),size=4,replace=False)]
                 chosen_words.append(word)
                 random.shuffle(chosen_words)
-                word_choices=" One of "+", ".join(chosen_words[:-1])+" and "+chosen_words[-1]
+                word_choices=" One of "+", ".join(chosen_words[:-1])+" or "+chosen_words[-1]
             self.hints.append("\\Clue{"+str(i+1)+"}{"+word.upper()+"}{"+self.s[word]+word_choices+"}")   
 
     def make_hint_lines(self,*args,**kwargs):
