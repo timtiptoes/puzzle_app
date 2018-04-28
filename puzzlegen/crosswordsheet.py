@@ -133,13 +133,16 @@ class crossword1d(object):
         self.max_to_right=max_to_right
 
     def make_puzzle_lines(self,*args, **kwargs):
+	word_choices=""
 
         for i in range(len(self.puzzle_list)):
             word = self.puzzle_list[i]
             print "Question "+str(i+1)+":"+word.replace(" ","")
             tex_formatted_line=self.layout_line('-'*(self.max_to_left-self.pos[word][0])+word.replace(" ","")+'-'*(self.max_to_right-self.pos[word][1]),i+1,self.max_to_left+1)
             self.puzzle_lines.append(tex_formatted_line)
-            self.hints.append("\\Clue{"+str(i+1)+"}{"+word.upper()+"}{"+self.s[word]+"}")   
+	    if self.title=="Phantom Tollbooth":
+		word_choices="("+.",".join([random.choice(self.s.keys().remove(word)) for i in range(4)])+")"
+            self.hints.append("\\Clue{"+str(i+1)+"}{"+word.upper()+"}{"+self.s[word]+"}"+" "+word_choices)   
 
     def make_hint_lines(self,*args,**kwargs):
         second_half_flag = False
