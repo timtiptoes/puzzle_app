@@ -9,7 +9,7 @@
  <div id="content" class="gamesPage"><div id="top-wrap"></div> 
   <div class="contentWrap"><section class="primary-content"><div class="content-block big-category "><div class="content-container"><div class="category-content-wrap"><div class="txt-container"><div class="cat-title-wrap pos-big pos-right"><h1 class="cat-title">Puzzle Hunt!</h1></div></div><div class="listwrap big-content"><div class="elementWrap">
     <br><h7>Enter a clue and then click a tile<br></h7>
-     <form action="{{ url_for('puzzle') }}" method="post" name="simple" enctype="multipart/form-data" method="post">
+     <form action="boing" method="post" name="simple" enctype="multipart/form-data" method="post">
          <p>
              Clue:
              {{form.clue(size=80,**{"onkeyUp":"scrt_var=this.value"})}}
