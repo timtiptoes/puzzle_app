@@ -146,7 +146,7 @@ class crossword1d(object):
                 available_words=(filter(lambda x:(x!=word and len(x)==len(word)),self.s.keys()))
                 print "These are the available words of length {}".format(len(word))
                 print available_words
-                chosen_words=[available_words[i] for i in np.random.choice(len(available_words),size=4,replace=False)]
+                chosen_words=[available_words[j] for j in np.random.choice(len(available_words),size=4,replace=False)]
                 chosen_words.append(word)
                 random.shuffle(chosen_words)
                 word_choices=" One of "+", ".join(chosen_words[:-1])+" or "+chosen_words[-1]
