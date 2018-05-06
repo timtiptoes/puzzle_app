@@ -1,4 +1,4 @@
-from wtforms import Form, FloatField, TextField, RadioField, validators
+from wtforms import Form, FloatField, TextField, RadioField, validators,SubmitField
 from utils import *
 
 class InputForm(Form):
@@ -20,7 +20,7 @@ class InputForm(Form):
       ('quadratic_equations','$$\\texttt{add quadratic equation roots : e.g. }x^2-14x+45$$')]+display_categories)
 
 class ClueForm(Form):
-    clue = TextField(validators=[validators.InputRequired()],default="I hold legos")
+    clue = SubmitField(validators=[validators.InputRequired()],default="I hold legos")
   
 #
 
