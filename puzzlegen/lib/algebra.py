@@ -302,7 +302,7 @@ def decimal_addition(target,num_places,*args,**kwargs):
     return out_str,sols
 
 def single_decimal_addition(target,*args,**kwargs):
-    return decimal_addition(target,1)
+    return decimal_addition(target,2)
 
 def determinant(target,*args,**kwargs):
  
@@ -364,10 +364,59 @@ def unit_conversion(target,allow_scientific=False,*args,**kwargs):
     out_str="\\overline{"+out_str+"}"
     #    $\overline{25.153\ \textrm{yd}\ =\ ?\ \textrm{m}}$
     return out_str,sols
+    
+def add_negatives(target,*args,**kwargs):
+
+    digits = range(-25,25)
+    chosen_digits=[]
+    chosen_operators=[]
+    chosen_signed_alphas=[]
+    while len(chosen_digits)<4:
+        r1=random.choice(digits)
+        r2=random.choice([-1,1])
+        if r1 not in chosen_digits and -r1 not in chosen_digits:
+            chosen_digits.append(r1)
+            chosen_operators.append(r2)
+
+#    print chosen_signs
+        
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr=str(chosen_digits[0])
+    running_total=chosen_digits[0]
+    for i in range(1,len(chosen_digits)):
+        if chosen_operators[i]==-1:
+            op="-"
+            running_total-=chosen_digits[i]
+        else:
+            op="+"
+            running_total+=chosen_digits[i]
+        outstr+=op+str(chosen_digits[i])
+    final=target-running_total
+    if final>0:
+        outstr+="+"
+    outstr+=str(final)
+
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols
+
+def simple_series(target,*args,**kwargs):
+    decrement=max(1,int(0.5+float(target)/5))
+    ret_list=[]
+    next_num=target-decrement
+    while len(ret_list)<5:
+        ret_list.append(next_num)
+        next_num-=decrement
+    ret_list_str=[str(i) for i in sorted(ret_list)]
+    ret_list_str.append('x')
+    outstr=",".join(ret_list_str)
+    return "\\overline{"+outstr+"}",[]
+
+
 
 
 if __name__ == "__main__":
-    print unit_conversion(14)
+    print add_negatives(14)
 
 
 

@@ -3,6 +3,7 @@ from lib import *
 import datetime;
 
 _problems_map = {"simple_addition": make_simple_addition_problem,
+                 "add_negatives": add_negatives,
                  "multiplication_then_addition": make_simple_multiplication_problem,
                  "fraction_addition": make_fraction_addition_problem,
                  "simple_division_problem":make_simple_division_problem,
@@ -16,9 +17,11 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "quadratic_equations" : make_quadratic_eq,
                  "roots_problem" : roots_problem,
                  "determinant" : determinant,
-                 "unit_conversion":unit_conversion}
+                 "unit_conversion":unit_conversion,
+                 "simple_series":simple_series}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
+                  "add_negatives":"Add the numbers",
                  "multiplication_then_addition": "Solve for the letter above",
                  "fraction_addition": "Use the numerator of the improper fraction to find the letter above",
                  "simple_division_problem":"Solve for the letter above",
@@ -32,7 +35,8 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "single_decimal_addition":"Add to find the letter above",
                  "quadratic_equations":"Add the roots to find the letter above",
                  "determinant":"Find the determinant of each matrix",
-                 "unit_conversion":"Round each conversion to the nearest integer to find the letter above"}
+                 "unit_conversion":"Round each conversion to the nearest integer to find the letter above",
+                 "simple_series":"Find the next number in the series"}
 
 
 #
