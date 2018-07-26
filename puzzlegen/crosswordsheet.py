@@ -124,6 +124,7 @@ class crossword1d(object):
                     max_to_left=chars_to_left if chars_to_left>max_to_left else max_to_left
                     max_to_right=chars_to_right if chars_to_right>max_to_right else max_to_right
                     self.pos[one_word]=(chars_to_left,chars_to_right)
+                    print "for {} chars_to_left:{} chars_to_right:{} max_to_left:{} max_to_right:{}".format(ch,chars_to_left,chars_to_right,max_to_left,max_to_right)
                     
                     break
                 else:
