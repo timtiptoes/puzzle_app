@@ -272,3 +272,7 @@ def simplify_exponents(target,*args,**kwargs):
         out_str+="x{}".format(power_string)
     out_str="\\overline{"+out_str+"}"
     return out_str,sols  
+
+def compound(p,r,t,n=12.0):
+    a=p*(1+r/n)**(n*t)
+    return a

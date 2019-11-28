@@ -22,7 +22,8 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "convert_base":convert_base,
                  "linear_system":linear_system,
                  "find_slope":find_slope,
-                 "simplify_exponents":simplify_exponents}
+                 "simplify_exponents":simplify_exponents,
+                 "compound_interest":compound_interest}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                   "add_negatives":"Add the numbers",
@@ -44,7 +45,8 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "convert_base":"Convert each to base 10",
                  "linear_system":"Add x+y and find letter above",
                  "simplify_exponents":"Simplify exponents and look up result above.",
-                 "find_slope":"Use the slope of the line through two points to find letter above"}
+                 "find_slope":"Use the slope of the line through two points to find letter above",
+                 "compound_interest":"Use the closest amount in thousands below to find letter above"}
 
 
 #
