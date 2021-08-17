@@ -28,6 +28,10 @@ def puzzle():
     form = ClueForm(request.form)
     return render_template('view.html', form=form, clue='defaulto',my_string="Wheeeee!", my_categories=categories)
 
+@app.route("/clue_ideas",methods=['GET'])
+def clue_ideas():
+    return render_template('clue_ideas.html')
+
 @app.route("/make_puzzle/,<string:puzzle_type>")
 def make_puzzle(puzzle_type):
 	global return_puzzle
@@ -36,7 +40,7 @@ def make_puzzle(puzzle_type):
 	if categories[puzzle_type]['type']=='math':
 		mypuzzlesheet = puzzlesheet.puzzlesheet("puzzle", "",clue, savetex=True)
 		puzz=categories[puzzle_type]['filename'].lower()
-		print "I want to do {}".format(puzz)
+		print("I want to do {}".format(puzz))
 		mypuzzlesheet.add_section(puzz, 6, "",puzzlesheet.instructions_map[puzz],rhs=0)
 		mypuzzlesheet.write()
 		return_puzzle="puzzle.pdf"
@@ -44,7 +48,7 @@ def make_puzzle(puzzle_type):
 		mypuzzlesheet = crosswordsheet.crossword1d(categories[puzzle_type]['filename'], title=puzzle_type,clue=clue, savetex=True)
 		mypuzzlesheet.add_section()
 		mypuzzlesheet.write()
-		print "I'm so going to return {}".format(mypuzzlesheet.fname+".pdf")
+		print("I'm so going to return {}".format(mypuzzlesheet.fname+".pdf"))
 		return_puzzle=mypuzzlesheet.fname+".pdf"	
 	return redirect('/return-files/')
 
@@ -58,4 +62,4 @@ def return_files_tut():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=6555,debug=True)
+    app.run(host="0.0.0.0",port=5001,debug=True)

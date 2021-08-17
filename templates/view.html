@@ -14,7 +14,10 @@
              Clue:
              {{form.clue(size=80,**{"onkeyUp":"scrt_var=this.value"})}}
          </p>
+        
      </form>
+
+<a href="clue_ideas" class="newanchor" target="_blank" rel="noopener noreferrer">Clue Ideas</a>
         {% for n in my_categories.keys() %}
         <a class="big-element contenu" href="{{url_for('make_puzzle',puzzle_type=n)}}" onclick="location.href=this.href+'?clue='+scrt_var;return false;" title="{{n}}" data-id="c22543"><img src="static/{{my_categories[n]['filename']}}.jpg" data-bigimg="http://images.hellokids.com/_uploads/custom/440x440/_tiny_galerie/20100832/puzzle-oie-source-eb4dn.jpg"><span class="element-title">{{n}}</span>
 </a>
