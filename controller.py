@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request,send_file, redirect
 from model import InputForm, ClueForm
 from puzzlegen import puzzlesheet
-from puzzlegen import crosswordsheet
+from puzzlegen import crosswordsheet_map
 from utils import *    
 app = Flask(__name__)
 
@@ -40,7 +40,7 @@ def make_puzzle(puzzle_type):
 		mypuzzlesheet.write()
 		return_puzzle="puzzle.pdf"
 	else:
-		mypuzzlesheet = crosswordsheet.crossword1d(categories[puzzle_type]['filename'], title=puzzle_type,clue=clue, savetex=True)
+		mypuzzlesheet = crosswordsheet_map.crossword1d(categories[puzzle_type]['filename'], title=puzzle_type,clue=clue, savetex=True)
 		mypuzzlesheet.add_section()
 		mypuzzlesheet.write()
 		return_puzzle=mypuzzlesheet.fname+".pdf"	
