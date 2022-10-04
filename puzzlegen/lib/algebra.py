@@ -371,7 +371,7 @@ def add_negatives(target,*args,**kwargs):
     chosen_digits=[]
     chosen_operators=[]
     chosen_signed_alphas=[]
-    while len(chosen_digits)<4:
+    while len(chosen_digits)<1:
         r1=random.choice(digits)
         r2=random.choice([-1,1])
         if r1 not in chosen_digits and -r1 not in chosen_digits:
