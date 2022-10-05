@@ -52,7 +52,7 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "compound_interest":"Use the closest amount in thousands below to find letter above",
 		         "simple_scientific":"Convert each number to standard notation and find the letter above",
                  "intermediate_scientific":"Convert each number to standard notation and find the letter above",
-                 "harder_scientific":"Convert each number to standard notation and find the letter above"}                 }                 }
+                 "harder_scientific":"Convert each number to standard notation and find the letter above"}
 
 
 #
