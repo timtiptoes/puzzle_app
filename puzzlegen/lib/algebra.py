@@ -549,6 +549,29 @@ def simple_scientific(target,*args,**kwargs):
     outstr="\\overline{"+outstr+"}"
     return outstr, sols
 
+def intermediate_scientific(target,*args,**kwargs):
+
+    power=int(math.log10(target))
+    coef=float(target)/float((10**power))
+    divisor=random.randint(0,7)
+    
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr="\\frac{" + str(coef) + "\\times10^" +str(power+divisor)+"}{10^"+str(divisor)+"}"
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols
+
+def harder_scientific(target,*args,**kwargs):
+
+    power=int(math.log10(target))
+    coef=float(target)/float((10**power))
+    divisor=random.randint(0,7)
+    
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr="\\frac{" + str(coef) + "\\times10^" +str(power+divisor)+"}{"+str(10**divisor)+"}"
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols    
 
 if __name__ == "__main__":
     print compound_interest(14)
