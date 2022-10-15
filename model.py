@@ -19,9 +19,9 @@ class InputForm(Form):
       ('exponents_problem','$$\\texttt{add exponents :}2^3+4^2-5$$'),
       ('simple_algebra','$$\\texttt{find x :} 4x+5=17$$'),
       ('single_decimal_addition','$$\\texttt{add decimals :} 3.4+2.6$$')])
-
-#,      ('quadratic_equations','$$\\texttt{add roots :}x^2-14x+45$$')
 '''
+,('The Bible','$$\\texttt{The Bible}$$')
+      ('determinant_problem','$$\\texttt{find determinant :}\\begin{vmatrix} 5 & 3 \\\ -5 & 1  \\end{vmatrix}$$')
 To add a new problem type:
   1) add function to lib/algebra.py
         given a target it only has to return a latex string something like 

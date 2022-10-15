@@ -1,6 +1,12 @@
-<HTML><HEAD>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+<!DOCTYPE html>
+<html lang="en" style="" class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> </script><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="HelloKids"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#c15788"><meta name="apple-mobile-web-app-title" content="HelloKids"><meta name="msapplication-tap-highlight" content="no"><meta name="theme-color" content="#c15788"><link rel="stylesheet" href="static/main.css" type="text/css">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    <script language="javascript" type="text/javascript">
+      var scrt_var = "I hold legos"; 
+    </script>
+<script type="text/javascript">
+window.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+000A'||e.keyIdentifier=='Enter'||e.keyCode==13){if(e.target.nodeName=='INPUT'&&e.target.type=='text'){e.preventDefault();return false;}}},true);
+</script>
 </HEAD>
 <BODY>
 {% block content %}
@@ -9,7 +15,7 @@
      <form action="" method="post" name="simple" enctype="multipart/form-data">
          <p>
              Clue:
-             {{form.clue(size=80)}}
+             {{form.clue(size=80,**{"onkeyUp":"scrt_var=this.value"})}}
          </p>
          <p>
              Puzzle types with examples:
@@ -18,6 +24,23 @@
          <p><input type="submit" value="Submit"></p>
      </form>
 
-{% endblock %}
+<!-- <a href="clue_ideas" class="newanchor" target="_blank" rel="noopener noreferrer"><img src="static/lightbulb.png">Clue Ideas</a> -->
+<a class="big-element contenu" href="clue_ideas" onclick="location.href=this.href;return false;" title="{{n}}" data-id="c22543"><img src="static/lightbulb2.png" data-bigimg="http://images.hellokids.com/_uploads/custom/440x440/_tiny_galerie/20100832/puzzle-oie-source-eb4dn.jpg"><span class="element-title">clue ideas</span>
+</a>
+        {% for n in my_categories.keys() %}
+        <a class="big-element contenu" href="{{url_for('make_puzzle',puzzle_type=n)}}" onclick="location.href=this.href+'?clue='+scrt_var;return false;" title="{{n}}" data-id="c22543"><img src="static/{{my_categories[n]['filename']}}.jpg" data-bigimg="http://images.hellokids.com/_uploads/custom/440x440/_tiny_galerie/20100832/puzzle-oie-source-eb4dn.jpg"><span class="element-title">{{n}}</span>
+</a>
+        {% endfor %}
 
-</BODY></HTML>
+<br><br>
+<p>
+Want to get involved and make your own puzzles? Drop me a line:
+tip2002-info@yahoo.com
+</p>
+  </body>
+</html>
+
+
+
+
+

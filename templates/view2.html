@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" style="" class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> </script><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="HelloKids"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#c15788"><meta name="apple-mobile-web-app-title" content="HelloKids"><meta name="msapplication-tap-highlight" content="no"><meta name="theme-color" content="#c15788"><link rel="stylesheet" href="static/main.css" type="text/css">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    <script language="javascript" type="text/javascript">
+      var scrt_var = "I hold legos"; 
+    </script>
+</HEAD>
+<BODY>
+ <div id="content" class="gamesPage"><div id="top-wrap"></div> 
+  <div class="contentWrap"><section class="primary-content"><div class="content-block big-category "><div class="content-container"><div class="category-content-wrap"><div class="txt-container"><div class="cat-title-wrap pos-big pos-right"><h1 class="cat-title">Puzzle Hunt!</h1></div></div><div class="listwrap big-content"><div class="elementWrap">
+     <form action="" method="post" name="simple" enctype="multipart/form-data">
+         <p>
+             Clue:
+             {{form.clue(size=80,**{"onkeyUp":"scrt_var=this.value"})}}
+         </p>
+     </form>
+        {% for n in my_categories.keys() %}
+        <a class="big-element contenu" href="{{url_for('make_puzzle',puzzle_type=n)}}" onclick="location.href=this.href+'?clue='+scrt_var;return false;" title="{{n}}" data-id="c22543"><img src="static/{{my_categories[n]['filename']}}.jpg" data-bigimg="http://images.hellokids.com/_uploads/custom/440x440/_tiny_galerie/20100832/puzzle-oie-source-eb4dn.jpg"><span class="element-title">{{n}}</span>
+</a>
+        {% endfor %}
+  </body>
+</html>
+
+
+
+
+

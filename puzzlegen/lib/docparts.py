@@ -4,14 +4,15 @@ def doc_parts(title="", author=""):
     \\usepackage{amsfonts}
     \\usepackage{amsmath,multicol,eso-pic}
     \\begin{document}
-    """
-
+    \\usepackage{multicol}
+    \def\columnseprulecolor{\color{white}} %Separator ruler colour"""
     if title:
         start = start + "\\title{%s} \n \date{\\vspace{-5ex}} \n \maketitle" % title
+ 
+        end="""
+        \end{document}
+        """
 
-    end="""
-    \end{document}
-    """
     return start, end
 
 def puzzle_parts(title="", author=""):
@@ -22,6 +23,7 @@ def puzzle_parts(title="", author=""):
     \\usepackage{graphicx}
     \\usepackage{fancyhdr}
     \\begin{document}
+    \\pagenumbering{gobble}
     \\includegraphics[height=8cm]{static/code_key.png}
     """
 
@@ -56,6 +58,29 @@ def puzzle_problem(problem):
     \\end{aligned}$
     """ % (problem)
     return code
+
+def crossword_parts(title="", author=""):
+    start="""
+    \\documentclass{article}
+    \\usepackage[letterpaper, landscape, margin=0.5in]{geometry}
+    \\usepackage{cwpuzzle}
+    \\begin{document}
+    \\pagenumbering{gobble}
+    \\textsc{\\LARGE \centering """
+    start+=title
+    start+=" }"+"\\"+"\\"+"[1.5cm]"
+#    start+="\\"+"\\"+"\\"
+
+
+    middle="""
+    \\end{Puzzle}
+
+    \\begin{PuzzleClues}{\\textbf{Hints}}\\\\"""
+    end = """\\end{PuzzleClues}
+
+            \\end{document}
+          """
+    return start,middle, end
 
 if __name__ == "__main__":
     print problem("test", "fasd", "asdfasd", 10)
