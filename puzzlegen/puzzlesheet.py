@@ -54,7 +54,7 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
 		         "simple_scientific":"Convert each number to standard notation and find the letter above",
                  "intermediate_scientific":"Convert each number to standard notation and find the letter above",
                  "harder_scientific":"Convert each number to standard notation and find the letter above",
-                 "point_translation":"Choose the correct point and find the letter above"}
+                 "point_translation":""}
 
 
 #
