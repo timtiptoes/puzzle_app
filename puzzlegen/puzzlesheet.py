@@ -26,7 +26,8 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "compound_interest":compound_interest,
 		         "simple_scientific":simple_scientific,
                  "intermediate_scientific":intermediate_scientific,
-                 "harder_scientific":harder_scientific}
+                 "harder_scientific":harder_scientific,
+                 "point_translation":point_translation}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                   "add_negatives":"Add the numbers",
@@ -52,7 +53,8 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "compound_interest":"Use the closest amount in thousands below to find letter above",
 		         "simple_scientific":"Convert each number to standard notation and find the letter above",
                  "intermediate_scientific":"Convert each number to standard notation and find the letter above",
-                 "harder_scientific":"Convert each number to standard notation and find the letter above"}
+                 "harder_scientific":"Convert each number to standard notation and find the letter above",
+                 "point_translation":"Choose the correct point and find the letter above"}
 
 
 #
