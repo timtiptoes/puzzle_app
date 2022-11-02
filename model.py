@@ -18,7 +18,10 @@ class InputForm(Form):
       ('add_coins','$$\\texttt{add coins: find total value of 1 dime, 2 nickels, 3 pennies}$$'),
       ('exponents_problem','$$\\texttt{add exponents :}2^3+4^2-5$$'),
       ('simple_algebra','$$\\texttt{find x :} 4x+5=17$$'),
-      ('single_decimal_addition','$$\\texttt{add decimals :} 3.4+2.6$$')])
+      ('single_decimal_addition','$$\\texttt{add decimals :} 3.4+2.6$$'),
+      ('simplify_exponents','$$x$$'),
+      ('scaling_rule',"$$x$$")])
+
 
 #,      ('quadratic_equations','$$\\texttt{add roots :}x^2-14x+45$$')
 '''

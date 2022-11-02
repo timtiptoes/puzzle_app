@@ -12,7 +12,9 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "add_coins":add_coins,
                  "exponents_problem":exponents_problem,
                  "simple_algebra":simple_algebra,
-                 "single_decimal_addition":single_decimal_addition}
+                 "single_decimal_addition":single_decimal_addition,
+                 "simplify_exponents":simplify_exponents,
+                 "scaling_rule":scaling_rule}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                  "multiplication_then_addition": "Solve for the letter above",
