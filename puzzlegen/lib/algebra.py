@@ -291,6 +291,15 @@ def simple_algebra(target,*args,**kwargs):
     out_str="\\overline{"+out_str+"}"
     return out_str,sols
 
+def scaling_rule(target,*args,**kwargs):
+    coefficient=random.randint(2,13)
+    rhs=coefficient*target
+    out_coefficient=str(coefficient) if coefficient>1 else ""        
+    sols = sympy.latex(target) 
+    out_str="{}x={}".format(out_coefficient,rhs)
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
+
 def decimal_addition(target,num_places,*args,**kwargs):
     f=random.uniform(.1,.9)
     a=float(int(target*f*10**num_places))/10**num_places
@@ -522,7 +531,7 @@ def simplify_exponents(target,*args,**kwargs):
         print("given {} I compute {}".format(i,power_string))
         #power_strings.append(power_string)
         out_str+="x{}".format(power_string)
-    out_str="\\overline{"+out_str+"}"
+    out_str="\\overline{"+out_str+"=x^?}"
     return out_str,sols  
 
 def compound_interest(target,*args,**kwargs):
@@ -573,8 +582,59 @@ def harder_scientific(target,*args,**kwargs):
     outstr="\\overline{"+outstr+"}"
     return outstr, sols    
 
+def get_translation_tuples(target,x_delta,y_delta,x_random,y_random):
+    answer_choices={}
+    
+    answer_choices[target]=(x_random+x_delta,y_random+y_delta)
+    x_delta_try=1000
+    y_delta_try=1000
+    
+    for i in range(3):
+        random_letter=random.choice(range(24))
+        while random_letter==target:
+            random_letter=random.choice(range(24))
+        x_delta_try=random.choice(range(-3,3))
+        y_delta_try=random.choice(range(-3,3))            
+        while x_delta_try==x_delta and y_delta_try==y_delta:
+            x_delta_try=random.choice(range(-3,3))
+            y_delta_try=random.choice(range(-3,3))
+        
+        answer_choices[random_letter]=(x_random+x_delta_try,y_random+y_delta_try)
+    return answer_choices
+
+def point_translation(target,*args,**kwargs):
+    sols = r"""{}""".format(target)
+    x_delta=random.choice(range(-5,5))
+    y_delta=random.choice(range(-5,5))
+    x_random=random.choice(range(-9,9))
+    y_random=random.choice(range(-9,9))
+    points = get_translation_tuples(target,x_delta,y_delta,x_random,y_random)
+
+    keys = points.keys()
+    random.shuffle(keys)
+
+    x_delta_str="+"if x_delta>=0 else "-"
+    x_delta_str+=str(abs(x_delta))
+
+    y_delta_str="+"if y_delta>=0 else "-"
+    y_delta_str+=str(abs(y_delta))
+
+
+    outstr=r"""\text{{Apply }}\\\;\;\;\;\;\;(x,y)\rightarrow(x{},y{})\\\text{{ to }} ({},{}) \\""".format(x_delta_str,y_delta_str,x_random,y_random)
+
+    for key in keys:
+        outstr_to_add=r"""\phantom{{\times}}\phantom{{\times}}\mathtt{{{})}}\phantom{{\times}} ({},{})""".format(key,points[key][0],points[key][1])
+        outstr += outstr_to_add
+        if (key != keys[-1]):
+            outstr+=r"\\"
+
+    
+    outstr=r"""\overline{{\begin{{gathered}}{}\end{{gathered}}}}""".format(outstr)
+#    outstr="""\\scriptscriptstyle{{{}}}""".format(outstr)
+    return outstr,sols
+
 if __name__ == "__main__":
-    print compound_interest(14)
+    print point_translation(14)
 
 
 
