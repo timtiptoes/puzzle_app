@@ -291,6 +291,15 @@ def simple_algebra(target,*args,**kwargs):
     out_str="\\overline{"+out_str+"}"
     return out_str,sols
 
+def scaling_rule(target,*args,**kwargs):
+    coefficient=random.randint(2,13)
+    rhs=coefficient*target
+    out_coefficient=str(coefficient) if coefficient>1 else ""        
+    sols = sympy.latex(target) 
+    out_str="{}x={}".format(out_coefficient,rhs)
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
+
 def decimal_addition(target,num_places,*args,**kwargs):
     f=random.uniform(.1,.9)
     a=float(int(target*f*10**num_places))/10**num_places
@@ -522,7 +531,7 @@ def simplify_exponents(target,*args,**kwargs):
         print("given {} I compute {}".format(i,power_string))
         #power_strings.append(power_string)
         out_str+="x{}".format(power_string)
-    out_str="\\overline{"+out_str+"}"
+    out_str="\\overline{"+out_str+"=x^?}"
     return out_str,sols  
 
 def compound_interest(target,*args,**kwargs):
