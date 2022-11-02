@@ -3,6 +3,9 @@ import re
 import sympy
 from sympy.parsing.sympy_parser import parse_expr
 from sympy.polys.polytools import degree
+from sympy import symbols,expand,factor,Poly
+import math
+
 import random
 from helper import *
 
@@ -106,36 +109,26 @@ def make_simplify_ratio_problem(target,*args,**kwargs):
     outstr="\\frac{"+str(c*target)+"}{"+str(c*b)+"}"
     return "\overline{"+outstr+"}",[]
 
-def make_quadratic_eq(target,var="x", rhs = None, integer=[0, 1]):
-
-    if isinstance(var, str):
-        var = sympy.Symbol(var)
-    elif isinstance(var, list):
-        var = sympy.Symbol(random.choice(var))
-    if isinstance(integer, list):
-        integer = random.choice(integer)
-    if integer:
-        r1 = random.choice(digits_nozero)
-        r2 = target - r1
-        #r2 = random.choice(digits_nozero)
-        lhs = (var - r1) * (var - r2)
-        lhs = lhs.expand()
-        rhs = 0
-    else:
-        c1, c2, c3 = get_coefficients(3)
-        lhs = c1*var**2 + c2*var + c3
-
-    if rhs == None:
-        c4, c5, c6 = get_coefficients(3, first_nonzero=False)
-        rhs = c4*var**2 + c5*var + c6
-    
-    e = sympy.Eq(lhs, rhs)
-    pvar = str(var)
-    sols = ', '.join([pvar+" = " + sympy.latex(ex) for ex in sympy.solve(e, var)])
+def make_quadratic_eq(target, rhs = None, integer=[0, 1]):
+    var=random.choice("pqrstuvwxyz")
+    x = sympy.Symbol("x")
+    f=random.randint(2,5)*random.choice([-1,1])
+    f2=random.choice([-1,1])
+    r1=target
+    while r1==target:
+        r1=random.randint(1,13)
+    r2=target-r1
+    expr = (f*x-r1*f)*(x-r2)
+    expanded_expr = expand(expr)
+    print "I chose {}, {}, and {}".format(f,r1,r2)
+    ex = Poly(expanded_expr, x)
+    a,b,c=tuple(ex.coeffs())
+    print "I got {},{} and {}".format(a,b,c)
+    out_str="{}{}^2{}{}{}".format(a,var,right_sign(b),var,right_sign(c))
+    sols = sympy.latex(target) 
     sols = "$$" + sols + "$$"
-    if len(sols) == 0:
-        return make_quadratic_eq()
-    return "\\overline{"+render(e)+"}", sols
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
 
 def two_digit_subtraction(target,*args,**kwargs):
 
@@ -153,6 +146,12 @@ def two_digit_subtraction(target,*args,**kwargs):
     outstr=stack_em(r1,r2,"-")
     print "about to return "+outstr
     print r1,r2
+
+    outstr="\\begin{tabular}{ c c c } \
+ cell1 & cell2 & cell3 \\\ \
+ cell4 & cell5 & cell6 \\\ \
+ cell7 & cell8 & cell9 \
+    \\end{tabular}"
     return outstr, sols
 
 
@@ -256,6 +255,27 @@ def exponents_problem(target,*args,**kwargs):
     out_str="\\overline{"+out_str+"}"
     return out_str,sols
 
+def roots_problem(target,*args,**kwargs):
+    list_of_perfect_powers=get_power_choices()
+    out_str=""
+    base_sum=0
+    for pp in list_of_perfect_powers:
+        pp_pick=get_power_choice(pp)
+        base_sum+=pp_pick['base']
+        out_str+="\sqrt[{}]".format(pp_pick['power'])+"{"
+        out_str+=str(pp)+"}"
+        if pp!=list_of_perfect_powers[-1]:
+            out_str+="+"
+    constant=target-base_sum
+    if constant>0:
+        out_str+="+{}".format(constant)
+    elif constant<0:
+        out_str+="{}".format(constant)
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
+
 def simple_algebra(target,*args,**kwargs):
     coefficient=random.randint(1,13)
     rhs=random.randint(1,30)
@@ -271,6 +291,15 @@ def simple_algebra(target,*args,**kwargs):
     out_str="\\overline{"+out_str+"}"
     return out_str,sols
 
+def scaling_rule(target,*args,**kwargs):
+    coefficient=random.randint(2,13)
+    rhs=coefficient*target
+    out_coefficient=str(coefficient) if coefficient>1 else ""        
+    sols = sympy.latex(target) 
+    out_str="{}x={}".format(out_coefficient,rhs)
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
+
 def decimal_addition(target,num_places,*args,**kwargs):
     f=random.uniform(.1,.9)
     a=float(int(target*f*10**num_places))/10**num_places
@@ -282,10 +311,330 @@ def decimal_addition(target,num_places,*args,**kwargs):
     return out_str,sols
 
 def single_decimal_addition(target,*args,**kwargs):
-    return decimal_addition(target,1)
+    return decimal_addition(target,2)
+
+def determinant(target,*args,**kwargs):
+ 
+    single_digits=range(1,10)
+    trier=2
+    while isPrime(abs(trier)):
+        a=random.choice(single_digits)
+        d=random.choice(single_digits)
+        trier=a*d-target
+        
+    p=prime_factors(abs(trier))
+    idx=random.randint(0,len(p)-1)
+    p[idx]=p[idx]*numpy.sign(trier)
+    b=random.choice(p)
+    c=trier/b
+    out_str="\\overline{\\begin{vmatrix}"+"{} & {} \\\ {} & {} ".format(a,b,c,d)+" \\end{vmatrix}}"
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    return out_str,sols
+
+def unit_conversion(target,allow_scientific=False,*args,**kwargs):
+    systems={"Imperial":{"length":{"in":1.0,"ft":12.0,"yd":36.0,"miles":63360.0}, \
+                         "volume":{"tsp":0.333333,"Tb":0.5,"oz":1,"pints":16.0,"quarts":32.0,"gallons":128.0}, \
+                         "mass": {"oz":1.0,"lbs":16.0,"tons":32000.0}}, \
+             "Metric":  {"length":{"mm":.03937,"m":39.37,"cm":0.3937,"kilometers":39370.0}, \
+                     "volume":{"ml":0.033814,"cc":0.033814,"liters":33.814}, \
+                     "mass":{"mg":3.5274e-5,"g":3.5274e-2,"kg":35.274}}} 
+    counter=0
+    conversion_factor=0.0
+    computed_target=0.0
+    
+    while round(float(computed_target)*conversion_factor)!=target or ('E' in computed_target and not allow_scientific):
+
+        source_system = random.choice(systems.keys())
+        source_type = random.choice(systems[source_system].keys())
+        source_unit = random.choice(systems[source_system][source_type].keys())
+        dest_unit = source_unit
+        while dest_unit==source_unit:
+            dest_system = random.choice(systems.keys())
+            dest_unit = random.choice(systems[dest_system][source_type].keys())    
+
+        print "I want to convert {} to {} ".format(source_unit,dest_unit)
+
+        factor_to_convert_source_unit_to_base=systems[source_system][source_type][source_unit]
+
+        factor_to_convert_dest_unit_to_base=systems[dest_system][source_type][dest_unit]
+
+        conversion_factor=factor_to_convert_source_unit_to_base / \
+                          factor_to_convert_dest_unit_to_base 
+
+        print "f1:{} f2:{} and of course conv:{}".format(factor_to_convert_source_unit_to_base,factor_to_convert_dest_unit_to_base,conversion_factor)
+        source_figure=target/conversion_factor
+        sols = sympy.latex(target) 
+    #    out_str="{:.3f}".format(source_figure)
+        computed_target=find_shortest(target,conversion_factor)
+    computed_target=computed_target.rstrip("0") if "." in computed_target else computed_target
+    out_str=computed_target + "\\ \\textrm{"+source_unit+"}\\ =\\ ?\\ \\textrm{"+dest_unit+"}"
+
+    out_str="\\overline{"+out_str+"}"
+    #    $\overline{25.153\ \textrm{yd}\ =\ ?\ \textrm{m}}$
+    return out_str,sols
+    
+def add_negatives(target,*args,**kwargs):
+
+    digits = range(-25,25)
+    chosen_digits=[]
+    chosen_operators=[]
+    chosen_signed_alphas=[]
+    while len(chosen_digits)<1:
+        r1=random.choice(digits)
+        r2=random.choice([-1,1])
+        if r1 not in chosen_digits and -r1 not in chosen_digits:
+            chosen_digits.append(r1)
+            chosen_operators.append(r2)
+
+#    print chosen_signs
+        
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr=str(chosen_digits[0])
+    running_total=chosen_digits[0]
+    for i in range(1,len(chosen_digits)):
+        if chosen_operators[i]==-1:
+            op="-"
+            running_total-=chosen_digits[i]
+        else:
+            op="+"
+            running_total+=chosen_digits[i]
+        outstr+=op+str(chosen_digits[i])
+    final=target-running_total
+    if final>0:
+        outstr+="+"
+    outstr+=str(final)
+
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols
+
+def common_difference(target):
+    #decrement=max(1,int(0.5+float(target)/5))
+    decrement=random.randint(3,9)
+    sign=random.choice([-1,1])
+    ret_list=[]
+    next_num=target-sign*decrement
+    while len(ret_list)<5:
+        ret_list.append(next_num)
+        next_num-=sign*decrement
+    ret_list_str=[str(i) for i in sorted(ret_list,reverse=(sign<1))]
+    ret_list_str.append('x')
+    outstr=",".join(ret_list_str)
+    return "\\overline{"+outstr+"}",[]
+
+def common_ratio(target):
+    starting_num=random.randint(3,4)
+    ratio=random.choice([0.25,0.5,2,3,4,5])
+    if (ratio<1):
+        next_num=starting_num*(1/ratio)**4
+    else:
+        next_num=starting_num
+    ret_list=[]
+    while len(ret_list)<4:
+        ret_list.append(int(next_num))
+        next_num*=ratio
+    pre_ret_list=sorted(ret_list,reverse=ratio<1)
+    correction=target-pre_ret_list[-1]
+    if correction<0:
+        correction_text=" then subtract "+str(abs(int(correction)))
+    elif correction>0:
+        correction_text = " then add "+str(abs(int(correction)))
+    else:
+        correction_text=""
+    pre_ret_list.pop()
+    pre_ret_list.append('x')
+    ret_list_str=[str(i) for i in pre_ret_list]
+    
+    outstr=",".join(ret_list_str)+"\\text{"+correction_text+"}"
+    return "\\overline{"+outstr+"}",[] 
+
+def simple_series(target,*args,**kwargs):
+    choice=random.choice(['heads','tails'])
+    if choice=='heads':
+        return common_difference(target)
+    else:
+        return common_ratio(target)
+
+
+
+
+def basetoStr(n,base):
+   convertString = "0123456789ABCDEF"
+   if n < base:
+      return convertString[n]
+   else:
+      return basetoStr(n//base,base) + convertString[n%base]
+
+def convert_base(target,*args,**kwargs):
+
+    digits = range(2,9)
+    base=random.choice(range(2,9))
+    outstr = "{}_{}".format(basetoStr(target,base),base)
+    outstr = outstr + " = ?_{10}"
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols
+
+def linear_system(target,*args,**kwargs):
+    x=choose_someint(5)
+    y=target - x
+    coeff11=choose_someint(6)
+    coeff12=choose_someint(6)
+    sign1="+" if coeff12>0 else ''
+    constant1=coeff11*x+coeff12*y
+    print("{},{}".format(x,y))
+    coeff21=coeff11
+    while coeff21==coeff11:
+        coeff21=choose_someint(9)
+    coeff22=choose_someint(9)
+    constant2=coeff21*x+coeff22*y
+    sign2="+" if coeff22>0 else ''
+    print("{}x {} {}y = {}".format(coeff11,sign1,coeff12,constant1))
+    print("{}x {} {}y = {}".format(coeff21,sign2,coeff22,constant2))
+    
+    out_str=stack_lines("{}x {} {}y = {}".format(coeff11,sign1,coeff12,constant1),"{}x {} {}y = {}".format(coeff21,sign2,coeff22,constant2))
+    #out_str="\\begin{array}{c}"+"{}x +{}y".format(coeff11,coeff12)+" & = & "+"{}".format(constant1)+"\\"
+    #out_str+="{}x +{}y".format(coeff21,coeff22)+" & = & "+"{}".format(constant2)
+
+#    out_str+="\\end{array}"
+    sols = sympy.latex(target)
+#    out_str="\\overline{"+out_str+"}"
+
+    return out_str,sols
+
+def find_slope(target,*args,**kwargs):
+    b=choose_someint(9)
+    x1=choose_someint(10)
+    y1=simple_line(target,x1,b)
+    
+    x2=x1
+    while x1==x2:
+        x2=choose_someint(10)
+    y2=simple_line(target,x2,b)
+    #print("({},{}) and ({},{})".format(x1,y1,x2,y2))
+    sols = sympy.latex(target) 
+    out_str="({},{})".format(x1,y1)+"\\text{ and }"+"({},{})".format(x2,y2)
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
+
+def simplify_exponents(target,*args,**kwargs):
+    sols = sympy.latex(target) 
+    out_str=""
+    ints=list_of_ints(target,random.choice([2,3,4]))
+    random.shuffle(ints)
+    print(ints)
+    power_strings=[]
+    for i in ints:
+        power_string="^{"+str(i)+"}" if i!=1 else ""
+        print("given {} I compute {}".format(i,power_string))
+        #power_strings.append(power_string)
+        out_str+="x{}".format(power_string)
+    out_str="\\overline{"+out_str+"=x^?}"
+    return out_str,sols  
+
+def compound_interest(target,*args,**kwargs):
+    r=random.randint(1,12)
+    t=random.randint(5,50)
+    amount=compound(1,r/100.0,t)
+    principle=target*1000/amount
+    sols = sympy.latex(target) 
+    #$111.71 for 3 years at 5% APR
+    out_str="${:0.2f}".format(principle)+"\text{ for }"+ "{}".format(t)+"\text{ years at }"+"{}".format(r)+"\text{% APR }"
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
+
+def simple_scientific(target,*args,**kwargs):
+
+    power=int(math.log10(target))
+    coef=float(target)/float((10**power))
+    
+#    $$\overline{3.0\times10^3}$$
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+#    outstr=str(coef)+'\times10^' + str(power)
+    outstr="{}\\times10^{}".format(coef,power)
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols
+
+def intermediate_scientific(target,*args,**kwargs):
+
+    power=int(math.log10(target))
+    coef=float(target)/float((10**power))
+    divisor=random.randint(0,7)
+    
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr="\\frac{" + str(coef) + "\\times10^" +str(power+divisor)+"}{10^"+str(divisor)+"}"
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols
+
+def harder_scientific(target,*args,**kwargs):
+
+    power=int(math.log10(target))
+    coef=float(target)/float((10**power))
+    divisor=random.randint(0,7)
+    
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr="\\frac{" + str(coef) + "\\times10^" +str(power+divisor)+"}{"+str(10**divisor)+"}"
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols    
+
+def get_translation_tuples(target,x_delta,y_delta,x_random,y_random):
+    answer_choices={}
+    
+    answer_choices[target]=(x_random+x_delta,y_random+y_delta)
+    x_delta_try=1000
+    y_delta_try=1000
+    
+    for i in range(3):
+        random_letter=random.choice(range(24))
+        while random_letter==target:
+            random_letter=random.choice(range(24))
+        x_delta_try=random.choice(range(-3,3))
+        y_delta_try=random.choice(range(-3,3))            
+        while x_delta_try==x_delta and y_delta_try==y_delta:
+            x_delta_try=random.choice(range(-3,3))
+            y_delta_try=random.choice(range(-3,3))
+        
+        answer_choices[random_letter]=(x_random+x_delta_try,y_random+y_delta_try)
+    return answer_choices
+
+def point_translation(target,*args,**kwargs):
+    sols = r"""{}""".format(target)
+    x_delta=random.choice(range(-5,5))
+    y_delta=random.choice(range(-5,5))
+    x_random=random.choice(range(-9,9))
+    y_random=random.choice(range(-9,9))
+    points = get_translation_tuples(target,x_delta,y_delta,x_random,y_random)
+
+    keys = points.keys()
+    random.shuffle(keys)
+
+    x_delta_str="+"if x_delta>=0 else "-"
+    x_delta_str+=str(abs(x_delta))
+
+    y_delta_str="+"if y_delta>=0 else "-"
+    y_delta_str+=str(abs(y_delta))
+
+
+    outstr=r"""\text{{Apply }}\\\;\;\;\;\;\;(x,y)\rightarrow(x{},y{})\\\text{{ to }} ({},{}) \\""".format(x_delta_str,y_delta_str,x_random,y_random)
+
+    for key in keys:
+        outstr_to_add=r"""\phantom{{\times}}\phantom{{\times}}\mathtt{{{})}}\phantom{{\times}} ({},{})""".format(key,points[key][0],points[key][1])
+        outstr += outstr_to_add
+        if (key != keys[-1]):
+            outstr+=r"\\"
+
+    
+    outstr=r"""\overline{{\begin{{gathered}}{}\end{{gathered}}}}""".format(outstr)
+#    outstr="""\\scriptscriptstyle{{{}}}""".format(outstr)
+    return outstr,sols
 
 if __name__ == "__main__":
-    print make_fraction_addition_problem(21)
+    print point_translation(14)
 
 
 
