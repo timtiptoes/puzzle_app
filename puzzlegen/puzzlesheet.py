@@ -1,6 +1,8 @@
 import os
 from lib import *
+
 import random
+import datetime;
 
 _problems_map = {"simple_addition": make_simple_addition_problem,
                  "add_negatives": add_negatives,
@@ -24,9 +26,12 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "find_slope":find_slope,
                  "simplify_exponents":simplify_exponents,
                  "compound_interest":compound_interest,
-                         "simple_scientific":simple_scientific,
+		         "simple_scientific":simple_scientific,
                  "intermediate_scientific":intermediate_scientific,
-                 "harder_scientific":harder_scientific}
+                 "harder_scientific":harder_scientific,
+                 "point_translation":point_translation,
+                 "scaling_rule":scaling_rule}
+
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                   "add_negatives":"Add the numbers",
@@ -50,18 +55,24 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "simplify_exponents":"Simplify exponents and look up result above.",
                  "find_slope":"Use the slope of the line through two points to find letter above",
                  "compound_interest":"Use the closest amount in thousands below to find letter above",
-                         "simple_scientific":"Convert each number to standard notation and find the letter above",
-                 "intermediate_scientific":"Convert each number to standard notation and find the letter above",
-                 "harder_scientific":"Convert each number to standard notation and find the letter above"}
-#                 "quadratic_equations" : make_quadratic_eq,
 
-#"quadratic_equations":"Add the roots to find the letter above",
+		         "simple_scientific":"Convert each number to standard notation and find the letter above",
+                 "intermediate_scientific":"Convert each number to standard notation and find the letter above",
+                 "harder_scientific":"Convert each number to standard notation and find the letter above",
+                 "point_translation":"",
+                 "scaling_rule":"Solve for x to find letter above"}
+
+
+#
+
+#
+
 
 class document(object):
     """
     Small class for managing the documents and compiling them
     """
-    def __init__(self, fname, title="", savetex=False, doc_generator = puzzle_parts):
+    def __init__(self, fname, title="", savetex=True, doc_generator = puzzle_parts):
         self.savetex = savetex
         self.start, self.end = doc_generator(title)
         self.main = []
@@ -80,15 +91,18 @@ class document(object):
         print "I think fname is >>>"+self.fname+"<<<<\n"
         main = '\n'.join(self.main)
         doc = '\n'.join([self.start, main, self.end])
-        f = open("%s.tex" % self.fname, "wb")
+        f = open("tmp/%s.tex" % self.fname, "wb")
         f.write(doc)
         f.close()
-        os.system("pdflatex --output-directory tmp %s.tex" % self.fname)
-        os.remove("%s.log" % self.fname)
+        os.system("pdflatex --output-directory tmp tmp/%s.tex" % self.fname)
+        now=datetime.datetime.now().isoformat()
+        os.system("cp tmp/{}.pdf log/{}_{}.pdf".format(self.fname,self.fname,now))
+
+        os.remove("tmp/%s.log" % self.fname)
         if remove_aux:
-            os.remove("%s.aux" % self.fname)
-        if not self.savetex:
-            os.remove("%s.tex" % self.fname)
+            os.remove("tmp/%s.aux" % self.fname)
+##        if not self.savetex:
+##            os.remove("tmp/%s.tex" % self.fname)
 
 class puzzlesheet(object):
     """
