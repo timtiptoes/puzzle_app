@@ -21,6 +21,9 @@ class InputForm(Form):
       ('simple_algebra','$$\\texttt{find x :} 4x+5=17$$'),
       ('single_decimal_addition','$$\\texttt{add decimals :} 3.4+2.6$$')])
 
+class ClueForm(Form):
+    clue = TextField(validators=[validators.InputRequired()],default="I hold legos")
+
 '''
 ,('The Bible','$$\\texttt{The Bible}$$')
       ('determinant_problem','$$\\texttt{find determinant :}\\begin{vmatrix} 5 & 3 \\\ -5 & 1  \\end{vmatrix}$$')
