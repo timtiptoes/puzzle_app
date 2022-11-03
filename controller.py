@@ -15,7 +15,7 @@ def index():
 
 		mypuzzlesheet = puzzlesheet.puzzlesheet("tmp/puzzle", "",clue, savetex=True)
 		#problems_list=[puzzlesheet._problems_map[i] for i in puzzle_types]
-		mypuzzlesheet.add_section(puzzle_types, 6, "","Solve each to find the letter above",rhs=0)
+		mypuzzlesheet.add_section(puzzle_types, 6, "","Solve for x to find the letter above",rhs=0)
 		mypuzzlesheet.write()
 		return redirect('/return-files/')
 
