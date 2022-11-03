@@ -26,7 +26,7 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "add_coins":"find the total value of the coins to find letter above",
                  "exponents_problem":"solve each to find the letter above",
                  "simple_algebra":"solve for x to find the letter above",
-                 "single_decimal_addition":"add to find the letter above"
+                 "single_decimal_addition":"add to find the letter above",
                  "scaling_rule":"Solve for x to find the letter above"}
 
 
