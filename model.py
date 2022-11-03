@@ -20,7 +20,7 @@ class InputForm(Form):
       ('simple_algebra','$$\\texttt{find x :} 4x+5=17$$'),
       ('single_decimal_addition','$$\\texttt{add decimals :} 3.4+2.6$$'),
       ('simplify_exponents','$$\\texttt{simplify exponents :}x^3x^2$$'),
-      ('scaling_rule',"$$5x=25$$")])
+      ('scaling_rule',"$$\\texttt{find scaling factor :}5x=25$$")])
 
 
 #,      ('quadratic_equations','$$\\texttt{add roots :}x^2-14x+45$$')
