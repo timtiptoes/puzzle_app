@@ -529,7 +529,7 @@ def percent_increase(target,*args,**kwargs):
     sols = sympy.latex(target)
     p=random.randint(10,95)
        
-    chooser=random.randint(1,2)
+    chooser=random.randint(1,4)
     out_str=""
     if chooser==1:
             output=target/(1+float(p)/100)
@@ -537,7 +537,12 @@ def percent_increase(target,*args,**kwargs):
     elif chooser==2:
             output=target/(1-float(p)/100)
             out_str="{}\%".format(p)+"\\text{ decrease of }" + "{:.2f}".format(output)
-
+    elif chooser==3:
+            output=target/(1+float(p)/100)
+            out_str="\\text{Add }"+"{}\%".format(p)+"\\text{ to }" + "{:.2f}".format(output)
+    elif chooser==4:
+            output=target/(1-float(p)/100)
+            out_str="\\text{Subtract }"+"{}\%".format(p)+"\\text{ from }" + "{:.2f}".format(output)
     out_str="\\overline{"+out_str+"}"
     return out_str,sols
 
