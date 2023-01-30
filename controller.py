@@ -28,6 +28,10 @@ def puzzle():
     form = ClueForm(request.form)
     return render_template('view.html', form=form, clue='defaulto',my_string="Wheeeee!", my_categories=categories)
 
+@app.route("/clue_ideas",methods=['GET'])
+def clue_ideas():
+    return render_template('clue_ideas.html')
+
 @app.route("/make_puzzle/,<string:puzzle_type>")
 def make_puzzle(puzzle_type):
 	global return_puzzle

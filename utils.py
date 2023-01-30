@@ -12,7 +12,7 @@ def get_categories():
     key=f.replace("_"," ")
     crossword_puzzles[key]={'filename':f,'type':'crossword'}
 
-  math_puzzle_list=['simple_addition','add_negatives','multiplication_then_addition','fraction_addition','simple_division_problem','simplify_ratio','two_digit_subtraction','two_digit_multiplication','add_coins','exponents_problem','simple_algebra','single_decimal_addition','quadratic_equations' ,'roots_problem' ,'determinant','unit_conversion','simple_series','convert_base','linear_system','simplify_exponents','find_slope','percent_increase']
+  math_puzzle_list=['simple_addition','add_negatives','multiplication_then_addition','fraction_addition','simple_division_problem','simplify_ratio','two_digit_subtraction','two_digit_multiplication','add_coins','exponents_problem','simple_algebra','single_decimal_addition','quadratic_equations' ,'roots_problem' ,'determinant','unit_conversion','simple_series','convert_base','linear_system','simplify_exponents','find_slope','simple_scientific','harder_scientific','intermediate_scientific','percent_increase']
 
   for p in math_puzzle_list:
     key=p.replace("_"," ")
@@ -20,8 +20,8 @@ def get_categories():
 
 
   all_puzzles=merge_two_dicts(crossword_puzzles,math_puzzles)
-
-  return all_puzzles
+  #for all puzzles, return all_puzzles, duh
+  return math_puzzles
 
 def get_display_categories():
 	categories=get_categories()

@@ -4,17 +4,25 @@
     <script language="javascript" type="text/javascript">
       var scrt_var = "I hold legos"; 
     </script>
+<script type="text/javascript">
+window.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+000A'||e.keyIdentifier=='Enter'||e.keyCode==13){if(e.target.nodeName=='INPUT'&&e.target.type=='text'){e.preventDefault();return false;}}},true);
+</script>
 </HEAD>
 <BODY>
  <div id="content" class="gamesPage"><div id="top-wrap"></div> 
   <div class="contentWrap"><section class="primary-content"><div class="content-block big-category "><div class="content-container"><div class="category-content-wrap"><div class="txt-container"><div class="cat-title-wrap pos-big pos-right"><h1 class="cat-title">Puzzle Hunt!</h1></div></div><div class="listwrap big-content"><div class="elementWrap">
-    <br><h7>Enter a clue and then click a tile<br></h7>
+    <br><h7>Enter a clue then click a tile<br></h7>
      <form action="{{ url_for('puzzle') }}" method="post" name="simple" enctype="multipart/form-data" method="post">
          <p>
              Clue:
              {{form.clue(size=80,**{"onkeyUp":"scrt_var=this.value"})}}
          </p>
+        
      </form>
+
+<!-- <a href="clue_ideas" class="newanchor" target="_blank" rel="noopener noreferrer"><img src="static/lightbulb.png">Clue Ideas</a> -->
+<a class="big-element contenu" href="clue_ideas" onclick="location.href=this.href;return false;" title="{{n}}" data-id="c22543"><img src="static/lightbulb2.png" data-bigimg="http://images.hellokids.com/_uploads/custom/440x440/_tiny_galerie/20100832/puzzle-oie-source-eb4dn.jpg"><span class="element-title">clue ideas</span>
+</a>
         {% for n in my_categories.keys() %}
         <a class="big-element contenu" href="{{url_for('make_puzzle',puzzle_type=n)}}" onclick="location.href=this.href+'?clue='+scrt_var;return false;" title="{{n}}" data-id="c22543"><img src="static/{{my_categories[n]['filename']}}.jpg" data-bigimg="http://images.hellokids.com/_uploads/custom/440x440/_tiny_galerie/20100832/puzzle-oie-source-eb4dn.jpg"><span class="element-title">{{n}}</span>
 </a>

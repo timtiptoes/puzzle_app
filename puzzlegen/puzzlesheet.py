@@ -24,6 +24,10 @@ _problems_map = {"simple_addition": make_simple_addition_problem,
                  "find_slope":find_slope,
                  "simplify_exponents":simplify_exponents,
 		 "percent_increase":percent_increase}
+                 "compound_interest":compound_interest,
+		 "simple_scientific":simple_scientific,
+                 "intermediate_scientific":intermediate_scientific,
+                 "harder_scientific":harder_scientific}
 
 instructions_map={"simple_addition": "Add the two numbers to find the letter above",
                   "add_negatives":"Add the numbers",
@@ -47,6 +51,10 @@ instructions_map={"simple_addition": "Add the two numbers to find the letter abo
                  "simplify_exponents":"Simplify exponents and look up result above.",
                  "find_slope":"Use the slope of the line through two points to find letter above",
 		 "percent_increase":"Find the closest integer to match the letter above"}
+                 "compound_interest":"Use the closest amount in thousands below to find letter above",
+		 "simple_scientific":"Convert each number to standard notation and find the letter above",
+                 "intermediate_scientific":"Convert each number to standard notation and find the letter above",
+                 "harder_scientific":"Convert each number to standard notation and find the letter above"}
 
 
 #

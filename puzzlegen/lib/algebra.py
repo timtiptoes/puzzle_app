@@ -4,7 +4,7 @@ import sympy
 from sympy.parsing.sympy_parser import parse_expr
 from sympy.polys.polytools import degree
 from sympy import symbols,expand,factor,Poly
-
+import math
 
 import random
 from helper import *
@@ -371,7 +371,7 @@ def add_negatives(target,*args,**kwargs):
     chosen_digits=[]
     chosen_operators=[]
     chosen_signed_alphas=[]
-    while len(chosen_digits)<4:
+    while len(chosen_digits)<1:
         r1=random.choice(digits)
         r2=random.choice([-1,1])
         if r1 not in chosen_digits and -r1 not in chosen_digits:
@@ -546,9 +546,56 @@ def percent_increase(target,*args,**kwargs):
     out_str="\\overline{"+out_str+"}"
     return out_str,sols
 
+def compound_interest(target,*args,**kwargs):
+    r=random.randint(1,12)
+    t=random.randint(5,50)
+    amount=compound(1,r/100.0,t)
+    principle=target*1000/amount
+    sols = sympy.latex(target) 
+    #$111.71 for 3 years at 5% APR
+    out_str="${:0.2f}".format(principle)+"\text{ for }"+ "{}".format(t)+"\text{ years at }"+"{}".format(r)+"\text{% APR }"
+    out_str="\\overline{"+out_str+"}"
+    return out_str,sols
+
+def simple_scientific(target,*args,**kwargs):
+
+    power=int(math.log10(target))
+    coef=float(target)/float((10**power))
+    
+#    $$\overline{3.0\times10^3}$$
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+#    outstr=str(coef)+'\times10^' + str(power)
+    outstr="{}\\times10^{}".format(coef,power)
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols
+
+def intermediate_scientific(target,*args,**kwargs):
+
+    power=int(math.log10(target))
+    coef=float(target)/float((10**power))
+    divisor=random.randint(0,7)
+    
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr="\\frac{" + str(coef) + "\\times10^" +str(power+divisor)+"}{10^"+str(divisor)+"}"
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols
+
+def harder_scientific(target,*args,**kwargs):
+
+    power=int(math.log10(target))
+    coef=float(target)/float((10**power))
+    divisor=random.randint(0,7)
+    
+    sols = sympy.latex(target) 
+    sols = "$$" + sols + "$$"
+    outstr="\\frac{" + str(coef) + "\\times10^" +str(power+divisor)+"}{"+str(10**divisor)+"}"
+    outstr="\\overline{"+outstr+"}"
+    return outstr, sols    
 
 if __name__ == "__main__":
-    print simple_series(14)
+    print compound_interest(14)
 
 
 
