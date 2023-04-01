@@ -135,17 +135,17 @@ class puzzlesheet(object):
         else:
             prob_generator = _problems_map[problem_type]
 
-        start, end = puzzle_section_parts(title, instructions, cols=1)
+        start, end = puzzle_section_parts("", instructions, cols=1)
 
         s_probs = []
         lines=layout_lines(self.clue,cols)
         for line in lines:
             for i in range(len(line)):
-                terminator = "&" if i<len(line)-1 else '\\vspace{15mm}'+'\\'+'\\'
+                terminator = "&" if i<len(line)-1 else '&&'+'\\'+'\\'
                 ch = line[i]
                 if ch !=" ":
                     p, sols = prob_generator(self.lookup_table[ch],*args, **kwargs)
-                    prob =puzzle_problem(p) + terminator
+                    prob ="{\tinyv"+puzzle_problem(p)+"}" + terminator
                 else:
                     prob = terminator
                 s_probs.append(prob)
