@@ -1,6 +1,6 @@
 def doc_parts(title="", author=""):
     start="""
-    \\documentclass[12pt]{article}
+    \\documentclass[8pt]{article}
     \\usepackage{amsfonts}
     \\usepackage{amsmath,multicol,eso-pic}
     \\begin{document}
@@ -17,14 +17,13 @@ def doc_parts(title="", author=""):
 
 def puzzle_parts(title="", author=""):
     start="""
-    \\documentclass[16pt]{article}
+    \\documentclass[8pt]{article}
     \\usepackage[a4paper,margin=0.5in,landscape]{geometry}
     \\usepackage{amsmath}
     \\usepackage{graphicx}
     \\usepackage{fancyhdr}
     \\begin{document}
     \\pagenumbering{gobble}
-    \\includegraphics[height=8cm]{static/code_key.png}
     """
 
     end = """\end{document}"""
