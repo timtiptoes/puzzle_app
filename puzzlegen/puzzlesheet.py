@@ -145,7 +145,7 @@ class puzzlesheet(object):
                 ch = line[i]
                 if ch !=" ":
                     p, sols = prob_generator(self.lookup_table[ch],*args, **kwargs)
-                    prob ="{\tinyv"+puzzle_problem(p)+"}" + terminator
+                    prob ="{\\tinyv"+puzzle_problem(p)+"}" + terminator
                 else:
                     prob = terminator
                 s_probs.append(prob)
