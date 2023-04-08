@@ -11,13 +11,12 @@ def puzzle_parts(title="", author=""):
     return start, end
 
 def puzzle_section_parts(title, instr="", cols = 2):
-        section_start="""
-        \section*{%s}
-        {\\renewcommand{\\arraystretch}{4}}\\vspace{10mm}
-        \\begin{tabular}{c c c c c c c c c c}
-        """% (instr)
-        section_end = """
-             \\end{tabular}"""+"\\\\" + "\\\\" + "\\\\"
+    section_start="""
+    \section*{%s}
+    {\\renewcommand{\\arraystretch}{4}}\\vspace{10mm}
+    \\begin{tabular}{c c c c c c c c c c}
+    """% (instr)
+        section_end = """\\end{tabular}"""+"\\\\" + "\\\\" + "\\\\"
 
     return section_start, section_end
 
