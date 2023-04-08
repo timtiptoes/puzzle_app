@@ -87,11 +87,7 @@ class document(object):
         f = open("tmp/%s.tex" % self.fname, "wb")
         f.write(doc)
         f.close()
-        os.system("pdflatex --output-directory tmp tmp/%s.tex" % self.fname)
-        now=datetime.datetime.now().isoformat()
-        os.system("cp tmp/{}.pdf log/{}_{}.pdf".format(self.fname,self.fname,now))
 
-        os.remove("tmp/%s.log" % self.fname)
         if remove_aux:
             os.remove("tmp/%s.aux" % self.fname)
 ##        if not self.savetex:
