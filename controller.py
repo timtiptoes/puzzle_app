@@ -40,7 +40,7 @@ def make_puzzle(puzzle_type):
 	if categories[puzzle_type]['type']=='math':
 		mypuzzlesheet = puzzlesheet.puzzlesheet("puzzle", "",clue, savetex=True)
 		puzz=categories[puzzle_type]['filename'].lower()
-		mypuzzlesheet.add_section(puzz, 6, "",puzzlesheet.instructions_map[puzz],rhs=0)
+		mypuzzlesheet.add_section(puzz, 24, "",puzzlesheet.instructions_map[puzz],rhs=0)
 		mypuzzlesheet.write()
 		return_puzzle="puzzle.pdf"
 	else:
