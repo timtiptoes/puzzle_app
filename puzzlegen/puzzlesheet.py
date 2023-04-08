@@ -85,7 +85,7 @@ class document(object):
         main = '\n'.join(self.main)
         doc = '\n'.join([self.start, main, self.end])
         f = open("tmp/%s.tex" % self.fname, "a")
-        #f.write(doc)
+        f.write(doc)
         f.close()
 
         #if remove_aux:
