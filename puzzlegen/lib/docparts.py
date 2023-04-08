@@ -12,7 +12,7 @@ def puzzle_parts(title="", author=""):
 
 def puzzle_section_parts(title, instr="", cols = 2):
     section_start=""
-    section_end = ""
+    section_end = "\\\\" + "\\\\" + "\\\\"
     return section_start, section_end
 
 def problem(instructions, problem, solution, points=1):
