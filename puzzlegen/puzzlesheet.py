@@ -140,7 +140,9 @@ class puzzlesheet(object):
         s_probs = []
         lines=layout_lines(self.clue,cols)
         for line in lines:
+            print "zong working on line:>>%s<<" % (line)
             for i in range(len(line)):
+                print "working on char %s and it is %s" % (i,line[i])
                 terminator = "&" if i<len(line)-1 else ""
                 ch = line[i]
                 if ch !=" ":
