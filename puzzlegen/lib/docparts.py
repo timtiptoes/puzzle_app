@@ -17,7 +17,7 @@ def puzzle_section_parts(title, instr="", cols = 2):
         \\begin{tabular}{c c c c c c c c c c c c c c c c c c c c c c c c c c c c c}
         """% (instr)
     section_end = """
-         \\end{tabular}"""+"\\\\" + "\\\\" + "\\\\"
+         \\end{tabular}"""
     return section_start, section_end
 
 def problem(instructions, problem, solution, points=1):
