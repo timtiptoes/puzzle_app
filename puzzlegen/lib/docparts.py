@@ -62,6 +62,7 @@ def puzzle_problem(problem):
     $\\begin{aligned}[c]
         %s
     \\end{aligned}$
+    }
     """ % (problem)
     return code
 
