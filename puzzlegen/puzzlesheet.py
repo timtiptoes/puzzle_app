@@ -141,7 +141,7 @@ class puzzlesheet(object):
         lines=layout_lines(self.clue,cols)
         for line in lines:
             for i in range(len(line)):
-                terminator = "&" if i<len(line)-1 else '\\\\'
+                terminator = "&" if i<len(line)-1 else ""
                 ch = line[i]
                 if ch !=" ":
                     p, sols = prob_generator(self.lookup_table[ch],*args, **kwargs)
