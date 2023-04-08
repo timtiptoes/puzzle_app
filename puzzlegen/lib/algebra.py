@@ -506,7 +506,7 @@ def find_slope(target,*args,**kwargs):
     y2=simple_line(target,x2,b)
     #print("({},{}) and ({},{})".format(x1,y1,x2,y2))
     sols = sympy.latex(target) 
-    out_str="({},{})".format(x1,y1)+"\\text{ and }"+"({},{})".format(x2,y2)
+    out_str=stack_lines("({},{})".format(x1,y1),"({},{})".format(x2,y2))
     out_str="\\overline{"+out_str+"}"
     return out_str,sols
 
