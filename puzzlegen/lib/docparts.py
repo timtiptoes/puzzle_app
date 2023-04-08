@@ -12,7 +12,7 @@ def puzzle_parts(title="", author=""):
 
 def puzzle_section_parts(title, instr="", cols = 2):
     section_start="""
-        \section*{{\tinyv %s}}
+        \section*{{\\tinyv %s}}
         {\\renewcommand{\\arraystretch}{4}}\\vspace{3mm}
         \\begin{tabular}{c c c c c c c c c c c c c c c c c c c c c c c c c c c c c}
         """% (instr)
