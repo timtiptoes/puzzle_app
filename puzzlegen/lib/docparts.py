@@ -3,17 +3,17 @@ def doc_parts(title="", author=""):
     \\documentclass[10pt]{article}
     \\usepackage{amsfonts}
     \\usepackage{amsmath,multicol,eso-pic}
-    \makeatletter
-        \newcommand\tinyv{\@setfontsize\tinyv{4pt}{6}}
-    \makeatother
+    \\makeatletter
+        \\newcommand\\tinyv{\\@setfontsize\\tinyv{4pt}{6}}
+    \\makeatother
     \\begin{document}
     \\usepackage{multicol}
-    \def\columnseprulecolor{\color{white}} %Separator ruler colour"""
+    \\def\columnseprulecolor{\color{white}} %Separator ruler colour"""
     if title:
         start = start + "\\title{%s} \n \date{\\vspace{-5ex}} \n \maketitle" % title
  
         end="""
-        \end{document}
+        \\end{document}
         """
 
     return start, end
@@ -58,6 +58,7 @@ def problem(instructions, problem, solution, points=1):
 
 def puzzle_problem(problem):
     code = """
+    {\\tinyv
     $\\begin{aligned}[c]
         %s
     \\end{aligned}$
