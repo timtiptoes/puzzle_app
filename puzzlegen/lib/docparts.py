@@ -21,7 +21,7 @@ def doc_parts(title="", author=""):
 def puzzle_parts(title="", author=""):
     start="""
     \\documentclass[10pt]{article}
-    \\usepackage[a4paper,margin=0.5in,landscape]{geometry}
+    \\usepackage[a4paper,margin=0.1in,landscape]{geometry}
     \\usepackage{amsmath}
     \\usepackage{graphicx}
     \\usepackage{fancyhdr}
@@ -39,7 +39,7 @@ def puzzle_section_parts(title, instr="", cols = 2):
     section_start="""
         \section*{%s}
         {\\renewcommand{\\arraystretch}{4}}\\vspace{10mm}
-        \\begin{tabular}{c c c c c c c c c c}
+        \\begin{tabular}{c c c c c c c c c c c c c c c c c c c c c c c c c c c c c}
         """% (instr)
     section_end = """
          \\end{tabular}"""
