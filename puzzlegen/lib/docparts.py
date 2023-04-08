@@ -1,6 +1,6 @@
 def doc_parts(title="", author=""):
     start=""
-    end=""
+    end="\\\\\\\\"
 
     return start, end
 

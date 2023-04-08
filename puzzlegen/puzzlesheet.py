@@ -84,7 +84,7 @@ class document(object):
         print "I think fname is >>>"+self.fname+"<<<<\n"
         main = '\n'.join(self.main)
         doc = '\n'.join([self.start, main, self.end])
-        f = open("tmp/%s.tex" % self.fname, "wb")
+        f = open("tmp/%s.tex" % self.fname, "a")
         f.write(doc)
         f.close()
 
