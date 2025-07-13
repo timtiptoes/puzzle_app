@@ -34,4 +34,4 @@ def merge_two_dicts(x, y):
     return z
 
 if __name__ == "__main__":
-       print get_display_categories()
+       print(get_display_categories())

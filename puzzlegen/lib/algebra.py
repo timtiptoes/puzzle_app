@@ -26,8 +26,8 @@ def make_simple_addition_problem(target,*args,**kwargs):
     sols = sympy.latex(target) 
     sols = "$$" + sols + "$$"
     outstr="\\overline{"+str(r1)+"+"+str(r2)+"}"
-    print "about to return "+outstr
-    print r1,r2
+    print("about to return "+outstr)
+    print(r1,r2)
     return outstr, sols
 
 def make_simple_multiplication_problem(target,*args,**kwargs):
@@ -44,14 +44,14 @@ def make_simple_multiplication_problem(target,*args,**kwargs):
     sols = "$$" + sols + "$$"
     if len(sols) == 0:
         return make_quadratic_eq()
-    print "lhs:"
-    print lhs
+    print("lhs:")
+    print(lhs)
 
     #outstr=render(lhs).replace('\\cdot','\\times').replace("$$","")
     sign="+" if r3>=0 else ""
     outstr="\\overline{"+str(r1)+"\\times"+str(r2)+ sign +str(r3)+"}"
-    print "about to return "+outstr
-    print r1,r2,r3
+    print("about to return "+outstr)
+    print(r1,r2,r3)
     return outstr, sols
 
 def make_simple_division_problem(target,*args,**kwargs):
@@ -88,10 +88,10 @@ def make_fraction_addition_problem(target,*args,**kwargs):
         dp,ep=make_proper(f2[0],f2[1])
         if bp!=0 and ep!=0 and f1[1] != f2[1]:
                 break
-    print "-------------"
-    print "Below is trying to get "+str(target)
-    print ":".join([str(i) for i in [target,c,f,b,e,ap,bp,dp,ep]])
-    print str(bp)+"/"+str(c*f) +"+"+str(ep)+"/"+str(f*c)
+    print("-------------")
+    print("Below is trying to get "+str(target))
+    print(":".join([str(i) for i in [target,c,f,b,e,ap,bp,dp,ep]]))
+    print(str(bp)+"/"+str(c*f) +"+"+str(ep)+"/"+str(f*c))
     sign="+" if ep>=0 else "-"
     outstr=str(ap) if ap !=0 else ""
     outstr="\\frac{"+str(bp)+"}{"+str(f1[1])+"}"
@@ -120,10 +120,10 @@ def make_quadratic_eq(target, rhs = None, integer=[0, 1]):
     r2=target-r1
     expr = (f*x-r1*f)*(x-r2)
     expanded_expr = expand(expr)
-    print "I chose {}, {}, and {}".format(f,r1,r2)
+    print("I chose {}, {}, and {}".format(f,r1,r2))
     ex = Poly(expanded_expr, x)
     a,b,c=tuple(ex.coeffs())
-    print "I got {},{} and {}".format(a,b,c)
+    print("I got {},{} and {}".format(a,b,c))
     out_str="{}{}^2{}{}{}".format(a,var,right_sign(b),var,right_sign(c))
     sols = sympy.latex(target) 
     sols = "$$" + sols + "$$"
@@ -144,8 +144,8 @@ def two_digit_subtraction(target,*args,**kwargs):
     sols = sympy.latex(target) 
     sols = "$$" + sols + "$$"
     outstr=stack_em(r1,r2,"-")
-    print "about to return "+outstr
-    print r1,r2
+    print("about to return "+outstr)
+    print(r1,r2)
 
     outstr="\\begin{tabular}{ c c c } \
  cell1 & cell2 & cell3 \\\ \
@@ -169,8 +169,8 @@ def two_digit_subtraction(target,*args,**kwargs):
     sols = sympy.latex(target) 
     sols = "$$" + sols + "$$"
     outstr=stack_em(r1,r2,"-")
-    print "about to return "+outstr
-    print r1,r2
+    print("about to return "+outstr)
+    print(r1,r2)
     return outstr, sols
 
 def two_digit_multiplication(target,*args,**kwargs):
@@ -190,7 +190,7 @@ def two_digit_multiplication(target,*args,**kwargs):
     sols = sympy.latex(target) 
     sols = "$$" + sols + "$$"
     outstr=stack_em(mx,rest,operator="\\times")
-    print "about to return "+outstr
+    print("about to return "+outstr)
     return outstr, sols
 
 def add_coins(target,*args,**kwargs):
@@ -234,7 +234,7 @@ def add_coins(target,*args,**kwargs):
         if coin !=purse.keys()[-1]:
             out_str+="\\\\"
 
-    print out_str
+    print(out_str)
     return out_str,"$$ $$"
 
 def exponents_problem(target,*args,**kwargs):
@@ -344,7 +344,7 @@ def unit_conversion(target,allow_scientific=False,*args,**kwargs):
             dest_system = random.choice(systems.keys())
             dest_unit = random.choice(systems[dest_system][source_type].keys())    
 
-        print "I want to convert {} to {} ".format(source_unit,dest_unit)
+        print("I want to convert {} to {} ".format(source_unit,dest_unit))
 
         factor_to_convert_source_unit_to_base=systems[source_system][source_type][source_unit]
 
@@ -353,7 +353,7 @@ def unit_conversion(target,allow_scientific=False,*args,**kwargs):
         conversion_factor=factor_to_convert_source_unit_to_base / \
                           factor_to_convert_dest_unit_to_base 
 
-        print "f1:{} f2:{} and of course conv:{}".format(factor_to_convert_source_unit_to_base,factor_to_convert_dest_unit_to_base,conversion_factor)
+        print("f1:{} f2:{} and of course conv:{}".format(factor_to_convert_source_unit_to_base,factor_to_convert_dest_unit_to_base,conversion_factor))
         source_figure=target/conversion_factor
         sols = sympy.latex(target) 
     #    out_str="{:.3f}".format(source_figure)
@@ -475,15 +475,15 @@ def linear_system(target,*args,**kwargs):
     coeff12=choose_someint(6)
     sign1="+" if coeff12>0 else ''
     constant1=coeff11*x+coeff12*y
-    print("{},{}".format(x,y))
+    print(("{},{}".format(x,y)))
     coeff21=coeff11
     while coeff21==coeff11:
         coeff21=choose_someint(9)
     coeff22=choose_someint(9)
     constant2=coeff21*x+coeff22*y
     sign2="+" if coeff22>0 else ''
-    print("{}x {} {}y = {}".format(coeff11,sign1,coeff12,constant1))
-    print("{}x {} {}y = {}".format(coeff21,sign2,coeff22,constant2))
+    print(("{}x {} {}y = {}".format(coeff11,sign1,coeff12,constant1)))
+    print(("{}x {} {}y = {}".format(coeff21,sign2,coeff22,constant2)))
     
     out_str=stack_lines("{}x {} {}y = {}".format(coeff11,sign1,coeff12,constant1),"{}x {} {}y = {}".format(coeff21,sign2,coeff22,constant2))
     #out_str="\\begin{array}{c}"+"{}x +{}y".format(coeff11,coeff12)+" & = & "+"{}".format(constant1)+"\\"
@@ -519,7 +519,7 @@ def simplify_exponents(target,*args,**kwargs):
     power_strings=[]
     for i in ints:
         power_string="^{"+str(i)+"}" if i!=1 else ""
-        print("given {} I compute {}".format(i,power_string))
+        print(("given {} I compute {}".format(i,power_string)))
         #power_strings.append(power_string)
         out_str+="x{}".format(power_string)
     out_str="\\overline{"+out_str+"}"
@@ -595,7 +595,7 @@ def harder_scientific(target,*args,**kwargs):
     return outstr, sols    
 
 if __name__ == "__main__":
-    print compound_interest(14)
+    print(compound_interest(14))
 
 
 

@@ -1,8 +1,8 @@
-from wtforms import Form, FloatField, TextField, RadioField, validators,SubmitField
+from wtforms import Form, FloatField, StringField, RadioField, validators,SubmitField
 from utils import *
 
 class InputForm(Form):
-    clue = TextField(validators=[validators.InputRequired()],default="I hold legos")
+    clue = StringField(validators=[validators.InputRequired()],default="I hold legos")
     display_categories=get_display_categories()
     puzzle_type=RadioField('Label', choices=[
     	('simple_addition','$$\\texttt{simple addition: e.g. }3+5$$'),
@@ -20,7 +20,7 @@ class InputForm(Form):
       ('quadratic_equations','$$\\texttt{add quadratic equation roots : e.g. }x^2-14x+45$$')]+display_categories)
 
 class ClueForm(Form):
-    clue = TextField(validators=[validators.InputRequired()],default="I hold legos")
+    clue = StringField(validators=[validators.InputRequired()],default="I hold legos")
   
 #
 

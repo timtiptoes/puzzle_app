@@ -1,10 +1,11 @@
 import os
 import csv
 from lib import *
+from lib import docparts
 import datetime;
 import re
 import numpy as np
-
+import sys
 
 class document(object):
     """
@@ -30,9 +31,9 @@ class document(object):
         """
         Writes and compiles into a pdf
         """
-        print "I think fname is >>>"+self.fname+"<<<<\n"
+        print("I think fname is >>>"+self.fname+"<<<<\n")
         f = open("tmp/%s.tex" % self.fname, "wb")
-        f.write('\n'.join(self.main))
+        f.write('\n'.join(self.main).encode('utf-8'))
         f.close()
         os.system("pdflatex --output-directory tmp tmp/%s.tex" % self.fname)
         now=datetime.datetime.now().isoformat()
@@ -47,7 +48,7 @@ class document(object):
 class crossword1d(object):
 
     def __init__(self, fname, title="",clue="gimme", savetex=False):
-        print " I just got {}".format(fname)
+        print(" I just got {}".format(fname))
         with open('static/'+fname+".csv", mode='r') as csvfile:
             reader = csv.reader(csvfile,quotechar='"')
             self.s = {rows[0]:rows[1] for rows in reader}
@@ -67,11 +68,12 @@ class crossword1d(object):
 
 
     def add_section(self, *args, **kwargs):
+        print(sys.modules.keys())
         start,middle,end=docparts.crossword_parts(title=self.title)
         self.choose_words()
         self.make_puzzle_lines()
         self.make_hint_lines()
-        print self.pos
+        print(self.pos)
 
         self.crossword_puzzle.add(start)
         self.crossword_puzzle.add("\\begin{Puzzle}{"+str(self.width_of_puzzle)+"}{"+str(len(self.puzzle_list))+"}")
@@ -86,9 +88,9 @@ class crossword1d(object):
         #output |{}|{}|{}|[1]C|A|T|{}|{}|{}|{}|{}|.
         output_line="|"
         numbered = False
-        print "just received:"+line
-        print "with length:"+str(len(line))
-        print "and clue column:"+str(clue_column)
+        print("just received:"+line)
+        print("with length:"+str(len(line)))
+        print("and clue column:"+str(clue_column))
         for i in range(len(line)):
             col_str=""
             ch = line[i]
@@ -107,16 +109,16 @@ class crossword1d(object):
         return output_line+"."
 
     def choose_words(self, *args, **kwargs):
-        glossary=self.s.keys()
+        glossary=list(self.s.keys())
         cnt=0
         max_to_right=0
         max_to_left=0
         for ch in self.clue.replace(" ",""):
             while True and cnt<40:
                 one_word=random.choice(glossary)
-                print ",".join(self.puzzle_list)
-                print "looking for {}".format(ch)
-                print "and {} doesn't cut it with {}".format(one_word,one_word in self.puzzle_list)
+                print(",".join(self.puzzle_list))
+                print("looking for {}".format(ch))
+                print("and {} doesn't cut it with {}".format(one_word,one_word in self.puzzle_list))
                 if ch in one_word.upper() and one_word not in self.puzzle_list:
                     self.puzzle_list.append(one_word)
                     chars_to_left=one_word.upper().index(ch)-1
@@ -124,7 +126,7 @@ class crossword1d(object):
                     max_to_left=chars_to_left if chars_to_left>max_to_left else max_to_left
                     max_to_right=chars_to_right if chars_to_right>max_to_right else max_to_right
                     self.pos[one_word]=(chars_to_left,chars_to_right)
-                    print "for {} chars_to_left:{} chars_to_right:{} max_to_left:{} max_to_right:{}".format(ch,chars_to_left,chars_to_right,max_to_left,max_to_right)
+                    print("for {} chars_to_left:{} chars_to_right:{} max_to_left:{} max_to_right:{}".format(ch,chars_to_left,chars_to_right,max_to_left,max_to_right))
                     
                     break
                 else:
@@ -136,17 +138,17 @@ class crossword1d(object):
         self.max_to_right=max_to_right
 
     def make_puzzle_lines(self,*args, **kwargs):
-	word_choices=""
+        word_choices=""
 
         for i in range(len(self.puzzle_list)):
             word = self.puzzle_list[i]
-            print "Question "+str(i+1)+":"+word.replace(" ","")
+            print("Question "+str(i+1)+":"+word.replace(" ",""))
             tex_formatted_line=self.layout_line('-'*(self.max_to_left-self.pos[word][0])+word.replace(" ","")+'-'*(self.max_to_right-self.pos[word][1]),i+1,self.max_to_left+1)
             self.puzzle_lines.append(tex_formatted_line)
             if re.search('Vocabulary', self.title):
                 available_words=(filter(lambda x:(x!=word and len(x)==len(word)),self.s.keys()))
-                print "These are the available words of length {}".format(len(word))
-                print available_words
+                print("These are the available words of length {}".format(len(word)))
+                print(available_words)
                 chosen_words=[available_words[j] for j in np.random.choice(len(available_words),size=4,replace=False)]
                 chosen_words.append(word)
                 random.shuffle(chosen_words)

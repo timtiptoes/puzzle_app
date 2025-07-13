@@ -20,7 +20,7 @@ digits = range(-26,26)
 # make a list of the nums above, but with zero removed. This way we know we
 # can always guarantee selection of a non-zero digit (so the degree of a
 # polynomial in an equation is at least a certain value)
-digits_nozero = range(-26,26)
+digits_nozero = list(range(-26,26))
 digits_nozero.remove(0)
 
 powers={4:[{'base':2,'power':2}],
@@ -175,7 +175,7 @@ def stack_lines(x,y):
 
 
     out_str='\\overline{\\begin{array}{c}\\phantom{\\times'+first_line+'}'+a+'\\phantom{\\times9}\\\\\phantom{\\times'+second_line+'}'+b+'\\phantom{\\times9}\\end{array}}'
-    print("****************\n"+out_str)
+    print(("****************\n"+out_str))
     return out_str
 
 def get_power_choices():
@@ -206,11 +206,11 @@ def find_shortest(target,conversion_factor):
     mantissa_target="{:.12E}".format((target)/conversion_factor).split('E')[0]
     mantissa_lower="{:.12E}".format((target-0.49)/conversion_factor).split('E')[0]
     mantissa_upper="{:.12E}".format((target+0.49)/conversion_factor).split('E')[0]
-    print "{} < {} < {}".format(mantissa_lower,mantissa_target,mantissa_upper)
+    print("{} < {} < {}".format(mantissa_lower,mantissa_target,mantissa_upper))
     shortest_lower=find_shortest_common_string(mantissa_lower,mantissa_target)
     shortest_upper=find_shortest_common_string(mantissa_upper,mantissa_target)
     shortest=min(shortest_upper,shortest_lower)
-    print "{} {}".format(shortest_lower,shortest_upper)
+    print("{} {}".format(shortest_lower,shortest_upper))
     exponent="{:.12E}".format((target)/conversion_factor).split('E')[1]   
     
     if int(exponent)>-3:
@@ -267,7 +267,7 @@ def simplify_exponents(target,*args,**kwargs):
     power_strings=[]
     for i in ints:
         power_string="^{"+str(i)+"}" if i!=1 else ""
-        print("given {} I compute {}".format(i,power_string))
+        print(("given {} I compute {}".format(i,power_string)))
         #power_strings.append(power_string)
         out_str+="x{}".format(power_string)
     out_str="\\overline{"+out_str+"}"

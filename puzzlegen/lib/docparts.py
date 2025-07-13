@@ -83,7 +83,7 @@ def crossword_parts(title="", author=""):
     return start,middle, end
 
 if __name__ == "__main__":
-    print problem("test", "fasd", "asdfasd", 10)
+    print(problem("test", "fasd", "asdfasd", 10))
 
 
 

@@ -81,19 +81,19 @@ class document(object):
         """
         Writes and compiles into a pdf
         """
-        print "I think fname is >>>"+self.fname+"<<<<\n"
+        print("I think fname is >>>"+self.fname+"<<<<\n")
         main = '\n'.join(self.main)
         doc = '\n'.join([self.start, main, self.end])
         f = open("tmp/%s.tex" % self.fname, "wb")
-        f.write(doc)
+        f.write(doc.encode('utf-8'))
         f.close()
         os.system("pdflatex --output-directory tmp tmp/%s.tex" % self.fname)
         now=datetime.datetime.now().isoformat()
         os.system("cp tmp/{}.pdf log/{}_{}.pdf".format(self.fname,self.fname,now))
 
-        os.remove("tmp/%s.log" % self.fname)
-        if remove_aux:
-            os.remove("tmp/%s.aux" % self.fname)
+        #os.remove("tmp/%s.log" % self.fname)
+        #if remove_aux:
+        #    os.remove("tmp/%s.aux" % self.fname)
 ##        if not self.savetex:
 ##            os.remove("tmp/%s.tex" % self.fname)
 
@@ -153,8 +153,8 @@ class puzzlesheet(object):
         s_probs = '\n'.join(s_probs)
         prob_code = ''.join([start, s_probs, end])
 
-        print" YOUCH"
-        print s_probs
+        print(" YOUCH")
+        print(s_probs)
         self.puzzlesheet.add(prob_code)
 
     def write(self):
