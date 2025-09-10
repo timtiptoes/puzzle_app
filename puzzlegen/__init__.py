@@ -1,2 +1,2 @@
-import puzzlesheet
-from lib.algebra import *
+from . import puzzlesheet
+from .lib.algebra import *

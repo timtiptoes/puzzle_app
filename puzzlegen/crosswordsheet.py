@@ -1,7 +1,7 @@
 import os
 import csv
-from lib import *
-from lib import docparts
+from .lib import *
+from .lib import docparts
 import datetime;
 import re
 import numpy as np

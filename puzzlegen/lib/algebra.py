@@ -7,7 +7,7 @@ from sympy import symbols,expand,factor,Poly
 import math
 
 import random
-from helper import *
+from .helper import *
 
 def make_simple_addition_problem(target,*args,**kwargs):
     """

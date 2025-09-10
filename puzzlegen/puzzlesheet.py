@@ -1,5 +1,5 @@
 import os
-from lib import *
+from .lib import *
 import datetime;
 
 _problems_map = {"simple_addition": make_simple_addition_problem,
