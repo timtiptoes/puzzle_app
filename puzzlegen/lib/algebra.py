@@ -1,6 +1,7 @@
 import os
 import re
 import sympy
+from functools import reduce
 from sympy.parsing.sympy_parser import parse_expr
 from sympy.polys.polytools import degree
 from sympy import symbols,expand,factor,Poly
@@ -193,49 +194,58 @@ def two_digit_multiplication(target,*args,**kwargs):
     print("about to return "+outstr)
     return outstr, sols
 
-def add_coins(target,*args,**kwargs):
-    quarters=int(target/25)
-    dimes=int(target/10)
-    nickels=int(target/5)
-    pennies=target
-    
-    number_words="one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty,twenty-one,twenty-two,twenty-three,twenty-four,twenty-five,twenty-six,twenty-seven".split(",")
-    
-    choices={}
-    coins={'quarters':{'value':25,'singular':'quarter'},
-           'dimes':   {'value':10,'singular':'dime'},
-            'nickels':{'value':5,'singular':'nickel'},
-            'pennies':{'value':1,'singular':'penny'}}
+import random
 
-    
-    total=target
-    keys=coins.keys()
-    indicies=range(4)
-    purse={}
-    while total>0:
-        idx=random.choice(indicies)
-        coin=keys[idx]
-        value=coins[coin]['value']
-        if total-value>=0:
-            if coin in purse:
-                purse[coin]+=1
-            else:
-                purse[coin]=1
-            total-=value
+def add_coins(target, *args, **kwargs):
+    quarters = int(target / 25)
+    dimes = int(target / 10)
+    nickels = int(target / 5)
+    pennies = target
 
-    out_str="\\overline{"
-    for coin in purse.keys():
-        coin_name=coin if purse[coin]>1 else coins[coin]['singular']
+    number_words = (
+        "one,two,three,four,five,six,seven,eight,nine,ten,eleven,"
+        "twelve,thirteen,fourteen,fifteen,sixteen,seventeen,"
+        "eighteen,nineteen,twenty,twenty-one,twenty-two,"
+        "twenty-three,twenty-four,twenty-five,twenty-six,twenty-seven"
+    ).split(",")
 
-        out_str+="\\textrm{"+number_words[purse[coin]-1]+" "+coin_name+"}"
-        if coin==purse.keys()[0]:
-            out_str+="}"
+    choices = {}
+    coins = {
+        'quarters': {'value': 25, 'singular': 'quarter'},
+        'dimes': {'value': 10, 'singular': 'dime'},
+        'nickels': {'value': 5, 'singular': 'nickel'},
+        'pennies': {'value': 1, 'singular': 'penny'}
+    }
 
-        if coin !=purse.keys()[-1]:
-            out_str+="\\\\"
+    total = target
+    keys = list(coins.keys())
+    indices = list(range(4))
+    purse = {}
+
+    while total > 0:
+        idx = random.choice(indices)
+        coin = keys[idx]
+        value = coins[coin]['value']
+
+        if total - value >= 0:
+            purse[coin] = purse.get(coin, 0) + 1
+            total -= value
+
+    out_str = "\\overline{"
+    purse_keys = list(purse.keys())
+
+    for i, coin in enumerate(purse_keys):
+        coin_name = coin if purse[coin] > 1 else coins[coin]['singular']
+        out_str += "\\textrm{" + number_words[purse[coin] - 1] + " " + coin_name + "}"
+
+        if i == 0:
+            out_str += "}"
+
+        if i != len(purse_keys) - 1:
+            out_str += "\\\\"
 
     print(out_str)
-    return out_str,"$$ $$"
+    return out_str, "$$ $$"
 
 def exponents_problem(target,*args,**kwargs):
     list_of_perfect_powers=get_power_choices()
@@ -336,13 +346,13 @@ def unit_conversion(target,allow_scientific=False,*args,**kwargs):
     
     while round(float(computed_target)*conversion_factor)!=target or ('E' in computed_target and not allow_scientific):
 
-        source_system = random.choice(systems.keys())
-        source_type = random.choice(systems[source_system].keys())
-        source_unit = random.choice(systems[source_system][source_type].keys())
+        source_system = random.choice(list(systems.keys()))
+        source_type = random.choice(list(systems[source_system].keys()))
+        source_unit = random.choice(list(systems[source_system][source_type].keys()))
         dest_unit = source_unit
         while dest_unit==source_unit:
-            dest_system = random.choice(systems.keys())
-            dest_unit = random.choice(systems[dest_system][source_type].keys())    
+            dest_system = random.choice(list(systems.keys()))
+            dest_unit = random.choice(list(systems[dest_system][source_type].keys()))    
 
         print("I want to convert {} to {} ".format(source_unit,dest_unit))
 

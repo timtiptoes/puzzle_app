@@ -139,7 +139,16 @@ def make_proper(numer,denom):
     #given numer and denom return proper fraction
     remainder = abs(numer) % denom
     whole=(abs(numer)-remainder)/denom 
-    return whole,cmp(numer,0)*remainder
+    return whole,cmp_to_zero(numer)*remainder
+
+def cmp_to_zero(numer):
+    if numer > 0:
+        return 1
+    elif numer < 0:
+        return -1
+    else:
+        return 0
+
 
 def isPrime(n):
     for i in range(2,int(n**0.5)+1):
@@ -180,12 +189,11 @@ def stack_lines(x,y):
 
 def get_power_choices():
     num_powers=random.randint(1,3)
-    pick=random.choice(powers.keys())
+    pick = random.choice(list(powers.keys()))
     picks=[]
     while pick not in picks and len(picks)<num_powers:
         picks.append(pick)
-        pick=random.choice(powers.keys())
-
+        pick = random.choice(list(powers.keys()))
     return picks
                          
 def get_power_choice(perfect_power):
