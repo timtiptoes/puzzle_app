@@ -55,7 +55,7 @@ instructions_map = {
     "convert_base":               "Convert each to base 10",
     "linear_system":              "Add x+y and find letter above",
     "simplify_exponents":          "Simplify exponents and look up result above.",
-    "simplify_exponent_division":  "Subtract denominator exponents from numerator exponents to find the letter above",
+    "simplify_exponent_division":  "Simplify exponents and look up result above.",
     "find_slope":                 "Use the slope of the line through two points to find letter above",
     "percent_increase":           "Find the closest integer to match the letter above",
     "compound_interest":          "Use the closest amount in thousands below to find letter above",
