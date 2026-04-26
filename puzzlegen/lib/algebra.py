@@ -174,6 +174,28 @@ def exponents_problem(target, *args, **kwargs):
     return "\\overline{" + out_str + "}", sols
 
 
+def divide_exponents(target, *args, **kwargs):
+    # Each term is base^(power+k) / base^k, which simplifies to base^power (a perfect power).
+    # Sum 1-3 such terms plus a constant offset to reach the target.
+    list_of_perfect_powers = get_power_choices()
+    constant = target - sum(list_of_perfect_powers)
+    out_str = ""
+    for i, pp in enumerate(list_of_perfect_powers):
+        pp_pick = get_power_choice(pp)
+        base = pp_pick['base']
+        power = pp_pick['power']
+        k = random.randint(1, 4)
+        out_str += "\\frac{{{}^{{{}}}}}{{{}^{{{}}}}}".format(base, power + k, base, k)
+        if i < len(list_of_perfect_powers) - 1:
+            out_str += "+"
+    if constant > 0:
+        out_str += "+{}".format(constant)
+    elif constant < 0:
+        out_str += "{}".format(constant)
+    sols = "$$" + sympy.latex(target) + "$$"
+    return "\\overline{" + out_str + "}", sols
+
+
 def roots_problem(target, *args, **kwargs):
     list_of_perfect_powers = get_power_choices()
     out_str = ""
