@@ -10,7 +10,7 @@ def get_categories():
         'exponents_problem', 'divide_exponents', 'simple_algebra', 'single_decimal_addition',
         'quadratic_equations', 'roots_problem', 'determinant', 'unit_conversion',
         'simple_series', 'convert_base', 'linear_system', 'simplify_exponents',
-        'find_slope', 'simple_scientific', 'harder_scientific',
+        'find_slope', 'simplify_exponent_division', 'simple_scientific', 'harder_scientific',
         'intermediate_scientific', 'percent_increase',
     ]
 

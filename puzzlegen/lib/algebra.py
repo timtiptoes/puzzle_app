@@ -412,6 +412,9 @@ def find_slope(target, *args, **kwargs):
     return "\\overline{" + out_str + "}", sols
 
 
+_CONSONANTS = list("bcdfghjkmnpqrstvwz")
+
+
 def simplify_exponents(target, *args, **kwargs):
     sols = sympy.latex(target)
     ints = list_of_ints(target, random.choice([2, 3, 4]))
@@ -421,6 +424,36 @@ def simplify_exponents(target, *args, **kwargs):
         power_string = "^{" + str(i) + "}" if i != 1 else ""
         out_str += "x{}".format(power_string)
     return "\\overline{" + out_str + "}", sols
+
+
+def simplify_exponent_division(target, *args, **kwargs):
+    var = random.choice(_CONSONANTS)
+    sols = sympy.latex(target)
+
+    # Build denominator: 1-3 small positive exponents
+    n_den = random.choice([1, 2, 3])
+    den_exps = [random.randint(1, 4) for _ in range(n_den)]
+    total_den = sum(den_exps)
+
+    # Numerator exponents must sum to target + total_den so that num - den = target
+    total_num = target + total_den
+    n_num = random.choice([2, 3])
+    if total_num < n_num:
+        num_exps = [1] * total_num if total_num > 0 else [1]
+    else:
+        cuts = sorted(random.sample(range(1, total_num), n_num - 1))
+        cuts = [0] + cuts + [total_num]
+        num_exps = [cuts[i + 1] - cuts[i] for i in range(len(cuts) - 1)]
+
+    random.shuffle(num_exps)
+    random.shuffle(den_exps)
+
+    def term(exp):
+        return var if exp == 1 else "{}^{{{}}}".format(var, exp)
+
+    num_str = "".join(term(e) for e in num_exps)
+    den_str = "".join(term(e) for e in den_exps)
+    return "\\overline{\\frac{" + num_str + "}{" + den_str + "}}", sols
 
 
 def percent_increase(target, *args, **kwargs):
