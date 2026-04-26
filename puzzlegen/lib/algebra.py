@@ -159,13 +159,21 @@ def add_coins(target, *args, **kwargs):
 
 def exponents_problem(target, *args, **kwargs):
     list_of_perfect_powers = get_power_choices()
-    constant = target - sum(list_of_perfect_powers)
     out_str = ""
+    signed_values = []
     for pp in list_of_perfect_powers:
         pp_pick = get_power_choice(pp)
-        out_str += "{}^{}".format(pp_pick['base'], pp_pick['power'])
+        base, power = pp_pick['base'], pp_pick['power']
+        # Odd powers allow a negative base: (-2)^3 = -8
+        if power % 2 == 1 and random.random() < 0.5:
+            out_str += "(-{})^{}".format(base, power)
+            signed_values.append(-pp)
+        else:
+            out_str += "{}^{}".format(base, power)
+            signed_values.append(pp)
         if pp != list_of_perfect_powers[-1]:
             out_str += "+"
+    constant = target - sum(signed_values)
     if constant > 0:
         out_str += "+{}".format(constant)
     elif constant < 0:
@@ -417,7 +425,17 @@ _CONSONANTS = list("bcdfghjkmnpqrstvwz")
 
 def simplify_exponents(target, *args, **kwargs):
     sols = sympy.latex(target)
-    ints = list_of_ints(target, random.choice([2, 3, 4]))
+    n = random.choice([2, 3, 4])
+    while True:
+        ints = list_of_ints(target, n)
+        if 0 not in ints:
+            break
+    # Guarantee at least one negative exponent: negate a non-last element
+    # and add 2× its value to the last so the sum stays at target.
+    if all(v > 0 for v in ints):
+        idx = random.randint(0, len(ints) - 2)
+        ints[-1] += 2 * ints[idx]
+        ints[idx] = -ints[idx]
     random.shuffle(ints)
     out_str = ""
     for i in ints:
@@ -430,12 +448,12 @@ def simplify_exponent_division(target, *args, **kwargs):
     var = random.choice(_CONSONANTS)
     sols = sympy.latex(target)
 
-    # Build denominator: 1-3 small positive exponents
+    # Denominator: 1-3 small positive exponents
     n_den = random.choice([1, 2, 3])
     den_exps = [random.randint(1, 4) for _ in range(n_den)]
     total_den = sum(den_exps)
 
-    # Numerator exponents must sum to target + total_den so that num - den = target
+    # Numerator exponents sum to target + total_den so that num - den = target
     total_num = target + total_den
     n_num = random.choice([2, 3])
     if total_num < n_num:
@@ -444,6 +462,13 @@ def simplify_exponent_division(target, *args, **kwargs):
         cuts = sorted(random.sample(range(1, total_num), n_num - 1))
         cuts = [0] + cuts + [total_num]
         num_exps = [cuts[i + 1] - cuts[i] for i in range(len(cuts) - 1)]
+
+    # Guarantee at least one negative exponent in the numerator: negate a
+    # non-last element and add 2× its value to the last to keep the sum.
+    if len(num_exps) >= 2 and all(e > 0 for e in num_exps):
+        idx = random.randint(0, len(num_exps) - 2)
+        num_exps[-1] += 2 * num_exps[idx]
+        num_exps[idx] = -num_exps[idx]
 
     random.shuffle(num_exps)
     random.shuffle(den_exps)
