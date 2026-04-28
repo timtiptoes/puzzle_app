@@ -6,8 +6,10 @@ from model import InputForm
 from puzzlegen import puzzlesheet
 from puzzlegen import crosswordsheet
 from utils import get_categories
+from db import init_db, log_puzzle
 
 app = Flask(__name__)
+init_db()
 
 
 def nocache(view):
@@ -50,6 +52,7 @@ def make_puzzle(puzzle_type):
         sheet.add_section()
         sheet.write()
         filename = sheet.fname + ".pdf"
+    log_puzzle(clue, puzzle_type)
     return send_file('tmp/' + filename, download_name='puzzle.pdf')
 
 
