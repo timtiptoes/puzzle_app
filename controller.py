@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, session, redirect, url_for
 from flask import make_response
 from functools import wraps, update_wrapper
 from datetime import datetime
@@ -6,10 +6,14 @@ from model import InputForm
 from puzzlegen import puzzlesheet
 from puzzlegen import crosswordsheet
 from utils import get_categories
-from db import init_db, log_puzzle
+from db import init_db, log_puzzle, get_log
 
 app = Flask(__name__)
+app.secret_key = 'ph#Kw9!mZqL2vXnR'
 init_db()
+
+_LOG_PASSWORD = 'Barge7navy'
+_LOG_PER_PAGE = 25
 
 
 def nocache(view):
@@ -54,6 +58,35 @@ def make_puzzle(puzzle_type):
         filename = sheet.fname + ".pdf"
     log_puzzle(clue, puzzle_type)
     return send_file('tmp/' + filename, download_name='puzzle.pdf')
+
+
+@app.route('/log/login', methods=['GET', 'POST'])
+def log_login():
+    error = None
+    if request.method == 'POST':
+        if request.form.get('password') == _LOG_PASSWORD:
+            session['log_authed'] = True
+            return redirect(url_for('log_view'))
+        error = 'Incorrect password.'
+    return render_template('log_login.html', error=error)
+
+
+@app.route('/log/logout')
+def log_logout():
+    session.pop('log_authed', None)
+    return redirect(url_for('log_login'))
+
+
+@app.route('/log')
+def log_view():
+    if not session.get('log_authed'):
+        return redirect(url_for('log_login'))
+    page = request.args.get('page', 1, type=int)
+    rows, total = get_log(page, _LOG_PER_PAGE)
+    total_pages = max(1, (total + _LOG_PER_PAGE - 1) // _LOG_PER_PAGE)
+    page = max(1, min(page, total_pages))
+    return render_template('log.html', rows=rows, page=page,
+                           total_pages=total_pages, total=total)
 
 
 if __name__ == '__main__':
