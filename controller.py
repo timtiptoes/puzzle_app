@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, send_file, session, redirect, url_for
 from flask import make_response
+import os
 from functools import wraps, update_wrapper
 from datetime import datetime
 from model import InputForm
@@ -12,7 +13,7 @@ app = Flask(__name__)
 app.secret_key = 'ph#Kw9!mZqL2vXnR'
 init_db()
 
-_LOG_PASSWORD = 'Barge7navy'
+_LOG_PASSWORD = os.environ['PUZZLE_PASSWORD']
 _LOG_PER_PAGE = 25
 
 
