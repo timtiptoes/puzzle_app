@@ -1,6 +1,7 @@
 FROM python:3.11-slim
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN mkdir -p /var/cache/apt/archives/partial && \
+    apt-get update && apt-get install -y --no-install-recommends \
         texlive-latex-base \
         texlive-latex-recommended \
         texlive-latex-extra \
