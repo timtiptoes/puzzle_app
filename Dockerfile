@@ -1,24 +1,19 @@
-FROM ubuntu:22.04
+FROM python:3.11-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        python3 \
-        python3-pip \
+RUN rm -f /etc/apt/apt.conf.d/docker-clean && \
+    apt-get update && apt-get install -y --no-install-recommends \
         texlive-latex-base \
         texlive-latex-recommended \
         texlive-fonts-recommended \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-
-COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
-
 COPY . .
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 RUN mkdir -p tmp log
 
-EXPOSE 5006
-
-CMD ["python3", "controller.py"]
+CMD ["sh", "-c", "gunicorn controller:app --bind 0.0.0.0:$PORT"]
