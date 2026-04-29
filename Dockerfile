@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-RUN mkdir -p /var/cache/apt/archives/partial && \
+RUN rm -f /etc/apt/apt.conf.d/docker-clean && \
     apt-get update && apt-get install -y --no-install-recommends \
         texlive-latex-base \
         texlive-latex-recommended \
