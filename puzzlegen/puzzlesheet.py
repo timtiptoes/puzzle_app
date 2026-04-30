@@ -34,6 +34,24 @@ _problems_map = {
     "harder_scientific":         harder_scientific,
 }
 
+# Types whose LaTeX expressions evaluate directly to the numeric target — safe to combine additively.
+# Types like simple_algebra (equations), simplify_exponents (variable expressions), or
+# fraction_addition (answer = numerator, not expression value) are excluded.
+_ADDABLE_TYPES = {
+    "simple_addition", "add_negatives", "multiplication_then_addition",
+    "simple_division_problem", "two_digit_subtraction", "add_coins",
+    "exponents_problem", "divide_exponents", "single_decimal_addition",
+    "roots_problem", "simple_scientific", "intermediate_scientific",
+    "harder_scientific", "convert_base",
+}
+
+
+def _strip_overline(s):
+    if s.startswith("\\overline{") and s.endswith("}"):
+        return s[len("\\overline{"):-1]
+    return s
+
+
 instructions_map = {
     "simple_addition":            "Add the two numbers to find the letter above",
     "add_negatives":              "Add the numbers",
@@ -101,8 +119,18 @@ class puzzlesheet(object):
 
     def add_section(self, problem_type, cols, title, instructions, *args, **kwargs):
         if isinstance(problem_type, list):
-            generators = [_problems_map[pt] for pt in problem_type]
-            prob_generator = lambda target, *a, **kw: random.choice(generators)(target, *a, **kw)
+            all_gens = [_problems_map[pt] for pt in problem_type]
+            addable_gens = [_problems_map[pt] for pt in problem_type if pt in _ADDABLE_TYPES]
+            if len(addable_gens) >= 2:
+                def prob_generator(target, *a, **kw):
+                    g1, g2 = random.sample(addable_gens, 2)
+                    part1 = random.randint(0, target)
+                    part2 = target - part1
+                    p1, _ = g1(part1)
+                    p2, _ = g2(part2)
+                    return "\\overline{" + _strip_overline(p1) + "+" + _strip_overline(p2) + "}", str(target)
+            else:
+                prob_generator = lambda target, *a, **kw: random.choice(all_gens)(target, *a, **kw)
         else:
             prob_generator = problem_type if hasattr(problem_type, '__call__') else _problems_map[problem_type]
         start, end = puzzle_section_parts(title, instructions, cols=1)
