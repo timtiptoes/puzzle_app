@@ -1,4 +1,5 @@
 import os
+import random
 import datetime
 from .lib import *
 
@@ -99,7 +100,11 @@ class puzzlesheet(object):
         self.puzzlesheet = document(fname, title, savetex)
 
     def add_section(self, problem_type, cols, title, instructions, *args, **kwargs):
-        prob_generator = problem_type if hasattr(problem_type, '__call__') else _problems_map[problem_type]
+        if isinstance(problem_type, list):
+            generators = [_problems_map[pt] for pt in problem_type]
+            prob_generator = lambda target, *a, **kw: random.choice(generators)(target, *a, **kw)
+        else:
+            prob_generator = problem_type if hasattr(problem_type, '__call__') else _problems_map[problem_type]
         start, end = puzzle_section_parts(title, instructions, cols=1)
 
         s_probs = []

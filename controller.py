@@ -41,6 +41,20 @@ def clue_ideas():
     return render_template('clue_ideas.html')
 
 
+@app.route("/make_mixed_puzzle", methods=['POST'])
+@nocache
+def make_mixed_puzzle():
+    clue = request.form.get("clue", "").strip()
+    puzzle_types = request.form.getlist("puzzle_types")
+    if not clue or not puzzle_types:
+        return redirect(url_for('puzzle'))
+    sheet = puzzlesheet.puzzlesheet("puzzle", "", clue, savetex=True)
+    sheet.add_section(puzzle_types, 6, "", "Solve each problem to find the letter above")
+    sheet.write()
+    log_puzzle(clue, "mixed: " + ", ".join(puzzle_types))
+    return send_file('tmp/puzzle.pdf', download_name='puzzle.pdf')
+
+
 @app.route("/make_puzzle/<string:puzzle_type>")
 @nocache
 def make_puzzle(puzzle_type):

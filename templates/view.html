@@ -1,42 +1,179 @@
 <!DOCTYPE html>
-<html lang="en" style="" class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> </script><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="HelloKids"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#c15788"><meta name="apple-mobile-web-app-title" content="HelloKids"><meta name="msapplication-tap-highlight" content="no"><meta name="theme-color" content="#c15788"><link rel="stylesheet" href="static/main.css" type="text/css">
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
-    <script language="javascript" type="text/javascript">
-      var scrt_var = "I hold legos"; 
-    </script>
-<script type="text/javascript">
-window.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+000A'||e.keyIdentifier=='Enter'||e.keyCode==13){if(e.target.nodeName=='INPUT'&&e.target.type=='text'){e.preventDefault();return false;}}},true);
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Puzzle Hunt!</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f5f0ed;
+      font-family: Georgia, serif;
+      color: #2c2c2c;
+      padding: 2rem 1rem;
+    }
+    header {
+      max-width: 860px;
+      margin: 0 auto 2rem;
+    }
+    h1 { color: #7a1942; font-size: 1.8rem; margin-bottom: 0.25rem; }
+    .subtitle { color: #888; font-size: 0.95rem; }
+
+    .card {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      max-width: 860px;
+      margin: 0 auto 1.5rem;
+      padding: 1.5rem 2rem;
+    }
+
+    label.field-label {
+      display: block;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #7a1942;
+      margin-bottom: 0.5rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      font-size: 1rem;
+      font-family: inherit;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #7a1942;
+      box-shadow: 0 0 0 2px rgba(122,25,66,0.15);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #7a1942;
+    }
+    .select-links { font-size: 0.85rem; }
+    .select-links a {
+      color: #7a1942;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .select-links a:hover { text-decoration: underline; }
+    .select-links span { color: #ccc; margin: 0 0.3rem; }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem 1.5rem;
+    }
+    @media (max-width: 600px) {
+      .checkbox-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.92rem;
+      cursor: pointer;
+      padding: 0.2rem 0;
+    }
+    .checkbox-item input[type="checkbox"] {
+      accent-color: #7a1942;
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .error {
+      color: #c0392b;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    .actions {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    button[type="submit"] {
+      padding: 0.7rem 2.5rem;
+      background: #7a1942;
+      color: #d4a882;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-family: inherit;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+    }
+    button[type="submit"]:hover { background: #961f51; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Puzzle Hunt!</h1>
+  <p class="subtitle">Enter a clue, pick puzzle types, generate.</p>
+</header>
+
+<form action="{{ url_for('make_mixed_puzzle') }}" method="post" id="puzzle-form">
+
+  <div class="card">
+    <label class="field-label" for="clue">Clue</label>
+    <input type="text" id="clue" name="clue" placeholder="e.g. I hold legos" autocomplete="off">
+  </div>
+
+  <div class="card">
+    <div class="section-header">
+      <span class="section-title">Puzzle Types</span>
+      <span class="select-links">
+        <a onclick="setAll(true)">Select all</a>
+        <span>·</span>
+        <a onclick="setAll(false)">None</a>
+      </span>
+    </div>
+    <div class="checkbox-grid">
+      {% for name, info in my_categories.items() %}
+      <label class="checkbox-item">
+        <input type="checkbox" name="puzzle_types" value="{{ info['filename'] }}">
+        {{ name }}
+      </label>
+      {% endfor %}
+    </div>
+    <p class="error" id="type-error">Please select at least one puzzle type.</p>
+  </div>
+
+  <div class="actions">
+    <button type="submit">Generate Puzzle</button>
+  </div>
+
+</form>
+
+<script>
+  function setAll(checked) {
+    document.querySelectorAll('input[name="puzzle_types"]').forEach(cb => cb.checked = checked);
+  }
+
+  document.getElementById('puzzle-form').addEventListener('submit', function(e) {
+    var anyChecked = document.querySelector('input[name="puzzle_types"]:checked');
+    var clue = document.getElementById('clue').value.trim();
+    if (!anyChecked || !clue) {
+      e.preventDefault();
+      document.getElementById('type-error').style.display = anyChecked ? 'none' : 'block';
+    }
+  });
 </script>
-</HEAD>
-<BODY>
- <div id="content" class="gamesPage"><div id="top-wrap"></div> 
-  <div class="contentWrap"><section class="primary-content"><div class="content-block big-category "><div class="content-container"><div class="category-content-wrap"><div class="txt-container"><div class="cat-title-wrap pos-big pos-right"><h1 class="cat-title">Puzzle Hunt!</h1></div></div><div class="listwrap big-content"><div class="elementWrap">
-    <br><h7>Enter a clue then click a tile<br></h7>
-     <form action="{{ url_for('puzzle') }}" method="post" name="simple" enctype="multipart/form-data" method="post">
-         <p>
-             Clue:
-             {{form.clue(size=80,**{"onkeyUp":"scrt_var=this.value"})}}
-         </p>
-        
-     </form>
 
-<!-- <a href="clue_ideas" class="newanchor" target="_blank" rel="noopener noreferrer"><img src="static/lightbulb.png">Clue Ideas</a> -->
-<a class="big-element contenu" href="clue_ideas" onclick="location.href=this.href;return false;" title="{{n}}" data-id="c22543"><img src="static/lightbulb2.png" data-bigimg="http://images.hellokids.com/_uploads/custom/440x440/_tiny_galerie/20100832/puzzle-oie-source-eb4dn.jpg"><span class="element-title">clue ideas</span>
-</a>
-        {% for n in my_categories.keys() %}
-        <a class="big-element contenu" href="{{url_for('make_puzzle',puzzle_type=n)}}" onclick="location.href=this.href+'?clue='+scrt_var;return false;" title="{{n}}" data-id="c22543"><img src="static/{{my_categories[n]['filename']}}.jpg" data-bigimg="http://images.hellokids.com/_uploads/custom/440x440/_tiny_galerie/20100832/puzzle-oie-source-eb4dn.jpg"><span class="element-title">{{n}}</span>
-</a>
-        {% endfor %}
-
-<br><br>
-<p>
-Want to get involved and make your own puzzles? Drop me a line:
-timtiptoes@yahoo.com
-</p>
-  </body>
+</body>
 </html>
-
-
-
-
-

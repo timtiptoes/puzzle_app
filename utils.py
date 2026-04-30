@@ -23,8 +23,8 @@ def get_categories():
         for p in math_puzzle_list
     }
 
-    return {**crossword_puzzles, **math_puzzles}
-
+    #return {**crossword_puzzles, **math_puzzles}
+    return {**math_puzzles}
 
 def get_display_categories():
     return [(x, '$$\\texttt{' + x + '}$$') for x in get_categories().keys()]
