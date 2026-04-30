@@ -130,7 +130,10 @@ class puzzlesheet(object):
                     part2 = target - part1
                     p1, _ = g1(part1)
                     p2, _ = g2(part2)
-                    return "\\overline{" + _strip_overline(p1) + "+" + _strip_overline(p2) + "}", str(target)
+                    expr1 = _strip_overline(p1)
+                    expr2 = _strip_overline(p2)
+                    combined = "\\overline{" + expr1 + "}\\\\" + "+\\overline{" + expr2 + "}"
+                    return combined, str(target)
             else:
                 prob_generator = lambda target, *a, **kw: random.choice(all_gens)(target, *a, **kw)
         else:
