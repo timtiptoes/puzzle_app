@@ -41,8 +41,7 @@ _ADDABLE_TYPES = {
     "simple_addition", "add_negatives", "multiplication_then_addition",
     "simple_division_problem", "two_digit_subtraction", "add_coins",
     "exponents_problem", "divide_exponents", "single_decimal_addition",
-    "roots_problem", "simple_scientific", "intermediate_scientific",
-    "harder_scientific", "convert_base",
+    "roots_problem",
 }
 
 
@@ -124,7 +123,10 @@ class puzzlesheet(object):
             if len(addable_gens) >= 2:
                 def prob_generator(target, *a, **kw):
                     g1, g2 = random.sample(addable_gens, 2)
-                    part1 = random.randint(0, target)
+                    if target >= 2:
+                        part1 = random.randint(1, target - 1)
+                    else:
+                        return random.choice(addable_gens)(target)
                     part2 = target - part1
                     p1, _ = g1(part1)
                     p2, _ = g2(part2)
