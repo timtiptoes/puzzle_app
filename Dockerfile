@@ -1,10 +1,11 @@
 FROM python:3.11-slim
 
-RUN mkdir -p /var/cache/apt/archives/partial && \
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN rm -f /etc/apt/apt.conf.d/docker-clean && \
     apt-get update && apt-get install -y --no-install-recommends \
         texlive-latex-base \
         texlive-latex-recommended \
-        texlive-latex-extra \
         texlive-fonts-recommended \
     && rm -rf /var/lib/apt/lists/*
 
