@@ -180,6 +180,36 @@
       margin-left: 1rem;
       display: none;
     }
+
+    .clue-wrap { position: relative; }
+    .clue-toast {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      background: #7a1942;
+      color: #f5ece5;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 10;
+    }
+    .clue-toast::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 14px;
+      border: 5px solid transparent;
+      border-bottom-color: #7a1942;
+    }
+    .clue-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -193,7 +223,10 @@
 
   <div class="clue-card">
     <label class="field-label" for="clue">Clue</label>
-    <input type="text" id="clue" name="clue" placeholder="e.g. I hold legos" autocomplete="off">
+    <div class="clue-wrap">
+      <input type="text" id="clue" name="clue" placeholder="e.g. I hold legos" autocomplete="off">
+      <div class="clue-toast" id="clue-toast">Please enter a clue</div>
+    </div>
   </div>
 
   <div class="groups-wrapper">
@@ -340,12 +373,25 @@
     document.querySelectorAll('[data-group="' + group + '"] input[name="puzzle_types"]').forEach(cb => cb.checked = checked);
   }
 
+  var toastTimer;
+  function showClueToast() {
+    var toast = document.getElementById('clue-toast');
+    clearTimeout(toastTimer);
+    toast.classList.add('show');
+    toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2500);
+  }
+
+  document.getElementById('clue').addEventListener('input', function() {
+    document.getElementById('clue-toast').classList.remove('show');
+  });
+
   document.getElementById('puzzle-form').addEventListener('submit', function(e) {
     var anyChecked = document.querySelector('input[name="puzzle_types"]:checked');
     var clue = document.getElementById('clue').value.trim();
     if (!anyChecked || !clue) {
       e.preventDefault();
       document.getElementById('type-error').style.display = (!anyChecked) ? 'inline' : 'none';
+      if (!clue) showClueToast();
     }
   });
 </script>
