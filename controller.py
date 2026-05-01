@@ -23,12 +23,6 @@ def clue_filename(clue):
     return safe.strip().replace(" ", "_") + ".pdf"
 
 
-def send_pdf(path, clue):
-    resp = send_file(path, mimetype='application/pdf')
-    resp.headers['Content-Disposition'] = 'attachment; filename="%s"' % clue_filename(clue)
-    return resp
-
-
 def nocache(view):
     @wraps(view)
     def no_cache(*args, **kwargs):
@@ -54,7 +48,6 @@ def clue_ideas():
 
 
 @app.route("/make_mixed_puzzle", methods=['POST'])
-@nocache
 def make_mixed_puzzle():
     clue = request.form.get("clue", "").strip()
     puzzle_types = request.form.getlist("puzzle_types")
@@ -72,27 +65,40 @@ def make_mixed_puzzle():
     sheet.add_section(puzzle_types, 6, "", instructions)
     sheet.write()
     log_puzzle(clue, "mixed: " + ", ".join(puzzle_types))
-    return send_pdf('tmp/puzzle.pdf', clue)
+    session['last_clue'] = clue
+    return redirect(url_for('puzzle_result'))
+
+
+@app.route("/puzzle_result")
+def puzzle_result():
+    clue = session.get('last_clue', 'puzzle')
+    return render_template('result.html', clue=clue, filename=clue_filename(clue))
+
+
+@app.route("/current_puzzle")
+@nocache
+def current_puzzle():
+    resp = send_file('tmp/puzzle.pdf', mimetype='application/pdf')
+    resp.headers['Content-Disposition'] = 'inline; filename="puzzle.pdf"'
+    return resp
 
 
 @app.route("/make_puzzle/<string:puzzle_type>")
-@nocache
 def make_puzzle(puzzle_type):
     categories = get_categories()
-    clue = request.args.get("clue")
+    clue = request.args.get("clue", "").strip()
     if categories[puzzle_type]['type'] == 'math':
         sheet = puzzlesheet.puzzlesheet("puzzle", "", clue, savetex=True)
         puzz = categories[puzzle_type]['filename'].lower()
         sheet.add_section(puzz, 6, "", puzzlesheet.instructions_map[puzz], rhs=0)
         sheet.write()
-        filename = "puzzle.pdf"
     else:
         sheet = crosswordsheet.crossword1d(categories[puzzle_type]['filename'], title=puzzle_type, clue=clue, savetex=True)
         sheet.add_section()
         sheet.write()
-        filename = sheet.fname + ".pdf"
     log_puzzle(clue, puzzle_type)
-    return send_pdf('tmp/' + filename, clue)
+    session['last_clue'] = clue
+    return redirect(url_for('puzzle_result'))
 
 
 @app.route('/log/login', methods=['GET', 'POST'])
