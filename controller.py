@@ -17,6 +17,11 @@ _LOG_PASSWORD = os.environ['PUZZLE_PASSWORD']
 _LOG_PER_PAGE = 25
 
 
+def clue_filename(clue):
+    safe = "".join(c if c.isalnum() or c in " -" else "" for c in clue)
+    return safe.strip().replace(" ", "_") + ".pdf"
+
+
 def nocache(view):
     @wraps(view)
     def no_cache(*args, **kwargs):
@@ -52,7 +57,7 @@ def make_mixed_puzzle():
     sheet.add_section(puzzle_types, 6, "", "Solve each problem to find the letter above")
     sheet.write()
     log_puzzle(clue, "mixed: " + ", ".join(puzzle_types))
-    return send_file('tmp/puzzle.pdf', download_name='puzzle.pdf')
+    return send_file('tmp/puzzle.pdf', download_name=clue_filename(clue))
 
 
 @app.route("/make_puzzle/<string:puzzle_type>")
@@ -72,7 +77,7 @@ def make_puzzle(puzzle_type):
         sheet.write()
         filename = sheet.fname + ".pdf"
     log_puzzle(clue, puzzle_type)
-    return send_file('tmp/' + filename, download_name='puzzle.pdf')
+    return send_file('tmp/' + filename, download_name=clue_filename(clue))
 
 
 @app.route('/log/login', methods=['GET', 'POST'])
