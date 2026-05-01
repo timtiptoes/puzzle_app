@@ -53,8 +53,16 @@ def make_mixed_puzzle():
     puzzle_types = request.form.getlist("puzzle_types")
     if not clue or not puzzle_types:
         return redirect(url_for('puzzle'))
+    seen = set()
+    instrs = []
+    for pt in puzzle_types:
+        instr = puzzlesheet.instructions_map.get(pt)
+        if instr and instr not in seen:
+            seen.add(instr)
+            instrs.append(instr)
+    instructions = " $\\cdot$ ".join(instrs) or "Solve each problem to find the letter above"
     sheet = puzzlesheet.puzzlesheet("puzzle", "", clue, savetex=True)
-    sheet.add_section(puzzle_types, 6, "", "Solve each problem to find the letter above")
+    sheet.add_section(puzzle_types, 6, "", instructions)
     sheet.write()
     log_puzzle(clue, "mixed: " + ", ".join(puzzle_types))
     return send_file('tmp/puzzle.pdf', download_name=clue_filename(clue))
