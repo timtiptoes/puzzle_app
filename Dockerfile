@@ -22,4 +22,4 @@ RUN mkdir -p tmp log
 
 EXPOSE 5006
 
-CMD ["python3", "controller.py"]
+CMD ["sh", "-c", "python3 -m gunicorn controller:app --bind 0.0.0.0:${PORT:-5006}"]
