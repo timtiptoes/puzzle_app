@@ -13,21 +13,20 @@
       padding: 2rem 1rem;
     }
     header {
-      max-width: 860px;
+      max-width: 960px;
       margin: 0 auto 2rem;
     }
     h1 { color: #7a1942; font-size: 1.8rem; margin-bottom: 0.25rem; }
     .subtitle { color: #888; font-size: 0.95rem; }
 
-    .card {
+    .clue-card {
       background: #fff;
       border-radius: 6px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      max-width: 860px;
+      max-width: 960px;
       margin: 0 auto 1.5rem;
       padding: 1.5rem 2rem;
     }
-
     label.field-label {
       display: block;
       font-size: 0.85rem;
@@ -50,61 +49,114 @@
       box-shadow: 0 0 0 2px rgba(122,25,66,0.15);
     }
 
-    .section-header {
+    /* ── Top-level group boxes ─────────────────────────────── */
+    .groups-wrapper {
+      max-width: 960px;
+      margin: 0 auto 1.5rem;
       display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 1rem;
+      flex-direction: column;
+      gap: 1rem;
     }
-    .section-title {
-      font-size: 0.85rem;
-      letter-spacing: 0.06em;
+    .group {
+      border: 2px solid #7a1942;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .group-header {
+      background: #7a1942;
+      color: #d4a882;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #7a1942;
-    }
-    .select-links { font-size: 0.85rem; }
-    .select-links a {
-      color: #7a1942;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .select-links a:hover { text-decoration: underline; }
-    .select-links span { color: #ccc; margin: 0 0.3rem; }
-
-    .checkbox-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem 1.5rem;
-    }
-    @media (max-width: 600px) {
-      .checkbox-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    .checkbox-item {
+      padding: 0.45rem 1rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 0.92rem;
-      cursor: pointer;
-      padding: 0.2rem 0;
+      justify-content: space-between;
     }
-    .checkbox-item input[type="checkbox"] {
+    .group-header a {
+      color: #d4a882;
+      opacity: 0.75;
+      font-size: 0.75rem;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+    }
+    .group-header a:hover { opacity: 1; text-decoration: underline; }
+    .group-header .sep { opacity: 0.4; margin: 0 0.3rem; }
+    .group-body {
+      padding: 1rem;
+    }
+
+    /* ── Sub-group boxes inside Arithmetic ─────────────────── */
+    .subgroups {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+    @media (max-width: 700px) {
+      .subgroups { grid-template-columns: repeat(2, 1fr); }
+    }
+    .subgroup {
+      border: 1px solid #c9a07a;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .subgroup-header {
+      background: #ede0d0;
+      color: #7a1942;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.6rem;
+    }
+    .subgroup-body {
+      padding: 0.5rem 0.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    /* ── Lower groups row ───────────────────────────────────── */
+    .groups-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 700px) {
+      .groups-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    .groups-row .group-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    /* ── Checkbox items ─────────────────────────────────────── */
+    .cb {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.88rem;
+      cursor: pointer;
+      line-height: 1.3;
+    }
+    .cb input[type="checkbox"] {
       accent-color: #7a1942;
-      width: 15px;
-      height: 15px;
+      width: 14px;
+      height: 14px;
       flex-shrink: 0;
       cursor: pointer;
     }
 
-    .error {
-      color: #c0392b;
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
-      display: none;
-    }
-
+    /* ── Actions ────────────────────────────────────────────── */
     .actions {
-      max-width: 860px;
+      max-width: 960px;
       margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
     }
     button[type="submit"] {
       padding: 0.7rem 2.5rem;
@@ -118,6 +170,16 @@
       cursor: pointer;
     }
     button[type="submit"]:hover { background: #961f51; }
+    .global-links { font-size: 0.85rem; }
+    .global-links a { color: #7a1942; cursor: pointer; text-decoration: none; }
+    .global-links a:hover { text-decoration: underline; }
+    .global-links .sep { color: #ccc; margin: 0 0.3rem; }
+    .error {
+      color: #c0392b;
+      font-size: 0.9rem;
+      margin-left: 1rem;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -129,33 +191,142 @@
 
 <form action="{{ url_for('make_mixed_puzzle') }}" method="post" id="puzzle-form">
 
-  <div class="card">
+  <div class="clue-card">
     <label class="field-label" for="clue">Clue</label>
     <input type="text" id="clue" name="clue" placeholder="e.g. I hold legos" autocomplete="off">
   </div>
 
-  <div class="card">
-    <div class="section-header">
-      <span class="section-title">Puzzle Types</span>
-      <span class="select-links">
-        <a onclick="setAll(true)">Select all</a>
-        <span>·</span>
-        <a onclick="setAll(false)">None</a>
-      </span>
+  <div class="groups-wrapper">
+
+    <!-- ── Arithmetic ─────────────────────────────────────── -->
+    <div class="group">
+      <div class="group-header">
+        <span>Arithmetic</span>
+        <span>
+          <a onclick="setGroup('arithmetic', true)">all</a>
+          <span class="sep">·</span>
+          <a onclick="setGroup('arithmetic', false)">none</a>
+        </span>
+      </div>
+      <div class="group-body">
+        <div class="subgroups">
+          <div class="subgroup">
+            <div class="subgroup-header">Addition</div>
+            <div class="subgroup-body" data-group="arithmetic">
+              <label class="cb"><input type="checkbox" name="puzzle_types" value="simple_addition"> simple addition</label>
+              <label class="cb"><input type="checkbox" name="puzzle_types" value="add_negatives"> with negative numbers</label>
+              <label class="cb"><input type="checkbox" name="puzzle_types" value="fraction_addition"> fraction addition</label>
+              <label class="cb"><input type="checkbox" name="puzzle_types" value="single_decimal_addition"> single decimal addition</label>
+              <label class="cb"><input type="checkbox" name="puzzle_types" value="add_coins"> add coins</label>
+            </div>
+          </div>
+          <div class="subgroup">
+            <div class="subgroup-header">Subtraction</div>
+            <div class="subgroup-body" data-group="arithmetic">
+              <label class="cb"><input type="checkbox" name="puzzle_types" value="two_digit_subtraction"> two digit subtraction</label>
+            </div>
+          </div>
+          <div class="subgroup">
+            <div class="subgroup-header">Multiplication</div>
+            <div class="subgroup-body" data-group="arithmetic">
+              <label class="cb"><input type="checkbox" name="puzzle_types" value="multiplication_then_addition"> multiplication then addition</label>
+              <label class="cb"><input type="checkbox" name="puzzle_types" value="two_digit_multiplication"> two digit multiplication</label>
+            </div>
+          </div>
+          <div class="subgroup">
+            <div class="subgroup-header">Division</div>
+            <div class="subgroup-body" data-group="arithmetic">
+              <label class="cb"><input type="checkbox" name="puzzle_types" value="simple_division_problem"> simple division</label>
+              <label class="cb"><input type="checkbox" name="puzzle_types" value="simplify_ratio"> simplify ratio</label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="checkbox-grid">
-      {% for name, info in my_categories.items() %}
-      <label class="checkbox-item">
-        <input type="checkbox" name="puzzle_types" value="{{ info['filename'] }}">
-        {{ name }}
-      </label>
-      {% endfor %}
+
+    <!-- ── Lower four groups ──────────────────────────────── -->
+    <div class="groups-row">
+
+      <div class="group">
+        <div class="group-header">
+          <span>Exponents</span>
+          <span>
+            <a onclick="setGroup('exponents', true)">all</a>
+            <span class="sep">·</span>
+            <a onclick="setGroup('exponents', false)">none</a>
+          </span>
+        </div>
+        <div class="group-body" data-group="exponents">
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="exponents_problem"> add exponents</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="divide_exponents"> divide exponents</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="simplify_exponents"> simplify exponents</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="simplify_exponent_division"> simplify exponent division</label>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-header">
+          <span>Algebra</span>
+          <span>
+            <a onclick="setGroup('algebra', true)">all</a>
+            <span class="sep">·</span>
+            <a onclick="setGroup('algebra', false)">none</a>
+          </span>
+        </div>
+        <div class="group-body" data-group="algebra">
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="simple_algebra"> simple algebra</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="quadratic_equations"> quadratic equations</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="linear_system"> linear system</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="roots_problem"> root problems</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="find_slope"> find slope</label>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-header">
+          <span>Scientific Notation</span>
+          <span>
+            <a onclick="setGroup('scientific', true)">all</a>
+            <span class="sep">·</span>
+            <a onclick="setGroup('scientific', false)">none</a>
+          </span>
+        </div>
+        <div class="group-body" data-group="scientific">
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="simple_scientific"> simple</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="intermediate_scientific"> intermediate</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="harder_scientific"> harder</label>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-header">
+          <span>Miscellaneous</span>
+          <span>
+            <a onclick="setGroup('misc', true)">all</a>
+            <span class="sep">·</span>
+            <a onclick="setGroup('misc', false)">none</a>
+          </span>
+        </div>
+        <div class="group-body" data-group="misc">
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="determinant"> determinant</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="unit_conversion"> unit conversion</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="simple_series"> series</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="convert_base"> convert base</label>
+          <label class="cb"><input type="checkbox" name="puzzle_types" value="percent_increase"> percent increase</label>
+        </div>
+      </div>
+
     </div>
-    <p class="error" id="type-error">Please select at least one puzzle type.</p>
   </div>
 
   <div class="actions">
     <button type="submit">Generate Puzzle</button>
+    <span class="global-links">
+      <a onclick="setAll(true)">Select all</a>
+      <span class="sep">·</span>
+      <a onclick="setAll(false)">None</a>
+    </span>
+    <span class="error" id="type-error">Please select at least one puzzle type.</span>
   </div>
 
 </form>
@@ -165,12 +336,16 @@
     document.querySelectorAll('input[name="puzzle_types"]').forEach(cb => cb.checked = checked);
   }
 
+  function setGroup(group, checked) {
+    document.querySelectorAll('[data-group="' + group + '"] input[name="puzzle_types"]').forEach(cb => cb.checked = checked);
+  }
+
   document.getElementById('puzzle-form').addEventListener('submit', function(e) {
     var anyChecked = document.querySelector('input[name="puzzle_types"]:checked');
     var clue = document.getElementById('clue').value.trim();
     if (!anyChecked || !clue) {
       e.preventDefault();
-      document.getElementById('type-error').style.display = anyChecked ? 'none' : 'block';
+      document.getElementById('type-error').style.display = (!anyChecked) ? 'inline' : 'none';
     }
   });
 </script>
