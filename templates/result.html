@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ clue }}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f5f0ed;
+      font-family: Georgia, serif;
+      color: #2c2c2c;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .toolbar {
+      background: #7a1942;
+      color: #d4a882;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-shrink: 0;
+    }
+    .toolbar .clue-name {
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      flex: 1;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.4rem 1.1rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+    }
+    .btn-download {
+      background: #d4a882;
+      color: #7a1942;
+      font-weight: bold;
+    }
+    .btn-download:hover { background: #e0bb99; }
+    .btn-back {
+      color: #d4a882;
+      border: 1px solid #d4a882;
+    }
+    .btn-back:hover { background: rgba(212,168,130,0.15); }
+    embed {
+      flex: 1;
+      width: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="clue-name">{{ clue }}</span>
+    <a class="btn btn-download" href="{{ url_for('current_puzzle') }}" download="{{ filename }}">Download PDF</a>
+    <a class="btn btn-back" href="{{ url_for('puzzle') }}">&larr; Make another</a>
+  </div>
+  <embed src="{{ url_for('current_puzzle') }}" type="application/pdf">
+</body>
+</html>
