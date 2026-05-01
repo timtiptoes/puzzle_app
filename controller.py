@@ -78,8 +78,9 @@ def puzzle_result():
 @app.route("/current_puzzle")
 @nocache
 def current_puzzle():
+    clue = session.get('last_clue', 'puzzle')
     resp = send_file('tmp/puzzle.pdf', mimetype='application/pdf')
-    resp.headers['Content-Disposition'] = 'inline; filename="puzzle.pdf"'
+    resp.headers['Content-Disposition'] = 'inline; filename="%s"' % clue_filename(clue)
     return resp
 
 
