@@ -18,8 +18,15 @@ _LOG_PER_PAGE = 25
 
 
 def clue_filename(clue):
-    safe = "".join(c if c.isalnum() or c in " -" else "" for c in clue)
+    unsafe = set('/\\:*?"<>|\0\'')
+    safe = "".join(c for c in clue if c not in unsafe)
     return safe.strip().replace(" ", "_") + ".pdf"
+
+
+def send_pdf(path, clue):
+    resp = send_file(path, mimetype='application/pdf')
+    resp.headers['Content-Disposition'] = 'attachment; filename="%s"' % clue_filename(clue)
+    return resp
 
 
 def nocache(view):
@@ -65,7 +72,7 @@ def make_mixed_puzzle():
     sheet.add_section(puzzle_types, 6, "", instructions)
     sheet.write()
     log_puzzle(clue, "mixed: " + ", ".join(puzzle_types))
-    return send_file('tmp/puzzle.pdf', download_name=clue_filename(clue))
+    return send_pdf('tmp/puzzle.pdf', clue)
 
 
 @app.route("/make_puzzle/<string:puzzle_type>")
@@ -85,7 +92,7 @@ def make_puzzle(puzzle_type):
         sheet.write()
         filename = sheet.fname + ".pdf"
     log_puzzle(clue, puzzle_type)
-    return send_file('tmp/' + filename, download_name=clue_filename(clue))
+    return send_pdf('tmp/' + filename, clue)
 
 
 @app.route('/log/login', methods=['GET', 'POST'])
