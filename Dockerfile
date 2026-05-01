@@ -14,7 +14,7 @@ RUN rm -f /etc/apt/apt.conf.d/docker-clean && \
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . .
 
