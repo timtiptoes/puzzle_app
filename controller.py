@@ -122,8 +122,12 @@ def puzzle_result():
 @nocache
 def current_puzzle():
     clue = session.get('last_clue', 'puzzle')
-    resp = send_file('tmp/puzzle.pdf', mimetype='application/pdf')
-    resp.headers['Content-Disposition'] = 'inline; filename="%s"' % clue_filename(clue)
+    filename = clue_filename(clue)
+    path = os.path.join('tmp', filename)
+    if not os.path.exists(path):
+        return "Not found", 404
+    resp = send_file(path, mimetype='application/pdf')
+    resp.headers['Content-Disposition'] = 'inline; filename="%s"' % filename
     return resp
 
 

@@ -9,6 +9,7 @@ RUN rm -f /etc/apt/apt.conf.d/docker-clean && \
         texlive-latex-base \
         texlive-latex-recommended \
         texlive-fonts-recommended \
+        texlive-pictures \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
