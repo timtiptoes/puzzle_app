@@ -32,6 +32,41 @@ def _latex_escape(s):
     return ''.join(chars.get(c, c) for c in s)
 
 
+def _generate_prize_slips(clues, prize_text):
+    safe_prize = _latex_escape(prize_text)
+    cols = 3
+    spacing = 5.5  # cm between circle centers
+    rows_tex = []
+    for row_start in range(0, len(clues), cols):
+        batch = clues[row_start:row_start + cols]
+        nodes = []
+        for j in range(len(batch)):
+            num = row_start + j + 1
+            nodes.append(
+                "  \\node[circle, draw, line width=2pt, minimum size=4.5cm,\n"
+                "         inner sep=5pt, align=center, text width=3.5cm]\n"
+                "    at (%.1fcm,0) {\\textbf{\\Large %d}\\\\[4pt]\\small %s};\n"
+                % (j * spacing, num, safe_prize)
+            )
+        rows_tex.append(
+            "\\begin{center}\\begin{tikzpicture}\n"
+            + "".join(nodes)
+            + "\\end{tikzpicture}\\end{center}\n\\vspace{5mm}\n"
+        )
+    tex = (
+        "\\documentclass{article}\n"
+        "\\usepackage[a4paper,margin=0.75in]{geometry}\n"
+        "\\usepackage{tikz}\n"
+        "\\begin{document}\n"
+        "\\pagenumbering{gobble}\n"
+        + "".join(rows_tex)
+        + "\\end{document}\n"
+    )
+    with open("tmp/prize_slips.tex", "wb") as f:
+        f.write(tex.encode('utf-8'))
+    os.system("pdflatex --interaction=nonstopmode --output-directory tmp tmp/prize_slips.tex")
+
+
 def _generate_clue_list(clues):
     items = "\n".join("  \\item " + _latex_escape(clue) for clue in clues)
     tex = r"""\documentclass[12pt]{article}
@@ -100,6 +135,7 @@ def make_mixed_puzzle():
     puzzle_types = request.form.getlist("puzzle_types")
     is_multi = request.form.get("multi_clue") == "1"
     raw = request.form.get("clue", "").strip()
+    prize_text = request.form.get("prize_text", "").strip()
     if not raw or not puzzle_types:
         return redirect(url_for('puzzle'))
     instructions = _build_instructions(puzzle_types)
@@ -110,11 +146,17 @@ def make_mixed_puzzle():
             fname = _generate_puzzle(clue, puzzle_types, instructions, number=i + 1)
             results.append({'clue': clue, 'filename': fname})
         _generate_clue_list(lines)
+        if prize_text:
+            _generate_prize_slips(lines, prize_text)
+        session['has_prize_slips'] = bool(prize_text)
         session['multi_results'] = results
         return redirect(url_for('multi_result'))
     else:
         clue = raw
         _generate_puzzle(clue, puzzle_types, instructions, number=1)
+        if prize_text:
+            _generate_prize_slips([clue], prize_text)
+        session['has_prize_slips'] = bool(prize_text)
         session['last_clue'] = clue
         return redirect(url_for('puzzle_result'))
 
@@ -124,7 +166,19 @@ def multi_result():
     results = session.get('multi_results')
     if not results:
         return redirect(url_for('puzzle'))
-    return render_template('multi_result.html', results=results)
+    return render_template('multi_result.html', results=results,
+                           has_prize_slips=session.get('has_prize_slips', False))
+
+
+@app.route("/prize_slips")
+@nocache
+def get_prize_slips():
+    path = os.path.join('tmp', 'prize_slips.pdf')
+    if not os.path.exists(path):
+        return "Not found", 404
+    resp = send_file(path, mimetype='application/pdf')
+    resp.headers['Content-Disposition'] = 'inline; filename="prize_slips.pdf"'
+    return resp
 
 
 @app.route("/clue_list")
@@ -154,7 +208,8 @@ def get_puzzle(filename):
 @app.route("/puzzle_result")
 def puzzle_result():
     clue = session.get('last_clue', 'puzzle')
-    return render_template('result.html', clue=clue, filename=clue_filename(clue))
+    return render_template('result.html', clue=clue, filename=clue_filename(clue),
+                           has_prize_slips=session.get('has_prize_slips', False))
 
 
 @app.route("/current_puzzle")

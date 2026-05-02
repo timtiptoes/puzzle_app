@@ -49,6 +49,8 @@
       border: 1px solid #d4a882;
     }
     .btn-back:hover { background: rgba(212,168,130,0.15); }
+    .btn-prize { background: #c9866e; color: #fff; font-weight: bold; }
+    .btn-prize:hover { background: #b8725b; }
     embed {
       flex: 1;
       width: 100%;
@@ -60,6 +62,7 @@
   <div class="toolbar">
     <span class="clue-name">{{ clue }}</span>
     <a class="btn btn-download" href="{{ url_for('current_puzzle') }}" download="{{ filename }}">Download PDF</a>
+    {% if has_prize_slips %}<a class="btn btn-prize" href="{{ url_for('get_prize_slips') }}" download="prize_slips.pdf">Prize Slips</a>{% endif %}
     <a class="btn btn-back" href="{{ url_for('puzzle') }}">&larr; Make another</a>
   </div>
   <embed src="{{ url_for('current_puzzle') }}" type="application/pdf">

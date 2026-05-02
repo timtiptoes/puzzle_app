@@ -6,7 +6,7 @@ _LIBRARY_TEXT = """
         \\begin{minipage}{16cm}
         \\centering\\textbf{Library Etiquette}\\\\[2pt]
         \\raggedright\\small
-        Use the computer to find a book first, ask a librarian if you must\\\\
+        Use the computer to find this book. Go to page 12. Ask a librarian if you must\\\\
         Be sure to put the book back in the same place you found it.
         Mixing up books effectively loses them\\\\
         Be quiet and respectful to those in the library

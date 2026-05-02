@@ -181,6 +181,8 @@
       display: none;
     }
 
+    body.generating, body.generating * { cursor: wait !important; }
+
     .clue-wrap { position: relative; }
     .clue-toast {
       position: absolute;
@@ -239,6 +241,13 @@
       <input type="hidden" id="multi-clue-flag" name="multi_clue" value="">
       <div class="clue-toast" id="clue-toast">Please enter a clue</div>
     </div>
+  </div>
+
+  <div class="clue-card">
+    <label class="field-label" for="prize-text">Prize Slip Text</label>
+    <input type="text" id="prize-text" name="prize_text"
+           placeholder="e.g. Congratulations! Come claim your prize at the front desk."
+           autocomplete="off">
   </div>
 
   <div class="groups-wrapper">
@@ -432,6 +441,8 @@
       e.preventDefault();
       document.getElementById('type-error').style.display = (!anyChecked) ? 'inline' : 'none';
       if (!clueVal) showClueToast();
+    } else {
+      document.body.classList.add('generating');
     }
   });
 </script>
