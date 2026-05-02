@@ -111,7 +111,7 @@ class puzzlesheet(object):
             prob_generator = lambda target, *a, **kw: random.choice(generators)(target, *a, **kw)
         else:
             prob_generator = problem_type if hasattr(problem_type, '__call__') else _problems_map[problem_type]
-        start, end = puzzle_section_parts(title, instructions, cols=1)
+        start, end = puzzle_section_parts(title, instructions, cols=cols)
 
         s_probs = []
         lines = layout_lines(self.clue, cols)
