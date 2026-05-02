@@ -34,6 +34,8 @@
     }
     .btn-back { color: #d4a882; border: 1px solid #d4a882; }
     .btn-back:hover { background: rgba(212,168,130,0.15); }
+    .btn-clue-list { background: #d4a882; color: #7a1942; font-weight: bold; }
+    .btn-clue-list:hover { background: #e0bb99; }
 
     .card {
       background: #fff;
@@ -78,6 +80,7 @@
 
 <div class="toolbar">
   <h1>{{ results|length }} puzzle{{ 's' if results|length != 1 else '' }} generated</h1>
+  <a class="btn btn-clue-list" href="{{ url_for('get_clue_list') }}" download="clue_list.pdf">Clue List PDF</a>
   <a class="btn btn-back" href="{{ url_for('puzzle') }}">&larr; Make more</a>
 </div>
 

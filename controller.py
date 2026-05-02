@@ -24,6 +24,33 @@ def clue_filename(clue):
     return safe.strip().replace(" ", "_") + ".pdf"
 
 
+def _latex_escape(s):
+    chars = {'&': r'\&', '%': r'\%', '$': r'\$', '#': r'\#',
+             '_': r'\_', '{': r'\{', '}': r'\}',
+             '~': r'\textasciitilde{}', '^': r'\textasciicircum{}',
+             '\\': r'\textbackslash{}'}
+    return ''.join(chars.get(c, c) for c in s)
+
+
+def _generate_clue_list(clues):
+    items = "\n".join("  \\item " + _latex_escape(clue) for clue in clues)
+    tex = r"""\documentclass[12pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\begin{document}
+\pagenumbering{gobble}
+\begin{center}{\Large\textbf{Clue List}}\end{center}
+\vspace{1em}
+\large
+\begin{enumerate}
+""" + items + r"""
+\end{enumerate}
+\end{document}
+"""
+    with open("tmp/clue_list.tex", "wb") as f:
+        f.write(tex.encode('utf-8'))
+    os.system("pdflatex --interaction=nonstopmode --output-directory tmp tmp/clue_list.tex")
+
+
 def nocache(view):
     @wraps(view)
     def no_cache(*args, **kwargs):
@@ -82,6 +109,7 @@ def make_mixed_puzzle():
         for i, clue in enumerate(lines):
             fname = _generate_puzzle(clue, puzzle_types, instructions, number=i + 1)
             results.append({'clue': clue, 'filename': fname})
+        _generate_clue_list(lines)
         session['multi_results'] = results
         return redirect(url_for('multi_result'))
     else:
@@ -97,6 +125,17 @@ def multi_result():
     if not results:
         return redirect(url_for('puzzle'))
     return render_template('multi_result.html', results=results)
+
+
+@app.route("/clue_list")
+@nocache
+def get_clue_list():
+    path = os.path.join('tmp', 'clue_list.pdf')
+    if not os.path.exists(path):
+        return "Not found", 404
+    resp = send_file(path, mimetype='application/pdf')
+    resp.headers['Content-Disposition'] = 'inline; filename="clue_list.pdf"'
+    return resp
 
 
 @app.route("/get_puzzle/<string:filename>")
