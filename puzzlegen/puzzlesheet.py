@@ -33,6 +33,7 @@ _problems_map = {
     "intermediate_scientific":   intermediate_scientific,
     "harder_scientific":         harder_scientific,
     "scientific_add_sub":        scientific_add_sub,
+    "find_the_power":            find_the_power,
 }
 
 instructions_map = {
@@ -65,6 +66,7 @@ instructions_map = {
     "intermediate_scientific":    "Convert each number to standard notation and find the letter above",
     "harder_scientific":          "Convert each number to standard notation and find the letter above",
     "scientific_add_sub":         "Convert scientific notation then add or subtract to find the letter above",
+    "find_the_power":             "Find the absolute value of the power of 10 to look up the letter above",
 }
 
 

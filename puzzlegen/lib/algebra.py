@@ -552,6 +552,37 @@ def scientific_add_sub(target, *args, **kwargs):
     return simple_scientific(max(target, 1))
 
 
+def find_the_power(target, *args, **kwargs):
+    # target = |exponent|; display a number whose order of magnitude has that absolute value
+    if target == 0:
+        exponent = 0
+    else:
+        exponent = random.choice([target, -target])
+
+    sig_digits = random.randint(2, 4)
+    while True:
+        mantissa_int = random.randint(10 ** (sig_digits - 1), 10 ** sig_digits - 1)
+        if mantissa_int % 10 != 0:
+            break
+
+    if exponent >= 0:
+        extra = exponent - (sig_digits - 1)
+        if extra >= 0:
+            display = "{:,}".format(mantissa_int * (10 ** extra))
+        else:
+            int_part_digits = exponent + 1
+            dec_part_digits = sig_digits - int_part_digits
+            int_part = mantissa_int // (10 ** dec_part_digits)
+            dec_part = mantissa_int % (10 ** dec_part_digits)
+            dec_str = str(dec_part).zfill(dec_part_digits).rstrip('0')
+            display = "{:,}.{}".format(int_part, dec_str)
+    else:
+        zeros = abs(exponent) - 1
+        display = "0." + "0" * zeros + str(mantissa_int)
+
+    return "\\overline{\\text{" + display + "}}", str(abs(exponent))
+
+
 def simple_scientific(target, *args, **kwargs):
     power = int(math.log10(target))
     coef = float(target) / float(10**power)

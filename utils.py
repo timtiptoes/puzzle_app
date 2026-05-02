@@ -11,7 +11,7 @@ def get_categories():
         'quadratic_equations', 'roots_problem', 'determinant', 'unit_conversion',
         'simple_series', 'convert_base', 'linear_system', 'simplify_exponents',
         'find_slope', 'simplify_exponent_division', 'simple_scientific', 'harder_scientific',
-        'intermediate_scientific', 'scientific_add_sub', 'percent_increase',
+        'intermediate_scientific', 'scientific_add_sub', 'percent_increase', 'find_the_power',
     ]
 
     for p in [x for x in os.listdir('static/') if x.endswith(".csv")]:
