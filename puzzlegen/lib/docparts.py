@@ -2,7 +2,7 @@ def puzzle_parts(title="", author="", number=None):
     tikz_preamble = "\n    \\usepackage{tikz}" if number is not None else ""
     if number is not None:
         tikz_overlay = """
-    \\begin{tikzpicture}[remember picture, overlay]
+    \\begin{tikzpicture}[overlay]
     \\node[circle, draw, line width=3pt, inner sep=10pt,
           font=\\bfseries\\fontsize{45}{54}\\selectfont,
           anchor=north east, xshift=-1.5cm, yshift=-1.5cm]
