@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Puzzles Generated</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f5f0ed;
+      font-family: Georgia, serif;
+      color: #2c2c2c;
+      padding: 2rem 1rem;
+    }
+    .toolbar {
+      background: #7a1942;
+      color: #d4a882;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin: -2rem -1rem 2rem;
+    }
+    .toolbar h1 { font-size: 1rem; letter-spacing: 0.03em; flex: 1; }
+    .btn {
+      display: inline-block;
+      padding: 0.4rem 1.1rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+    }
+    .btn-back { color: #d4a882; border: 1px solid #d4a882; }
+    .btn-back:hover { background: rgba(212,168,130,0.15); }
+
+    .card {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      max-width: 720px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: #7a1942; color: #d4a882; }
+    th {
+      padding: 0.65rem 1rem;
+      text-align: left;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: normal;
+    }
+    td {
+      padding: 0.55rem 1rem;
+      font-size: 0.95rem;
+      border-bottom: 1px solid #ede8e4;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #faf7f5; }
+
+    .dl-btn {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background: #7a1942;
+      color: #d4a882;
+      border-radius: 3px;
+      font-size: 0.82rem;
+      text-decoration: none;
+      font-family: inherit;
+    }
+    .dl-btn:hover { background: #961f51; }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>{{ results|length }} puzzle{{ 's' if results|length != 1 else '' }} generated</h1>
+  <a class="btn btn-back" href="{{ url_for('puzzle') }}">&larr; Make more</a>
+</div>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Clue</th>
+        <th>Download</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results %}
+      <tr>
+        <td style="color:#aaa; font-size:0.8rem;">{{ loop.index }}</td>
+        <td>{{ r.clue }}</td>
+        <td>
+          <a class="dl-btn"
+             href="{{ url_for('get_puzzle', filename=r.filename) }}"
+             download="{{ r.filename }}">PDF</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

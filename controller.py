@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, send_file, session, redirect, url_for
 from flask import make_response
 import os
+import re
 from functools import wraps, update_wrapper
 from datetime import datetime
 from model import InputForm
@@ -47,12 +48,7 @@ def clue_ideas():
     return render_template('clue_ideas.html')
 
 
-@app.route("/make_mixed_puzzle", methods=['POST'])
-def make_mixed_puzzle():
-    clue = request.form.get("clue", "").strip()
-    puzzle_types = request.form.getlist("puzzle_types")
-    if not clue or not puzzle_types:
-        return redirect(url_for('puzzle'))
+def _build_instructions(puzzle_types):
     seen = set()
     instrs = []
     for pt in puzzle_types:
@@ -60,13 +56,60 @@ def make_mixed_puzzle():
         if instr and instr not in seen:
             seen.add(instr)
             instrs.append(instr)
-    instructions = " $\\cdot$ ".join(instrs) or "Solve each problem to find the letter above"
-    sheet = puzzlesheet.puzzlesheet("puzzle", "", clue, savetex=True)
+    return " $\\cdot$ ".join(instrs) or "Solve each problem to find the letter above"
+
+
+def _generate_puzzle(clue, puzzle_types, instructions):
+    slug = clue_filename(clue)[:-4] or "puzzle"
+    sheet = puzzlesheet.puzzlesheet(slug, "", clue, savetex=True)
     sheet.add_section(puzzle_types, 6, "", instructions)
     sheet.write()
     log_puzzle(clue, "mixed: " + ", ".join(puzzle_types))
-    session['last_clue'] = clue
-    return redirect(url_for('puzzle_result'))
+    return clue_filename(clue)
+
+
+@app.route("/make_mixed_puzzle", methods=['POST'])
+def make_mixed_puzzle():
+    puzzle_types = request.form.getlist("puzzle_types")
+    is_multi = request.form.get("multi_clue") == "1"
+    raw = request.form.get("clue", "").strip()
+    if not raw or not puzzle_types:
+        return redirect(url_for('puzzle'))
+    instructions = _build_instructions(puzzle_types)
+    if is_multi:
+        lines = [l.strip() for l in raw.splitlines() if l.strip()][:50]
+        results = []
+        for clue in lines:
+            fname = _generate_puzzle(clue, puzzle_types, instructions)
+            results.append({'clue': clue, 'filename': fname})
+        session['multi_results'] = results
+        return redirect(url_for('multi_result'))
+    else:
+        clue = raw
+        _generate_puzzle(clue, puzzle_types, instructions)
+        session['last_clue'] = clue
+        return redirect(url_for('puzzle_result'))
+
+
+@app.route("/multi_result")
+def multi_result():
+    results = session.get('multi_results')
+    if not results:
+        return redirect(url_for('puzzle'))
+    return render_template('multi_result.html', results=results)
+
+
+@app.route("/get_puzzle/<string:filename>")
+@nocache
+def get_puzzle(filename):
+    if not re.match(r'^[\w\- ]+\.pdf$', filename):
+        return "Invalid filename", 400
+    path = os.path.join('tmp', os.path.basename(filename))
+    if not os.path.exists(path):
+        return "Not found", 404
+    resp = send_file(path, mimetype='application/pdf')
+    resp.headers['Content-Disposition'] = 'inline; filename="%s"' % filename
+    return resp
 
 
 @app.route("/puzzle_result")

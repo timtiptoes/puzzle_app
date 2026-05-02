@@ -222,9 +222,21 @@
 <form action="{{ url_for('make_mixed_puzzle') }}" method="post" id="puzzle-form">
 
   <div class="clue-card">
-    <label class="field-label" for="clue">Clue</label>
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+      <label class="field-label" for="clue" style="margin-bottom:0;">Clue</label>
+      <label style="font-size:0.88rem; display:flex; align-items:center; gap:0.4rem; cursor:pointer; color:#555;">
+        <input type="checkbox" id="multi-clue-cb" style="accent-color:#7a1942; cursor:pointer;">
+        multi-clue
+      </label>
+    </div>
     <div class="clue-wrap">
-      <input type="text" id="clue" name="clue" placeholder="e.g. I hold legos" autocomplete="off">
+      <input type="text" id="clue-single" name="clue" placeholder="e.g. I hold legos" autocomplete="off">
+      <textarea id="clue-multi" name="clue" rows="10"
+        placeholder="One clue per line&#10;e.g. I hold legos&#10;another clue here"
+        style="display:none; width:100%; padding:0.55rem 0.75rem; font-size:1rem;
+               font-family:inherit; border:1px solid #ccc; border-radius:4px;
+               resize:vertical; overflow-y:auto; line-height:1.5;"></textarea>
+      <input type="hidden" id="multi-clue-flag" name="multi_clue" value="">
       <div class="clue-toast" id="clue-toast">Please enter a clue</div>
     </div>
   </div>
@@ -381,17 +393,45 @@
     toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2500);
   }
 
-  document.getElementById('clue').addEventListener('input', function() {
+  var multiMode = false;
+
+  document.getElementById('multi-clue-cb').addEventListener('change', function() {
+    multiMode = this.checked;
+    var single = document.getElementById('clue-single');
+    var multi  = document.getElementById('clue-multi');
+    var flag   = document.getElementById('multi-clue-flag');
+    if (multiMode) {
+      if (single.value.trim()) multi.value = single.value.trim();
+      single.style.display = 'none';
+      single.removeAttribute('name');
+      multi.style.display = 'block';
+      multi.setAttribute('name', 'clue');
+      flag.value = '1';
+    } else {
+      multi.style.display = 'none';
+      multi.removeAttribute('name');
+      single.style.display = 'block';
+      single.setAttribute('name', 'clue');
+      flag.value = '';
+    }
+  });
+
+  document.getElementById('clue-single').addEventListener('input', function() {
+    document.getElementById('clue-toast').classList.remove('show');
+  });
+  document.getElementById('clue-multi').addEventListener('input', function() {
     document.getElementById('clue-toast').classList.remove('show');
   });
 
   document.getElementById('puzzle-form').addEventListener('submit', function(e) {
     var anyChecked = document.querySelector('input[name="puzzle_types"]:checked');
-    var clue = document.getElementById('clue').value.trim();
-    if (!anyChecked || !clue) {
+    var clueVal = multiMode
+      ? document.getElementById('clue-multi').value.trim()
+      : document.getElementById('clue-single').value.trim();
+    if (!anyChecked || !clueVal) {
       e.preventDefault();
       document.getElementById('type-error').style.display = (!anyChecked) ? 'inline' : 'none';
-      if (!clue) showClueToast();
+      if (!clueVal) showClueToast();
     }
   });
 </script>
