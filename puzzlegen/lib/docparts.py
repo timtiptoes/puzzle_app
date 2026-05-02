@@ -33,6 +33,7 @@ def puzzle_parts(title="", author="", number=None):
     \\usepackage{graphicx}
     \\usepackage{fancyhdr}
     \\usepackage{tikz}
+    \\newsavebox{\\puzzlebox}
     \\begin{document}
     \\pagenumbering{gobble}""" + number_overlay + _LIBRARY_TEXT + """
     \\includegraphics[height=8cm]{static/code_key.png}
@@ -46,10 +47,11 @@ def puzzle_section_parts(title, instr="", cols=6):
     section_start = """
         \\section*{%s}
         {\\renewcommand{\\arraystretch}{4}}\\vspace{10mm}
-        \\begin{tabular}{%s}
+        \\sbox{\\puzzlebox}{\\begin{tabular}{%s}
         """ % (instr, col_spec)
     section_end = """
-         \\end{tabular}"""
+         \\end{tabular}}
+         \\resizebox{\\ifdim\\wd\\puzzlebox>0.92\\linewidth 0.92\\linewidth\\else\\wd\\puzzlebox\\fi}{!}{\\usebox{\\puzzlebox}}"""
     return section_start, section_end
 
 
