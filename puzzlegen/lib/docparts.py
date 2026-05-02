@@ -1,7 +1,23 @@
+_LIBRARY_TEXT = """
+    \\begin{tikzpicture}[remember picture, overlay]
+    \\node[draw, rectangle, inner sep=8pt,
+          anchor=south west, xshift=1cm, yshift=0.8cm]
+      at (current page.south west) {
+        \\begin{minipage}{16cm}
+        \\centering\\textbf{Library Etiquette}\\\\[2pt]
+        \\raggedright\\small
+        Use the computer to find a book first, ask a librarian if you must\\\\
+        Be sure to put the book back in the same place you found it.
+        Mixing up books effectively loses them\\\\
+        Be quiet and respectful to those in the library
+        \\end{minipage}
+      };
+    \\end{tikzpicture}"""
+
+
 def puzzle_parts(title="", author="", number=None):
-    tikz_preamble = "\n    \\usepackage{tikz}" if number is not None else ""
     if number is not None:
-        tikz_overlay = """
+        number_overlay = """
     \\begin{tikzpicture}[remember picture, overlay]
     \\node[circle, draw, line width=3pt, inner sep=10pt,
           font=\\bfseries\\fontsize{45}{54}\\selectfont,
@@ -9,15 +25,16 @@ def puzzle_parts(title="", author="", number=None):
       at (current page.north east) {%d};
     \\end{tikzpicture}""" % number
     else:
-        tikz_overlay = ""
+        number_overlay = ""
     start = """
     \\documentclass[16pt]{article}
     \\usepackage[a4paper,margin=0.5in,landscape]{geometry}
     \\usepackage{amsmath}
     \\usepackage{graphicx}
-    \\usepackage{fancyhdr}""" + tikz_preamble + """
+    \\usepackage{fancyhdr}
+    \\usepackage{tikz}
     \\begin{document}
-    \\pagenumbering{gobble}""" + tikz_overlay + """
+    \\pagenumbering{gobble}""" + number_overlay + _LIBRARY_TEXT + """
     \\includegraphics[height=8cm]{static/code_key.png}
     """
     end = "\\end{document}"
