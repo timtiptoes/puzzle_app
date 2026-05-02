@@ -68,6 +68,12 @@ def layout_lines(clue, linewidth):
     lines = []
     line = ""
     for word in words:
+        while len(word) > linewidth:
+            if line:
+                lines.append(line.ljust(linewidth, " "))
+                line = ""
+            lines.append(word[:linewidth])
+            word = word[linewidth:]
         if not line:
             line = word
         elif len(line) + 1 + len(word) <= linewidth:
