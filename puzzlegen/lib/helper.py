@@ -68,12 +68,15 @@ def layout_lines(clue, linewidth):
     lines = []
     line = ""
     for word in words:
-        if len(line + " " + word) > linewidth:
-            lines.append(line.strip().ljust(linewidth, " "))
+        if not line:
             line = word
-        else:
+        elif len(line) + 1 + len(word) <= linewidth:
             line += " " + word
-    lines.append(line.strip().ljust(linewidth, " "))
+        else:
+            lines.append(line.ljust(linewidth, " "))
+            line = word
+    if line:
+        lines.append(line.ljust(linewidth, " "))
     return lines
 
 
