@@ -81,7 +81,9 @@ class document(object):
         doc = '\n'.join([self.start, main, self.end])
         with open("tmp/%s.tex" % self.fname, "wb") as f:
             f.write(doc.encode('utf-8'))
-        os.system("pdflatex --output-directory tmp tmp/%s.tex" % self.fname)
+        flags = "--interaction=nonstopmode --output-directory tmp"
+        os.system("pdflatex %s tmp/%s.tex" % (flags, self.fname))
+        os.system("pdflatex %s tmp/%s.tex" % (flags, self.fname))
         now = datetime.datetime.now().isoformat()
         os.system("cp tmp/{}.pdf log/{}_{}.pdf".format(self.fname, self.fname, now))
 
