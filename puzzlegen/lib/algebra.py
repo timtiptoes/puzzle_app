@@ -510,6 +510,48 @@ def compound_interest(target, *args, **kwargs):
     return "\\overline{" + out_str + "}", sols
 
 
+def scientific_add_sub(target, *args, **kwargs):
+    # Generate: (a × 10^n) ± b = target
+    # Student converts scientific notation then adds/subtracts to reach the integer target.
+    for _ in range(200):
+        n = random.choice([-3, -2, -1, 1, 2, 3])
+        dp = random.randint(1, 4)
+        dp_v = max(dp - n, 0)   # decimal places of v in standard form
+        if dp_v > 4:
+            continue
+
+        mant_int = random.randint(10**dp, 10**(dp + 1) - 1)
+        v = mant_int * 10.0 ** (n - dp)
+        if v <= 0 or v > 9999:
+            continue
+
+        op = '-' if target == 0 else random.choice(['+', '-'])
+        b = (target - v) if op == '+' else (v - target)
+        if b <= 0:
+            continue
+
+        b = round(b, dp_v)
+        if b > 9999 or b < 0.0001:
+            continue
+
+        check = round((v + b) if op == '+' else (v - b), 6)
+        if abs(check - target) > 0.001:
+            continue
+
+        mantissa_str = "{:.{}f}".format(mant_int / 10**dp, dp)
+        sci_str = ("{}\\times10^{{{}}}".format(mantissa_str, n)
+                   if n < 0 else "{}\\times10^{}".format(mantissa_str, n))
+
+        if dp_v == 0:
+            b_str = str(int(round(b)))
+        else:
+            b_str = "{:.{}f}".format(b, dp_v).rstrip('0').rstrip('.')
+
+        return "\\overline{" + sci_str + op + b_str + "}", str(target)
+
+    return simple_scientific(max(target, 1))
+
+
 def simple_scientific(target, *args, **kwargs):
     power = int(math.log10(target))
     coef = float(target) / float(10**power)

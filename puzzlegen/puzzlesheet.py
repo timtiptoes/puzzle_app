@@ -32,6 +32,7 @@ _problems_map = {
     "simple_scientific":         simple_scientific,
     "intermediate_scientific":   intermediate_scientific,
     "harder_scientific":         harder_scientific,
+    "scientific_add_sub":        scientific_add_sub,
 }
 
 instructions_map = {
@@ -63,6 +64,7 @@ instructions_map = {
     "simple_scientific":          "Convert each number to standard notation and find the letter above",
     "intermediate_scientific":    "Convert each number to standard notation and find the letter above",
     "harder_scientific":          "Convert each number to standard notation and find the letter above",
+    "scientific_add_sub":         "Convert scientific notation then add or subtract to find the letter above",
 }
 
 
