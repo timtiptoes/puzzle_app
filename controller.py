@@ -59,9 +59,9 @@ def _build_instructions(puzzle_types):
     return " $\\cdot$ ".join(instrs) or "Solve each problem to find the letter above"
 
 
-def _generate_puzzle(clue, puzzle_types, instructions):
+def _generate_puzzle(clue, puzzle_types, instructions, number=None):
     slug = clue_filename(clue)[:-4] or "puzzle"
-    sheet = puzzlesheet.puzzlesheet(slug, "", clue, savetex=True)
+    sheet = puzzlesheet.puzzlesheet(slug, "", clue, savetex=True, number=number)
     sheet.add_section(puzzle_types, 6, "", instructions)
     sheet.write()
     log_puzzle(clue, "mixed: " + ", ".join(puzzle_types))
@@ -79,14 +79,14 @@ def make_mixed_puzzle():
     if is_multi:
         lines = [l.strip() for l in raw.splitlines() if l.strip()][:50]
         results = []
-        for clue in lines:
-            fname = _generate_puzzle(clue, puzzle_types, instructions)
+        for i, clue in enumerate(lines):
+            fname = _generate_puzzle(clue, puzzle_types, instructions, number=i + 1)
             results.append({'clue': clue, 'filename': fname})
         session['multi_results'] = results
         return redirect(url_for('multi_result'))
     else:
         clue = raw
-        _generate_puzzle(clue, puzzle_types, instructions)
+        _generate_puzzle(clue, puzzle_types, instructions, number=1)
         session['last_clue'] = clue
         return redirect(url_for('puzzle_result'))
 

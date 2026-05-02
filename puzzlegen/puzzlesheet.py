@@ -67,9 +67,9 @@ instructions_map = {
 
 
 class document(object):
-    def __init__(self, fname, title="", savetex=True, doc_generator=puzzle_parts):
+    def __init__(self, fname, title="", savetex=True, number=None, doc_generator=puzzle_parts):
         self.savetex = savetex
-        self.start, self.end = doc_generator(title)
+        self.start, self.end = doc_generator(title, number=number)
         self.main = []
         self.fname = fname
 
@@ -87,7 +87,7 @@ class document(object):
 
 
 class puzzlesheet(object):
-    def __init__(self, fname, title="", clue="gimme", savetex=False):
+    def __init__(self, fname, title="", clue="gimme", savetex=False, number=None):
         self.lookup_table = {
             "J": 0,  "E": 1,  "N": 2,  "I": 3,  "U": 4,  "X": 5,
             "A": 6,  "G": 7,  "W": 8,  "C": 9,  "Y": 10, "'": 11,
@@ -97,7 +97,7 @@ class puzzlesheet(object):
         }
         self.fname = fname
         self.clue = clue.upper()
-        self.puzzlesheet = document(fname, title, savetex)
+        self.puzzlesheet = document(fname, title, savetex, number=number)
 
     def add_section(self, problem_type, cols, title, instructions, *args, **kwargs):
         if isinstance(problem_type, list):

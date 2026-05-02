@@ -1,12 +1,23 @@
-def puzzle_parts(title="", author=""):
+def puzzle_parts(title="", author="", number=None):
+    tikz_preamble = "\n    \\usepackage{tikz}\n    \\usetikzlibrary{calc}" if number is not None else ""
+    if number is not None:
+        tikz_overlay = """
+    \\begin{tikzpicture}[remember picture, overlay]
+    \\node[circle, draw, line width=3pt, inner sep=10pt,
+          font=\\bfseries\\fontsize{45}{54}\\selectfont,
+          anchor=north east]
+      at ([xshift=-1.5cm, yshift=-1.5cm]current page.north east) {%d};
+    \\end{tikzpicture}""" % number
+    else:
+        tikz_overlay = ""
     start = """
     \\documentclass[16pt]{article}
     \\usepackage[a4paper,margin=0.5in,landscape]{geometry}
     \\usepackage{amsmath}
     \\usepackage{graphicx}
-    \\usepackage{fancyhdr}
+    \\usepackage{fancyhdr}""" + tikz_preamble + """
     \\begin{document}
-    \\pagenumbering{gobble}
+    \\pagenumbering{gobble}""" + tikz_overlay + """
     \\includegraphics[height=8cm]{static/code_key.png}
     """
     end = "\\end{document}"
