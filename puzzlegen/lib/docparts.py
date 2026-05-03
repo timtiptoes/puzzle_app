@@ -1,14 +1,15 @@
 _LIBRARY_TEXT = (
     "\\noindent\\includegraphics[height=8cm]{static/code_key.png}\\hfill%\n"
+    "\\raisebox{1.5in}{%\n"
     "{\\setlength{\\fboxsep}{8pt}%\n"
-    "\\fbox{\\begin{minipage}[c]{14cm}%\n"
+    "\\fbox{\\begin{minipage}{14cm}%\n"
     "\\centering\\textbf{Library Etiquette}\\\\[2pt]%\n"
     "\\raggedright\\small%\n"
     "Use the computer to find this book. Go to page 12. Ask a librarian if you must\\\\\n"
     "Be sure to put the book back in the same place you found it. "
     "Mixing up books effectively loses them\\\\\n"
     "Be quiet and respectful to those in the library%\n"
-    "\\end{minipage}}}\\\\[6pt]\n"
+    "\\end{minipage}}}}\\\\[6pt]\n"
 )
 
 
