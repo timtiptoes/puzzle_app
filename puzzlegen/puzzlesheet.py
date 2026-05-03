@@ -65,8 +65,8 @@ instructions_map = {
     "simple_scientific":          "Convert each number to standard notation and find the letter above",
     "intermediate_scientific":    "Convert each number to standard notation and find the letter above",
     "harder_scientific":          "Convert each number to standard notation and find the letter above",
-    "scientific_add_sub":         "Convert scientific notation then add or subtract to find the letter above",
-    "find_the_power":             "Find the absolute value of the power of 10 to look up the letter above",
+    "scientific_add_sub":         "If the number is in scientific notation, convert to standard form and then perform the indicated addition or subtraction to look up the letter above. ",
+    "find_the_power":             "If the number is in standard form, convert to scientific notation and determine the power of 10 to look up the letter above.If the power is negative, take the absolute value of the power (Ex. if the power is -8, the absolute value is 8).",
 }
 
 
