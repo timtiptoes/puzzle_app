@@ -1,18 +1,15 @@
-_LIBRARY_TEXT = """
-    \\begin{tikzpicture}[remember picture, overlay]
-    \\node[draw, rectangle, inner sep=8pt,
-          anchor=south west, xshift=1cm, yshift=0.8cm]
-      at (current page.south west) {
-        \\begin{minipage}{16cm}
-        \\centering\\textbf{Library Etiquette}\\\\[2pt]
-        \\raggedright\\small
-        Use the computer to find this book. Go to page 12. Ask a librarian if you must\\\\
-        Be sure to put the book back in the same place you found it.
-        Mixing up books effectively loses them\\\\
-        Be quiet and respectful to those in the library
-        \\end{minipage}
-      };
-    \\end{tikzpicture}"""
+_LIBRARY_TEXT = (
+    "\\noindent\\includegraphics[height=8cm]{static/code_key.png}\\hfill%\n"
+    "{\\setlength{\\fboxsep}{8pt}%\n"
+    "\\fbox{\\begin{minipage}[c]{14cm}%\n"
+    "\\centering\\textbf{Library Etiquette}\\\\[2pt]%\n"
+    "\\raggedright\\small%\n"
+    "Use the computer to find this book. Go to page 12. Ask a librarian if you must\\\\\n"
+    "Be sure to put the book back in the same place you found it. "
+    "Mixing up books effectively loses them\\\\\n"
+    "Be quiet and respectful to those in the library%\n"
+    "\\end{minipage}}}\\\\[6pt]\n"
+)
 
 
 def puzzle_parts(title="", author="", number=None):
@@ -35,8 +32,7 @@ def puzzle_parts(title="", author="", number=None):
     \\usepackage{tikz}
     \\newsavebox{\\puzzlebox}
     \\begin{document}
-    \\pagenumbering{gobble}""" + number_overlay + _LIBRARY_TEXT + """
-    \\includegraphics[height=8cm]{static/code_key.png}
+    \\pagenumbering{gobble}""" + number_overlay + "\n    " + _LIBRARY_TEXT + """
     """
     end = "\\end{document}"
     return start, end
