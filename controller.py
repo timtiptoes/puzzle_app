@@ -43,14 +43,17 @@ def _generate_prize_slips(clues, prize_text):
         for j in range(len(batch)):
             num = row_start + j + 1
             safe_clue = _latex_escape(batch[j])
+            nname = "N%d" % j
             nodes.append(
-                "  \\node[circle, draw, line width=2pt, minimum size=4.5cm,\n"
-                "         inner sep=5pt, align=center, text width=3.5cm]\n"
+                "  \\node[draw=none, minimum width=5cm, minimum height=4cm,\n"
+                "         inner sep=5pt, align=center, text width=3.5cm] (%s)\n"
                 "    at (%.1fcm,0) {\\textbf{\\Large %d}\\\\[4pt]\\small %s\\\\[2pt]{\\fontsize{8}{9.6}\\selectfont %s}};\n"
-                % (j * spacing, num, safe_prize, safe_clue)
+                "  \\draw[decorate, line width=1.5pt] (%s.north west) rectangle (%s.south east);\n"
+                % (nname, j * spacing, num, safe_prize, safe_clue, nname, nname)
             )
         rows_tex.append(
-            "\\begin{center}\\begin{tikzpicture}\n"
+            "\\begin{center}\\begin{tikzpicture}"
+            "[decoration={snake, amplitude=2.5pt, segment length=8pt}]\n"
             + "".join(nodes)
             + "\\end{tikzpicture}\\end{center}\n\\vspace{5mm}\n"
         )
@@ -58,6 +61,7 @@ def _generate_prize_slips(clues, prize_text):
         "\\documentclass{article}\n"
         "\\usepackage[a4paper,margin=0.75in]{geometry}\n"
         "\\usepackage{tikz}\n"
+        "\\usetikzlibrary{decorations.pathmorphing}\n"
         "\\begin{document}\n"
         "\\pagenumbering{gobble}\n"
         + "".join(rows_tex)
